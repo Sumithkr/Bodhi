@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "427148348685",
+    "firebase_url": "https://bodhi-27b69.firebaseio.com",
+    "project_id": "bodhi-27b69",
+    "storage_bucket": "bodhi-27b69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427148348685:android:f1b224586d3a829a03b444",
+        "android_client_info": {
+          "package_name": "com.bia.bodhi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427148348685-ipp17pll54qiief9hvdoqt6j63mdcv7j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bia.bodhi",
+            "certificate_hash": "6f245d7e219044f128b7373f0e32887c125aed72"
+          }
+        },
+        {
+          "client_id": "427148348685-41sqqoci3sfrc5km9emrm4afjg8am3q5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbe_Xj6eEZhItzvIIBhzIk-NCNRRdsUW8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427148348685-41sqqoci3sfrc5km9emrm4afjg8am3q5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
