@@ -130,7 +130,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
@@ -141,9 +141,9 @@
                 android:text="Select file :" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginRight="8dp"
                 android:orientation="horizontal">
 
@@ -211,6 +211,28 @@
                         android:layout_marginRight="5dp"
                         android:elevation="20dp"
                         android:src="@drawable/upload_book_button"
+                        android:visibility="invisible"
+                        app:backgroundTint="@color/supporting"
+                        app:pressedTranslationZ="20dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/audio_linear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginRight="3dp"
+                    android:orientation="vertical"
+                    android:weightSum="1">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/RevisionFragment_pickaudio"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:layout_gravity="bottom|end"
+                        android:elevation="20dp"
+                        android:src="@drawable/upload_audio_button"
                         android:visibility="invisible"
                         app:backgroundTint="@color/supporting"
                         app:pressedTranslationZ="20dp" />

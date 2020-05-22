@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Bodhi</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hint_resource">Select</string>
+
     <string-array name="list">
         <item>Apple</item>
         <item>Banana</item>

@@ -1,5 +1,6 @@
 package com.bia.bodhi.School;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bia.bodhi.FetchFromDB;
 import com.bia.bodhi.R;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
@@ -23,6 +25,12 @@ import net.gotev.uploadservice.UploadInfo;
 import net.gotev.uploadservice.UploadNotificationConfig;
 import net.gotev.uploadservice.UploadStatusDelegate;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import androidx.annotation.Nullable;
@@ -33,16 +41,21 @@ import static android.app.Activity.RESULT_OK;
 
 public class VideoFragment extends Fragment implements View.OnClickListener {
     String[] Class_list = { "1st", "2nd", "3rd", "4th", "5th","6th","7th","8th","9th","10th","11th","12th" };
-    String[] Subject_list = {"English","Hindi","Math","Science","Computer"};
+    Spinner spin_subjects;
     Uri filePath;
     EditText Video_name,Video_description;
     Button VideoFragmment_upload,pick_video;
+    ArrayList<String> SubjectName = new ArrayList();
+    ArrayList<String> SubjectID = new ArrayList();
+    String ID;
+    String Cls;
     private static final int PICK_FROM_GALLERY = 101;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_video, container, false);
+        StartServerFile();
         // Class spinner
         Spinner spin = (Spinner)v. findViewById(R.id.VideoFragment_Class);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
@@ -51,6 +64,8 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Cls = Class_list[position];
+                Log.e("class",Cls);
                 Toast.makeText(getActivity(), "Selected : "+Class_list[position] ,Toast.LENGTH_SHORT).show();
             }
 
@@ -60,21 +75,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             }
         });
         // Subject spinner
-        Spinner spin_subjects = (Spinner)v. findViewById(R.id.VideoFragment_Subject);
-        ArrayAdapter<String> adapter_subjects = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Subject_list);
-        adapter_subjects.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_subjects.setAdapter(adapter_subjects);
-        spin_subjects.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "Selected : "+Subject_list[position] ,Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        spin_subjects = (Spinner)v. findViewById(R.id.VideoFragment_Subject);
 
         Video_name = (EditText)v.findViewById(R.id.Video_name);
         Video_description = (EditText)v.findViewById(R.id.Video_description);
@@ -85,19 +86,108 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         return v;
 
     }
+
+    public void onPreServerFile()
+    {
+        //
+    }
+
+    public void StartServerFile()
+    {
+
+        String url = "https://bodhi.shwetaaromatics.co.in/SubjectFetch.php";
+        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
+        {
+            @Override
+            public void processFinish(String output) //onPOstFinish
+            {
+                //this function executes after
+                Toast.makeText(getActivity(),"END",Toast.LENGTH_SHORT).show();
+                try
+                {
+                    ConvertFromJSON(output);
+                    EndServerFile();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).execute();
+    }
+    public void EndServerFile()
+    {
+        ArrayAdapter<String> subject_adaptor = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, SubjectName);
+        subject_adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin_subjects.setAdapter(subject_adaptor);
+        spin_subjects.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                ID =  SubjectID.get(position);
+                Log.e("idaayi",ID);
+                // Toast.makeText(getActivity(), "Selected : "+subjects_name[position] ,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    private void ConvertFromJSON(String json)
+    {
+        try
+        {
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++)
+            {
+                JSONObject obj = jsonArray.getJSONObject(i);
+                SubjectName.add(obj.getString("SubjectName"));
+                SubjectID.add(obj.getString("SubjectID"));
+
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
     private void UploadFile(Uri path)
     {
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getActivity());
-
+        //File f = new File("" + x);
+        //String filename= f.getName();
+        //Log.e("filename", filename);
+        String filename = x.substring(x.lastIndexOf("/")+1);
+        String file;
+        if (filename.indexOf(".") > 0) {
+            file = filename.substring(0, filename.lastIndexOf("."));
+        } else {
+            file =  filename;
+        }
+        Log.e("real path",x);
+        Log.e("Name with extension",filename);
+        Log.e("Name without extention ",file);
+        Log.e("filepath",x);
+        int type = 1;
         try
         {
-            String url = "https://shwetaaromatics.co.in/ca/admin/upload_book.php";
+            String url = "https://bodhi.shwetaaromatics.co.in/School/UploadMedia.php";
             new MultipartUploadRequest(getActivity(), uploadId, url)
                     .addFileToUpload(String.valueOf(x), "pdf")
-                    .addParameter("publisher",Video_name.getText().toString())
-                    .addParameter("school",Video_description.getText().toString())
-                    .setNotificationConfig(new UploadNotificationConfig())
+                    .addParameter("MediaName",Video_name.getText().toString())
+                    .addParameter("Description",Video_description.getText().toString())
+                    .addParameter("SubjectID",ID)
+                    .addParameter("Class",Cls)
+                    .addParameter("Media",file)
+                    .addParameter("Type", String.valueOf(type))
+                    //.setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(2)
                     .setDelegate(new UploadStatusDelegate() {
                         @Override
@@ -155,20 +245,20 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         if(v == VideoFragmment_upload)
         {
-          if(Video_name.getText().toString()!=null && !Video_name.getText().toString().trim().equals("")
-              && Video_description.getText().toString()!=null && Video_description.getText().toString().trim().equals(""))
-          {
-            UploadFile(filePath);
-          }
-          else
-          {
+            if(Video_name.getText().toString()!=null && !Video_name.getText().toString().trim().equals("")
+                    && Video_description.getText().toString()!=null && !Video_description.getText().toString().trim().equals(""))
+            {
+                UploadFile(filePath);
+            }
+            else
+            {
 
-              Toast.makeText(getActivity(), "Fill all fields", Toast.LENGTH_SHORT).show();
-          }
-         }
+                Toast.makeText(getActivity(), "Fill all fields", Toast.LENGTH_SHORT).show();
+            }
+        }
         if(v == pick_video)
         {
-         openFolder();
+            openFolder();
         }
     }
 }

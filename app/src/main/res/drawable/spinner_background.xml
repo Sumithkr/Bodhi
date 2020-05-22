@@ -10,4 +10,5 @@
         android:top="8.0dip"
         android:right="8.0dip"
         android:bottom="8.0dip" />
+
 </shape>
