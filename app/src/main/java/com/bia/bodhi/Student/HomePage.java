@@ -21,7 +21,63 @@ public class HomePage extends AppCompatActivity {
 
     String[] VideoDescription= new String[1000];
 
+    private boolean firstTime = true;
+
     ImageView image;
+
+    /*public void  checkPermission()
+    {
+        Dexter.withActivity(this)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener()
+                {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        // permission is granted, open the camera
+                        if(firstTime)
+                        {
+                            Log.e("permission", "granted");
+                            //new UploadFeed().execute();
+                            firstTime = false;
+                        }
+
+//                        Toast.makeText(MainActivity.this, "permission granted", Toast.LENGTH_SHORT).show();
+                        //    new UploadFeed().execute();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response)
+                    {
+                        // check for permanent denial of permission
+                        Log.e("permission","denied");
+//                      Toast.makeText(MainActivity.this, "permission denied", Toast.LENGTH_SHORT).show();
+                        new HomePage().finish();
+                        moveTaskToBack(false);
+                        firstTime = true;
+
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                        /*if (response.isPermanentlyDenied()) {
+                            // navigate user to app settings
+
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(com.karumi.dexter.listener.PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+
+    }*/
+
+    /*@Override
+    protected void onResume() {
+        super.onResume();
+        checkPermission();
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +87,15 @@ public class HomePage extends AppCompatActivity {
 
         image= findViewById(R.id.demo_imageview);
 
-        for (int i=0; i<3; i++){
+        //File file = new File(Environment.getExternalStorageDirectory(), "WhatsApp/Media" + "/" + "WhatsApp Video" + "/" + "VID-20200513-WA0017.mp4");
 
-            VideoLinks[i]= "https://shwetaaromatics.co.in/ca/video_upload/files/22vmp4";
+        String[] DemoLinks = {"https://shwetaaromatics.co.in/ca/video_upload/files/26vmp4", "https://shwetaaromatics.co.in/ca/video_upload/files/22vmp4",
+                "https://shwetaaromatics.co.in/ca/video_upload/files/26vmp4", "https://shwetaaromatics.co.in/ca/video_upload/files/22vmp4",};
+        //file.toString()};
+
+        for (int i=0; i<5; i++){
+
+            VideoLinks[i]= DemoLinks[i];
             VideoDescription[i]= i + " Thumbnail";
 
         }

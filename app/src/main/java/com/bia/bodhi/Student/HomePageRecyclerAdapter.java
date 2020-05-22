@@ -43,11 +43,10 @@ public class HomePageRecyclerAdapter extends RecyclerView.Adapter<HomePageRecycl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Log.d(TAG, "onBindViewHolder: called.");
+        Log.e(TAG, "onBindViewHolder: called.");
 
         RequestOptions requestOptions= new RequestOptions();
         requestOptions.error(R.drawable.ic_launcher_background);
-
 
         Glide.with(mContext)
                 .load(mImageUrls.get(position))
