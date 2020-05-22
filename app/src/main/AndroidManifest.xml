@@ -21,7 +21,7 @@
         <activity android:name=".School.MainActivity" />
         <activity android:name=".School.Master_activity">
         </activity>
-        <activity android:name=".Student.HomePage">
+        <activity android:name=".Student.MasterStudentActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,12 +30,17 @@
             </intent-filter>
 
         </activity>
+        <activity android:name=".Student.HomePage">
+
+        </activity>
         <activity android:name=".Student.UpdateCredentials"></activity>
         <activity
             android:name=".Student.LoginActivity">
 
+
         </activity>
         <activity android:name=".Student.RegisterActivity">
+
 
         </activity>
         <activity android:name=".Student.SuccessfulLogin" />

@@ -3,6 +3,7 @@ package com.bia.bodhi.Student;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bia.bodhi.R;
@@ -36,6 +37,8 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                 .build();
 
         signInButton=(SignInButton)findViewById(R.id.sign_in_button);
+        TextView GoogleButtonText = (TextView) signInButton.getChildAt(0);
+        GoogleButtonText.setText("Sign up with Google");
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

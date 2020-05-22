@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@drawable/Login_BG"
+    android:background="@drawable/login_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -38,7 +38,7 @@
     <LinearLayout
 
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="170dp"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -50,8 +50,13 @@
             android:hint="Email"
             android:selectAllOnFocus="true"
             android:paddingTop="50dp"
+            android:drawableLeft="@drawable/demo_email_icon"
+            android:drawablePadding="10dp"
             android:inputType="textEmailAddress"
-            app:backgroundTint="@color/MainTheme"/>
+            app:backgroundTint="@color/MainTheme">
+
+
+        </EditText>
 
         <EditText
 
@@ -76,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/Black"
                 android:text="Forget Password ?"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
 
 
         </LinearLayout>
@@ -86,46 +91,47 @@
     <LinearLayout
 
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:gravity="center"
+        android:layout_height="100dp"
+        android:gravity="bottom|center_horizontal"
         android:orientation="vertical">
 
 
         <Button
 
             android:id="@+id/login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Login" />
+            android:layout_width="220dp"
+            android:layout_height="45dp"
+            android:text="Login"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/White"/>
 
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="64dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+    <LinearLayout
 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
 
-    <Button
+        <TextView
 
-        android:id="@+id/register"
-        android:layout_width="150dp"
-        android:layout_height= "40dp"
-        android:text="Register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/Black"
+            android:text="New User ?"
+            android:textSize="13sp" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/MainTheme"
+            android:paddingLeft="10dp"
+            android:text="Register Here"
+            android:textSize="15sp" />
+
+    </LinearLayout>
 
 </LinearLayout>
