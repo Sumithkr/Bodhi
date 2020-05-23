@@ -161,31 +161,18 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     {
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getActivity());
-        //File f = new File("" + x);
-        //String filename= f.getName();
-        //Log.e("filename", filename);
-        String filename = x.substring(x.lastIndexOf("/")+1);
-        String file;
-        if (filename.indexOf(".") > 0) {
-            file = filename.substring(0, filename.lastIndexOf("."));
-        } else {
-            file =  filename;
-        }
-        Log.e("real path",x);
-        Log.e("Name with extension",filename);
-        Log.e("Name without extention ",file);
         Log.e("filepath",x);
         int type = 1;
         try
         {
             String url = "https://bodhi.shwetaaromatics.co.in/School/UploadMedia.php";
             new MultipartUploadRequest(getActivity(), uploadId, url)
-                    .addFileToUpload(String.valueOf(x), "pdf")
+                    .addFileToUpload(String.valueOf(x), "Media")
                     .addParameter("MediaName",Video_name.getText().toString())
                     .addParameter("Description",Video_description.getText().toString())
                     .addParameter("SubjectID",ID)
                     .addParameter("Class",Cls)
-                    .addParameter("Media",file)
+                    //.addParameter("Media",file)
                     .addParameter("Type", String.valueOf(type))
                     //.setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(2)

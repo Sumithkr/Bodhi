@@ -5,7 +5,18 @@
 
     <string-array name="list">
         <item>Apple</item>
+    </string-array>
+
+    <string-array name="SchoolList">
+        <item>Select Subject</item>
         <item>Banana</item>
         <item>Carrot</item>
     </string-array>
+
+    <string-array name="ClassList">
+        <item>Select Class</item>
+        <item>Banana</item>
+        <item>Carrot</item>
+    </string-array>
+
 </resources>

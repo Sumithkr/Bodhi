@@ -1,19 +1,26 @@
 package com.bia.bodhi.Student;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bia.bodhi.R;
+import com.google.android.gms.common.SignInButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -21,23 +28,37 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText password, email;
     Button register;
-
+    SignInButton signInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        getWindow().setStatusBarColor(Color.parseColor("#fa3a0f"));
+
+        final List<String> SchoolList = new ArrayList<String>();
+        SchoolList.add("Select School");
+        SchoolList.add("Shirdi Sai Public School");
+        SchoolList.add("PMS Public School");
+        SchoolList.add("S.S Children Academy");
+
+
         email= findViewById(R.id.email);
         password= findViewById(R.id.password);
         register= findViewById(R.id.register);
 
-        final Spinner spinner = findViewById(R.id.spinner);
+        signInButton=(SignInButton)findViewById(R.id.sign_in_button);
+        TextView GoogleButtonText = (TextView) signInButton.getChildAt(0);
+        GoogleButtonText.setText("Sign up with Google");
+
+        final Spinner spinner = findViewById(R.id.SelectSchool);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 this,
-                R.layout.custom_spinner,
-                getResources().getStringArray(R.array.list)
-        );
+                R.layout.custom_spinner,SchoolList);
+
         adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
         spinner.setAdapter(adapter);
 
@@ -45,13 +66,15 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
 
+                SchoolList.remove(0);
                 String selectedItem = spinner.getItemAtPosition(position).toString();
                 Toast.makeText(getApplicationContext(), selectedItem, Toast.LENGTH_LONG).show();
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+                SchoolList.add("Select School");
 
             }
         });

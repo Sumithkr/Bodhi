@@ -76,20 +76,16 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
     {
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getApplicationContext());
-        File f = new File("" + x);
-        String filename= f.getName();
-        Log.e("filename", filename);
         Log.e("filepath",x);
         try
         {
             String url = "https://bodhi.shwetaaromatics.co.in/School/UploadNotice.php";
             new MultipartUploadRequest(getApplicationContext(), uploadId, url)
-                    .addFileToUpload(String.valueOf(x), "pdf")
+                    .addFileToUpload(String.valueOf(x), "Media")
                     .addParameter("NoticeText",Notice.getText().toString())
                     .addParameter("Class",Cls)
-                    .addParameter("Media",filename)
                     .addParameter("UserID",UserID)
-                    .setNotificationConfig(new UploadNotificationConfig())
+                    //.setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(2)
                     .setDelegate(new UploadStatusDelegate() {
                         @Override
@@ -211,7 +207,7 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
             else
             {
 
-                Toast.makeText(getApplicationContext(), "Fill all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Notice is empty", Toast.LENGTH_SHORT).show();
             }
         }
 

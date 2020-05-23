@@ -414,9 +414,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     {
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getActivity());
-        //String x =getUriRealPath(getActivity(),path);
-        String filename = x.substring(x.lastIndexOf("/")+1);
-        String file;
+        /*String file;
         if (filename.indexOf(".") > 0) {
             file = filename.substring(0, filename.lastIndexOf("."));
         } else {
@@ -424,19 +422,19 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         }
         Log.e("real path",x);
         Log.e("Name with extension",filename);
-        Log.e("Name without extention ",file);
+        Log.e("Name without extention ",file);*/
         Log.e("filepath",x);
         int type = 0;
         try
         {
             String url = "https://bodhi.shwetaaromatics.co.in/School/UploadMedia.php";
             new MultipartUploadRequest(getActivity(), uploadId, url)
-                    .addFileToUpload(String.valueOf(x), "pdf")
+                    .addFileToUpload(String.valueOf(x), "Media")
                     .addParameter("MediaName",Book_name.getText().toString())
                     .addParameter("Description",Book_description.getText().toString())
                     .addParameter("SubjectID",ID)
                     .addParameter("Class",Cls)
-                    .addParameter("Media",file)
+                    //.addParameter("Media",file)
                     .addParameter("Type", String.valueOf(type))
                     //.setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(2)

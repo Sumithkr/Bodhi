@@ -2,48 +2,140 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:gravity="center"
+    android:background="@drawable/regis_bg"
+    android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <LinearLayout
 
-        android:id="@+id/email"
-        android:layout_width="240dp"
-        android:layout_height = "wrap_content"
-        android:hint="Email"/>
-
-
-    <EditText
-
-        android:id="@+id/password"
-        android:layout_width="240dp"
-        android:layout_height = "wrap_content"
-        android:hint="Password"/>
-
-    <Spinner
-
-        android:id="@+id/spinner"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:entries="@array/list"
-        android:spinnerMode="dialog"
-        android:background="@android:color/holo_blue_light"
-        android:paddingRight="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center">
 
 
-    <Button
+        <TextView
 
-        android:id="@+id/register"
-        android:layout_width="150dp"
-        android:layout_height= "40dp"
-        android:text="Register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Student Registration"
+            android:textSize="21sp"
+            android:textColor="@color/White"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <EditText
+
+            android:id="@+id/StudentName"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:selectAllOnFocus="true"
+            android:paddingTop="50dp"
+            android:drawableLeft="@drawable/demo_email_icon"
+            android:drawablePadding="10dp"
+            android:inputType="text"
+            app:backgroundTint="@color/MainTheme"/>
+
+        <EditText
+
+            android:id="@+id/StudentEmail"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:selectAllOnFocus="true"
+            android:paddingTop="20dp"
+            android:drawableLeft="@drawable/demo_email_icon"
+            android:drawablePadding="10dp"
+            android:inputType="textEmailAddress"
+            app:backgroundTint="@color/MainTheme"/>
+
+        <EditText
+
+            android:id="@+id/StudentPassword"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:selectAllOnFocus="true"
+            android:paddingTop="20dp"
+            android:drawableLeft="@drawable/demo_email_icon"
+            android:drawablePadding="10dp"
+            android:inputType="textPassword"
+            app:backgroundTint="@color/MainTheme"/>
+
+        <EditText
+
+            android:id="@+id/StudentConfirmPassword"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:hint="Confirm Password"
+            android:selectAllOnFocus="true"
+            android:paddingTop="20dp"
+            android:drawableLeft="@drawable/demo_email_icon"
+            android:drawablePadding="10dp"
+            android:inputType="textPassword"
+            app:backgroundTint="@color/MainTheme"/>
+
+        <Spinner
+
+            android:id="@+id/SelectSchool"
+            android:layout_width="220dp"
+            android:layout_height="35dp"
+            android:spinnerMode="dialog"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/stroke_background"
+            android:padding="10dp"
+            android:textAlignment="center"/>
+
+
+        <Spinner
+
+            android:id="@+id/SelectClass"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:entries="@array/ClassList"
+            android:spinnerMode="dialog"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/stroke_background"
+            android:padding="10dp"
+            android:textAlignment="center"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+
+            android:id="@+id/register"
+            android:layout_width="220dp"
+            android:layout_height="45dp"
+            android:text="Register"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/button_background"
+            android:textColor="@color/White"/>
+
+        <com.google.android.gms.common.SignInButton
+
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/sign_in_button"
+            android:text="Register with Google"/>
+
+
+    </LinearLayout>
+
 
 </LinearLayout>
