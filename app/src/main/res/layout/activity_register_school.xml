@@ -18,7 +18,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Student Registration"
+            android:text="School Registration"
             android:textSize="21sp"
             android:textColor="@color/White"/>
 
@@ -34,7 +34,7 @@
 
         <EditText
 
-            android:id="@+id/StudentName"
+            android:id="@+id/SchoolName"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:hint="Name"
@@ -47,7 +47,7 @@
 
         <EditText
 
-            android:id="@+id/StudentEmail"
+            android:id="@+id/SchoolEmail"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:hint="Email"
@@ -60,7 +60,7 @@
 
         <EditText
 
-            android:id="@+id/StudentPassword"
+            android:id="@+id/SchoolPassword"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:hint="Password"
@@ -73,7 +73,7 @@
 
         <EditText
 
-            android:id="@+id/StudentConfirmPassword"
+            android:id="@+id/SchoolConfirmPassword"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:hint="Confirm Password"
@@ -86,9 +86,9 @@
 
         <Spinner
 
-            android:id="@+id/SelectSchool"
+            android:id="@+id/SelectState"
             android:layout_width="220dp"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:spinnerMode="dialog"
             android:layout_marginTop="15dp"
             android:background="@drawable/stroke_background"
@@ -98,9 +98,9 @@
 
         <Spinner
 
-            android:id="@+id/SelectClass"
+            android:id="@+id/SelectCity"
             android:layout_width="220dp"
-            android:layout_height="40dp"
+            android:layout_height="35dp"
             android:spinnerMode="dialog"
             android:layout_marginTop="15dp"
             android:background="@drawable/stroke_background"
@@ -147,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/Black"
-            android:text="Already Register ?"
+            android:text="Already Regsiter ?"
             android:textSize="13sp" />
 
         <TextView

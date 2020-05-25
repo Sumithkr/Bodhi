@@ -4,14 +4,18 @@
 
     <string-array name="SchoolList">
         <item>Select Subject</item>
-        <item>Banana</item>
-        <item>Carrot</item>
     </string-array>
 
     <string-array name="ClassList">
         <item>Select Class</item>
-        <item>Banana</item>
-        <item>Carrot</item>
+    </string-array>
+
+    <string-array name="StateList">
+        <item>Select Class</item>
+    </string-array>
+
+    <string-array name="CityList">
+        <item>Select Class</item>
     </string-array>
 
 </resources>
