@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -29,10 +30,11 @@ public class StudentNoticePage extends Fragment {
     String[] NoticeUrl = new String[1000];
     String[] NoticeClass = new String[1000];
     String[] NoticeDateTime = new String[1000];
-    String[] Class_list = { "1st", "2nd", "3rd", "4th", "5th","6th","7th","8th","9th","10th","11th","12th" };
-    Spinner spin_class;
-    String Cls;
+    String[] Days_list = {"30", "60", "90", "120"};
+    Spinner spin_days;
+    String Day;
     ListView notice_list;
+    ImageView nodata;
     String[] msg_read = new String[1000];
 
     @Override
@@ -41,18 +43,18 @@ public class StudentNoticePage extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.student_notice_layout, container, false);
         StartServerFile();
+        nodata = (ImageView)v.findViewById(R.id.nodata);
         notice_list = v.findViewById(R.id.notice_list);
-        //Class spinner
-        spin_class = (Spinner)v. findViewById(R.id.StudentNoticePage_Class);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_class.setAdapter(adapter);
-        spin_class.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        //Class Months
+        spin_days = (Spinner)v. findViewById(R.id.StudentNoticePage_Months);
+        ArrayAdapter<String> adaptor_days = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Days_list);
+        adaptor_days.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin_days.setAdapter(adaptor_days);
+        spin_days.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Cls = Class_list[position];
-                Log.e("class",Cls);
-                //Toast.makeText(getActivity(), "Selected : "+Class_list[position] ,Toast.LENGTH_SHORT).show();
+                Day = Days_list[position];
+                Log.e("day",Day);
             }
 
             @Override
@@ -60,6 +62,7 @@ public class StudentNoticePage extends Fragment {
 
             }
         });
+
         return v;
     }
 
@@ -67,6 +70,11 @@ public class StudentNoticePage extends Fragment {
         ArrayList<Modelclass> results = new ArrayList<>();
 
         int i =0;
+        if(NoticeContent[i] == null)
+        {
+            nodata.setVisibility(View.VISIBLE);
+            notice_list.setVisibility(View.GONE);
+        }
         while (NoticeContent[i] != null)
         {
             Modelclass notice = new Modelclass();
@@ -83,24 +91,24 @@ public class StudentNoticePage extends Fragment {
                         || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf") )
                     notice.setBoolImage(true);
             }
-           /* if(msg_read[i].equals("1"))
+            if(msg_read[i].equals("1"))
             {
                 notice.setBoolMSgRead(true);
             }
             else
             {
                 notice.setBoolMSgRead(false);
-            }*/
-
+            }
             i++;
             results.add(notice);
         }
+
         return results;
     }
 
     public void StartServerFile()
     {
-        String url = "https://bodhi.shwetaaromatics.co.in/School/FetchNotice.php?UserID=2"+"&Day=60";
+        String url = "http://bodhi.shwetaaromatics.co.in/Student/FetchNotice.php?UserID=8&Day=30";
         Log.e("TAG",url);
 
         com.bia.bodhi.FetchFromDB asyncTask = (com.bia.bodhi.FetchFromDB) new com.bia.bodhi.FetchFromDB(url,new FetchFromDB.AsyncResponse()
@@ -140,9 +148,8 @@ public class StudentNoticePage extends Fragment {
                 NoticeUrl[i] = obj.getString("NoticeURL");
                 Log.e("notice img url", NoticeUrl[i]);
                 NoticeClass[i] = obj.getString("Class");
-                Cls = NoticeClass[i];
                 NoticeDateTime[i] = obj.getString("DateTime");
-               // msg_read[i] = obj.getString("msg_read");
+                msg_read[i] = obj.getString("NoticeID");
             }
             final ArrayList<Modelclass> listing_of_notice = GetPublisherResults();
             notice_list.setAdapter(new StudentNoticePageAdaptor(getActivity(), listing_of_notice));

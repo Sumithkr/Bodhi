@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -30,11 +31,12 @@ public class NoticeFragment extends Fragment {
     String[] NoticeUrl = new String[1000];
     String[] NoticeClass = new String[1000];
     String[] NoticeDateTime = new String[1000];
-    String[] Class_list = { "1st", "2nd", "3rd", "4th", "5th","6th","7th","8th","9th","10th","11th","12th" };
+    String[] Class_list = { "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     String[] Days_list = {"30", "60", "90", "120"};
     Spinner spin_class,spin_days;
     String Cls,Day;
     ListView notice_list;
+    ImageView nodata;
     View v;
 
     @Override
@@ -43,6 +45,7 @@ public class NoticeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_notice, container, false);
        StartServerFile();
+        nodata = (ImageView)v.findViewById(R.id.nodata);
         notice_list = v.findViewById(R.id.notice_list);
        //Class spinner
         spin_class = (Spinner)v. findViewById(R.id.NoticeFragment_Class);
@@ -89,6 +92,11 @@ public class NoticeFragment extends Fragment {
         ArrayList<Modelclass> results = new ArrayList<>();
 
         int i =0;
+        if(NoticeContent[i] == null)
+        {
+            nodata.setVisibility(View.VISIBLE);
+            notice_list.setVisibility(View.GONE);
+        }
         while (NoticeContent[i] != null)
         {
             Modelclass notice = new Modelclass();

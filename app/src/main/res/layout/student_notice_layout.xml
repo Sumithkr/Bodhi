@@ -45,12 +45,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="SELECT CLASS">
+                android:text="SELECT Months">
 
             </TextView>
 
             <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/StudentNoticePage_Class"
+                android:id="@+id/StudentNoticePage_Months"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -72,11 +72,22 @@
 
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_marginBottom="8dp">
-            <ListView
 
+            <ImageView
+                android:id="@+id/nodata"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/nodata"
+                android:visibility="gone"
+                >
+            </ImageView>
+
+            <ListView
                 android:id="@+id/notice_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

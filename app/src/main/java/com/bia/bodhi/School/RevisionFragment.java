@@ -49,7 +49,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
     FloatingActionButton main,RevisionFragment_pickvideo,RevisionFragment_pickbook,RevisionFragment_pickaudio;
     EditText Revision_name,Revision_description;
     Button RevisionFragment_upload;
-    String[] Class_list = { "1st", "2nd", "3rd", "4th", "5th","6th","7th","8th","9th","10th","11th","12th" };
+    String[] Class_list = { "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     ArrayList<String> SubjectName = new ArrayList();
     ArrayList<String> SubjectID = new ArrayList();
     String ID;
@@ -168,7 +168,6 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
     {
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getActivity());
-        String filename = x.substring(x.lastIndexOf("/")+1);
         Log.e("filepath",x);
         int type = 2;
         try

@@ -49,7 +49,7 @@ import static android.app.Activity.RESULT_OK;
 public class BooksFragment extends Fragment implements View.OnClickListener {
     EditText Book_name,Book_description;
     Button pick_book,BooksFragment_upload;
-    String[] Class_list = { "1st", "2nd", "3rd", "4th", "5th","6th","7th","8th","9th","10th","11th","12th" };
+    String[] Class_list = { "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     private static final int PICK_FROM_GALLERY = 101;
     ArrayList<String> SubjectName = new ArrayList();
     ArrayList<String> SubjectID = new ArrayList();

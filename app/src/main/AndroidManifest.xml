@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bia.bodhi">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -11,16 +12,17 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:usesCleartextTraffic="true"
         android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Student.test"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ChangePassword"></activity>
+        <activity android:name=".OTP" />
+        <activity android:name=".Forgot_Password" />
+        <activity android:name=".Student.test" />
         <activity android:name=".School.Notice_post" />
-        <activity android:name=".School.Master_activity">
-
-        </activity>
+        <activity android:name=".School.Master_activity" />
         <activity android:name=".choose">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,29 +31,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".Student.MasterStudentActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name=".Student.HomePage">
-
-        </activity>
-        <activity android:name=".Student.UpdateCredentials"></activity>
-        <activity
-            android:name=".Student.LoginActivity">
-
-
-        </activity>
-        <activity android:name=".Student.RegisterActivity">
-
-
-        </activity>
+        <activity android:name=".Student.HomePage" />
+        <activity android:name=".Student.UpdateCredentials" />
+        <activity android:name=".Student.LoginActivity" />
+        <activity android:name=".Student.RegisterActivity" />
         <activity android:name=".Student.SuccessfulLogin" />
         <activity android:name=".Student.AfterGoogleSignIn" />
         <activity android:name=".Student.GoogleSignInActivity" />
-
     </application>
 
 </manifest>

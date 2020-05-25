@@ -3,10 +3,14 @@ package com.bia.bodhi.School;
 import android.widget.ImageView;
 
 public class Modelclass {
+    //school part
+    private String student_name="";
+    private String student_icon="";
     private String content_of_notice="";
     private String datetime_of_notice="";
     private String img_of_notice="";
     private boolean b;
+    private String id;
     //student part
     private boolean msgRead;
     private ImageView new_message_icon;
@@ -36,6 +40,29 @@ public class Modelclass {
     public void setBoolImage(boolean b){this.b= b;}
 
     public boolean getBoolImage(){ return b;}
+
+    public void setStudent_name(String student_name) { this.student_name = student_name;
+    }
+
+    public String getStudent_name() {
+        return student_name;
+    }
+
+    public void setStudent_icon(String student_icon) { this.student_icon = student_icon;
+    }
+
+    public String getStudent_icon() {
+        return student_icon;
+    }
+
+    public void setID(String id) {
+        this.id = id;
+    }
+
+    public String getID() {
+        return id;
+    }
+
      //Student part
     public void setNew_message_icon(ImageView new_message_icon){this.new_message_icon= new_message_icon;}
 

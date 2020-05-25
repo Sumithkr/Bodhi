@@ -3,8 +3,11 @@ package com.bia.bodhi.School;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import com.bia.bodhi.FetchFromDB;
 import com.bia.bodhi.R;
+import com.bia.bodhi.Student.test;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
@@ -40,7 +44,7 @@ import in.gauriinfotech.commons.Commons;
 import static android.app.Activity.RESULT_OK;
 
 public class VideoFragment extends Fragment implements View.OnClickListener {
-    String[] Class_list = { "1st", "2nd", "3rd", "4th", "5th","6th","7th","8th","9th","10th","11th","12th" };
+    String[] Class_list = { "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     Spinner spin_subjects;
     Uri filePath;
     EditText Video_name,Video_description;
@@ -161,6 +165,18 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     {
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getActivity());
+        try {
+            Bitmap thumb = ThumbnailUtils.createVideoThumbnail(x, MediaStore.Video.Thumbnails.MICRO_KIND);
+
+           Log.e("video thumbnail", String.valueOf(thumb));
+            Intent intent = new Intent(getActivity(), test.class);
+            intent.putExtra("bitmap", thumb);
+            startActivity(intent);
+            //imgFarmerVideo.setImageBitmap(thumb);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Log.e("filepath",x);
         int type = 1;
         try

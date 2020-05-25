@@ -35,33 +35,62 @@
 
             />
 
-        <ListView
-            android:id="@+id/School_StudentsFragment_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </ListView>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight=".2"
-        >
-
-        <Button
-            android:id="@+id/DeleteStudents"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="Delete Students"
-            android:layout_gravity="bottom|center"
-            android:textColor="#FFF"
-            />
+            android:layout_margin="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="SELECT Class">
+
+            </TextView>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/StudentsFragment_Class"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@drawable/spinner_background"
+                android:elevation="3dp"
+                android:textAlignment="center"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/nodata"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/nodata"
+                android:visibility="gone"
+                >
+            </ImageView>
+
+            <ListView
+                android:id="@+id/School_StudentsFragment_list"
+                android:layout_width="match_parent"
+                android:layout_margin="10dp"
+                android:layout_height="match_parent">
+
+            </ListView>
+
+        </LinearLayout>
 
     </LinearLayout>
-
-
 
 </LinearLayout>
