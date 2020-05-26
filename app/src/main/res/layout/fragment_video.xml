@@ -156,9 +156,10 @@
 
             <Button
                 android:id="@+id/VideoFragmment_upload"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/boundarywhitish"
+                android:background="@drawable/button_background"
+                android:textColor="@color/White"
                 android:text="Upload">
 
             </Button>

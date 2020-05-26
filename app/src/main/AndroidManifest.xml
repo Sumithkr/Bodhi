@@ -1,28 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bia.bodhi">
+    package="com.bia.bodhinew">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:usesCleartextTraffic="true"
+        android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:theme="@style/AppTheme">
+        <activity android:name="com.bia.bodhinew.Student.test"></activity>
+        <activity android:name="com.bia.bodhinew.School.Notice_post"></activity>
         <activity android:name=".ChangePassword"></activity>
-        <activity android:name=".OTP" />
-        <activity android:name=".Forgot_Password" />
-        <activity android:name=".Student.test" />
-        <activity android:name=".School.Notice_post" />
-        <activity android:name=".School.Master_activity" />
+        <activity android:name=".OTP" ></activity>
+        <activity android:name=".Forgot_Password" ></activity>
         <activity android:name=".choose">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,15 +27,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Student.MasterStudentActivity">
+        <activity android:name="com.bia.bodhinew.School.Master_activity">
+
         </activity>
-        <activity android:name=".Student.HomePage" />
-        <activity android:name=".Student.UpdateCredentials" />
-        <activity android:name=".Student.LoginActivity" />
-        <activity android:name=".Student.RegisterActivity" />
-        <activity android:name=".Student.SuccessfulLogin" />
-        <activity android:name=".Student.AfterGoogleSignIn" />
-        <activity android:name=".Student.GoogleSignInActivity" />
+        <activity android:name="com.bia.bodhinew.Student.MasterStudentActivity">
+
+        </activity>
+        <activity android:name="com.bia.bodhinew.Student.HomePage">
+
+        </activity>
+
+        <activity android:name="com.bia.bodhinew.Student.RegisterActivity">
+
+        </activity>
+
+        <activity android:name="com.bia.bodhinew.Student.UpdateCredentials"></activity>
+        <activity
+            android:name="com.bia.bodhinew.Student.LoginActivity">
+
+
+        </activity>
+
+        <activity android:name="com.bia.bodhinew.School.LoginActivitySchool" ></activity>
+
+        <activity android:name="com.bia.bodhinew.School.RegisterActivitySchool" >
+
+
+        </activity>
+
+        <activity android:name="com.bia.bodhinew.Student.SuccessfulLogin" />
+        <activity android:name="com.bia.bodhinew.Student.AfterGoogleSignIn" />
+        <activity android:name="com.bia.bodhinew.Student.GoogleSignInActivity" >
+
+        </activity>
+
     </application>
 
 </manifest>

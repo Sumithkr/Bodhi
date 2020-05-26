@@ -37,13 +37,14 @@
         <Button
             android:textSize="16.0dip"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
             android:layout_gravity="bottom|center"
             android:id="@+id/button28"
             android:layout_width="250.0dip"
             android:layout_height="wrap_content"
             android:layout_marginTop="25.0dip"
             android:text="Verify"
+            android:background="@drawable/button_background"
+            android:textColor="@color/White"
             android:layout_below="@id/Resend"
             android:layout_centerHorizontal="true"
             android:textAlignment="gravity" />
