@@ -34,6 +34,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -133,6 +134,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
+                ID = "";
                 if(position != 0) {
                     ID = SubjectID.get(position);
                     Log.e("idaayi", ID);
@@ -206,7 +208,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                     .addParameter("MediaName",Video_name.getText().toString())
                     .addParameter("Description",Video_description.getText().toString())
                     .addParameter("SubjectID",ID)
-                    .addParameter("UserID", String.valueOf(8))
+                    .addParameter("UserID", file_retreive())
                     .addParameter("Class",Cls)
                     //.addParameter("Thumbnail", String.valueOf(thumbnailuri))
                     .addParameter("Type", String.valueOf(type))
@@ -241,6 +243,29 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
 
+    }
+
+    private String file_retreive()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = getActivity().openFileInput("Bodhi_Login_School");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
     }
 
     @Override

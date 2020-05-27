@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.bia.bodhinew.School.StudentsFragment;
 
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
@@ -21,7 +22,7 @@ import java.util.Arrays;
 
 public class ViewStudentShowAdaptor extends BaseAdapter {
     Context context;
-    private static java.util.ArrayList<Modelclass> ArrayList;
+    private static ArrayList<Modelclass> ArrayList;
     LayoutInflater inflater;
 
 
@@ -70,8 +71,7 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
 
                 String student_id = ArrayList.get(position).getID();
                 Log.e("student_id",student_id);
-               Delete_student(student_id);
-
+                Delete_student(student_id);
             }
         });
         return convertView;

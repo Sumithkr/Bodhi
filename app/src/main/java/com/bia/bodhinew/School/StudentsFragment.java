@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
@@ -29,7 +30,7 @@ import androidx.fragment.app.Fragment;
 
 
 public class StudentsFragment extends Fragment {
-    String[] Class_list = { "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
+    String[] Class_list = { "Select Class","1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     String Cls;
     ImageView nodata;
     ListView list_students;
@@ -39,6 +40,7 @@ public class StudentsFragment extends Fragment {
     String[] StudentDateTime = new String[1000];
     String[] StudentisEnable = new String[1000];
     String data;
+    private ViewStudentShowAdaptor adaptor;
     AutoCompleteTextView autoCompleteTextView;
     ArrayList<Modelclass> list;
     String[] hints= new String[100];
@@ -57,10 +59,18 @@ public class StudentsFragment extends Fragment {
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Cls = Class_list[position];
-                Log.e("class",Cls);
-                StartServerFile();
-                Toast.makeText(getActivity(), "Selected : "+Class_list[position] ,Toast.LENGTH_SHORT).show();
+                Cls = "";
+                if(position != 0)
+                {
+                    Cls = Class_list[position];
+                    Log.e("class",Cls);
+                    Arrays.fill(StudentName, null);
+                    Arrays.fill(StudentID, null);
+                    Arrays.fill(StudentEmail, null);
+                    Arrays.fill(StudentDateTime, null);
+                    Arrays.fill(StudentisEnable, null);
+                    StartServerFile();
+                }
             }
 
             @Override
@@ -115,7 +125,9 @@ public class StudentsFragment extends Fragment {
                 {
                     ConvertFromJSON(output);
                     list = GetPublisherResults();
-                    list_students.setAdapter(new ViewStudentShowAdaptor(getActivity(), list));
+                    //list_students.setAdapter(new ViewStudentShowAdaptor(getActivity(), list));
+                    adaptor = new ViewStudentShowAdaptor(getActivity(), list);
+                    list_students.setAdapter(adaptor);
                 }
                 catch (Exception e)
                 {
@@ -134,10 +146,15 @@ public class StudentsFragment extends Fragment {
             {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 StudentName[i]=obj.getString("UserName");
+                Log.e("name",StudentName[i]);
                 StudentID[i]=obj.getString("UserID");
+                Log.e("id",StudentID[i]);
                 StudentEmail[i] = obj.getString("Email");
+                Log.e("email",StudentEmail[i]);
                 StudentDateTime[i] = obj.getString("DateTime");
+                Log.e("datetime",StudentDateTime[i]);
                 StudentisEnable[i] = obj.getString("isEnable");
+                Log.e("active",StudentisEnable[i]);
 
             }
         }
@@ -156,8 +173,11 @@ public class StudentsFragment extends Fragment {
             nodata.setVisibility(View.VISIBLE);
             list_students.setVisibility(View.GONE);
         }
+
         while (StudentName[k] != null)
         {
+            nodata.setVisibility(View.GONE);
+            list_students.setVisibility(View.VISIBLE);
             Modelclass ar1 = new Modelclass();
             hints[k]=  StudentName[k];
             if (StudentisEnable[k].equals("1"))
@@ -215,6 +235,4 @@ public class StudentsFragment extends Fragment {
             return "error";
         }
     }
-
-
 }

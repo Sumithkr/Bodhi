@@ -32,16 +32,17 @@ import net.gotev.uploadservice.UploadNotificationConfig;
 import net.gotev.uploadservice.UploadStatusDelegate;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.UUID;
 
 public class Notice_post extends AppCompatActivity implements View.OnClickListener {
-    String[] Class_list = { "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
+    String[] Class_list = {"Select Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     EditText Notice;
     Button Doc,Img,Notice_post_post;
     private static final int PICK_FROM_GALLERY = 101;
     Uri uri;
     int l = 1,j = 1;
-    String Cls,UserID;
+    String Cls;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,12 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Cls = Class_list[position];
+                Cls = "";
+                if(position != 0)
+                {
+                    Cls = Class_list[position];
+                    Log.e("class",Cls);
+                }
                 // Toast.makeText(getApplicationContext(), "Selected : "+Class_list[position] ,Toast.LENGTH_SHORT).show();
             }
 
@@ -84,7 +90,7 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
                     .addFileToUpload(String.valueOf(x), "Media")
                     .addParameter("NoticeText",Notice.getText().toString())
                     .addParameter("Class",Cls)
-                    .addParameter("UserID",UserID)
+                    .addParameter("UserID",file_retreive())
                     //.setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(2)
                     .setDelegate(new UploadStatusDelegate() {
@@ -115,6 +121,29 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
             e.printStackTrace();
         }
 
+    }
+
+    private String file_retreive()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = openFileInput("Bodhi_Login_School");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -200,7 +229,7 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
 
         if (v == Notice_post_post)
         {
-            if(Notice.getText().toString()!=null && !Notice.getText().toString().trim().equals(""))
+            if(Notice.getText().toString()!=null && !Notice.getText().toString().trim().equals("") && !Cls.equals(""))
             {
                 UploadFile(uri);
             }

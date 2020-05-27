@@ -1,5 +1,6 @@
 package com.bia.bodhinew.School;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -22,6 +24,7 @@ import org.json.JSONObject;
 import java.io.FileInputStream;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import androidx.fragment.app.Fragment;
 
@@ -31,12 +34,13 @@ public class NoticeFragment extends Fragment {
     String[] NoticeUrl = new String[1000];
     String[] NoticeClass = new String[1000];
     String[] NoticeDateTime = new String[1000];
-    String[] Class_list = { "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
-    String[] Days_list = {"30", "60", "90", "120"};
+    String[] Class_list = {"Select Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
+    String[] Days_list = {"Select Days","30", "60", "90", "120"};
     Spinner spin_class,spin_days;
-    String Cls,Day;
+    String Cls ="All" ,Day;
     ListView notice_list;
     ImageView nodata;
+    Button CreateNotice_Button;
     View v;
 
     @Override
@@ -44,9 +48,11 @@ public class NoticeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_notice, container, false);
-       StartServerFile();
+
         nodata = (ImageView)v.findViewById(R.id.nodata);
         notice_list = v.findViewById(R.id.notice_list);
+        Log.e("class", Cls);
+        StartServerFile();
        //Class spinner
         spin_class = (Spinner)v. findViewById(R.id.NoticeFragment_Class);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
@@ -55,9 +61,17 @@ public class NoticeFragment extends Fragment {
         spin_class.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Cls = Class_list[position];
-                Log.e("class",Cls);
-                //Toast.makeText(getActivity(), "Selected : "+Class_list[position] ,Toast.LENGTH_SHORT).show();
+                 Cls = "";
+                if(position != 0) {
+                    Cls = Class_list[position];
+                    Log.e("class", Cls);
+                   // NoticeClass[position] = Cls;
+                    Arrays.fill(NoticeContent, null);
+                    Arrays.fill(NoticeDateTime, null);
+                    Arrays.fill(NoticeClass, null);
+                    Arrays.fill(NoticeUrl, null);
+
+                }
             }
 
             @Override
@@ -74,13 +88,29 @@ public class NoticeFragment extends Fragment {
         spin_days.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Day = Days_list[position];
-                Log.e("class",Day);
+                   Day = "";
+                if(position != 0) {
+                    Day = Days_list[position];
+                    Log.e("day", Day);
+                    Arrays.fill(NoticeContent, null);
+                    Arrays.fill(NoticeDateTime, null);
+                    Arrays.fill(NoticeUrl, null);
+                    StartServerFile();
+                }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        CreateNotice_Button = (Button)v.findViewById(R.id.CreateNotice_Button);
+        CreateNotice_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), Notice_post.class);
+                startActivity(intent);
             }
         });
 
@@ -99,23 +129,30 @@ public class NoticeFragment extends Fragment {
         }
         while (NoticeContent[i] != null)
         {
-            Modelclass notice = new Modelclass();
-            notice.setContent_of_notice(NoticeContent[i]);
-            notice.setDatetime_of_notice(NoticeDateTime[i]);
-            notice.setImg_of_notice(NoticeUrl[i]);
-            if(NoticeUrl[i].equals("") || NoticeUrl[i] == null)
-            {
-                notice.setBoolImage(false);
+            if (Cls == NoticeClass[i]) {
+                nodata.setVisibility(View.GONE);
+                notice_list.setVisibility(View.VISIBLE);
+                Modelclass notice = new Modelclass();
+                notice.setContent_of_notice(NoticeContent[i]);
+                notice.setDatetime_of_notice(NoticeDateTime[i]);
+                notice.setImg_of_notice(NoticeUrl[i]);
+
+                if (NoticeUrl[i].equals("") || NoticeUrl[i] == null) {
+                    notice.setBoolImage(false);
+                } else {
+                    if (NoticeUrl[i].contains(".jpg") || NoticeUrl[i].contains(".png") || NoticeUrl[i].contains(".jpeg")
+                            || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf"))
+                        notice.setBoolImage(true);
+                }
+
+                i++;
+                results.add(notice);
             }
             else
-            {
-                if(NoticeUrl[i].contains(".jpg") || NoticeUrl[i].contains(".png") || NoticeUrl[i].contains(".jpeg")
-                        || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf") )
-                notice.setBoolImage(true);
+                {
+                nodata.setVisibility(View.VISIBLE);
+                notice_list.setVisibility(View.GONE);
             }
-
-            i++;
-            results.add(notice);
         }
         return results;
     }
@@ -163,6 +200,7 @@ public class NoticeFragment extends Fragment {
                 Log.e("notice img url", NoticeUrl[i]);
                 NoticeClass[i] = obj.getString("Class");
                 Cls = NoticeClass[i];
+                Log.e("noticeclass",NoticeClass[i]);
                 NoticeDateTime[i] = obj.getString("DateTime");
             }
             final ArrayList<Modelclass> listing_of_notice = GetPublisherResults();

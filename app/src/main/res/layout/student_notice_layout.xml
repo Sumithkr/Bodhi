@@ -41,14 +41,6 @@
             app:layout_constraintTop_toTopOf="parent"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="SELECT Months">
-
-            </TextView>
-
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/StudentNoticePage_Months"
                 android:layout_width="120dp"

@@ -28,7 +28,7 @@ public class StudentNoticePage extends Fragment {
     String[] NoticeUrl = new String[1000];
     String[] NoticeClass = new String[1000];
     String[] NoticeDateTime = new String[1000];
-    String[] Days_list = {"30", "60", "90", "120"};
+    String[] Days_list = {"Select Days","30", "60", "90", "120"};
     Spinner spin_days;
     String Day;
     ListView notice_list;
@@ -40,7 +40,6 @@ public class StudentNoticePage extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.student_notice_layout, container, false);
-        StartServerFile();
         nodata = (ImageView)v.findViewById(R.id.nodata);
         notice_list = v.findViewById(R.id.notice_list);
         //Class Months
@@ -51,8 +50,12 @@ public class StudentNoticePage extends Fragment {
         spin_days.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Day = Days_list[position];
-                Log.e("day",Day);
+                Day = "";
+                if(position != 0) {
+                    Day = Days_list[position];
+                    Log.e("day", Day);
+                    StartServerFile();
+                }
             }
 
             @Override

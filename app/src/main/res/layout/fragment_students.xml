@@ -45,14 +45,6 @@
             app:layout_constraintTop_toTopOf="parent"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="SELECT Class">
-
-            </TextView>
-
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/StudentsFragment_Class"
                 android:layout_width="120dp"

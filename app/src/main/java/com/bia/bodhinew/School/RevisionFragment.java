@@ -2,9 +2,12 @@ package com.bia.bodhinew.School;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +34,9 @@ import net.gotev.uploadservice.UploadStatusDelegate;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -41,21 +46,15 @@ import in.gauriinfotech.commons.Commons;
 import static android.app.Activity.RESULT_OK;
 
 public class RevisionFragment extends Fragment implements View.OnClickListener {
-    Animation floating_close;
-    Animation floating_open;
-    Animation floatingrotate_open;
-    Animation floatingrotate_close;
-    boolean open =true;
-    FloatingActionButton main,RevisionFragment_pickvideo,RevisionFragment_pickbook,RevisionFragment_pickaudio;
+
     EditText Revision_name,Revision_description;
-    Button RevisionFragment_upload;
-    String[] Class_list = { "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
+    Button RevisionFragment_upload ,pick_file;
+    String[] Class_list = { "Select Class","1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     ArrayList<String> SubjectName = new ArrayList();
     ArrayList<String> SubjectID = new ArrayList();
     String ID;
     String Cls;
-    private static final int PICK_FROM_GALLERY = 101;
-    Uri uri;
+    Uri uri,thumbnailuri;
     int l = 1,j = 1;
     Spinner spin_subjects;
     @Override
@@ -72,8 +71,12 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Cls = Class_list[position];
-                Log.e("class",Cls);
+                Cls = "";
+                if(position != 0)
+                {
+                    Cls = Class_list[position];
+                    Log.e("class",Cls);
+                }
                 //Toast.makeText(getActivity(), "Selected : "+Class_list[position] ,Toast.LENGTH_SHORT).show();
             }
 
@@ -85,11 +88,8 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         // Subject spinner
         spin_subjects = (Spinner)v. findViewById(R.id.RevisionFragment_Subject);
 
-        main =(FloatingActionButton)v.findViewById(R.id.main_floating);
-        main.setOnClickListener(this);
-        RevisionFragment_pickvideo =(FloatingActionButton)v.findViewById(R.id.RevisionFragment_pickvideo);
-        RevisionFragment_pickbook =(FloatingActionButton)v.findViewById(R.id.RevisionFragment_pickbook);
-        RevisionFragment_pickaudio =(FloatingActionButton)v.findViewById(R.id.RevisionFragment_pickaudio);
+        pick_file =(Button) v.findViewById(R.id.pick_File);
+        pick_file.setOnClickListener(this);
         Revision_name = (EditText)v.findViewById(R.id.Revision_name);
         Revision_description = (EditText)v.findViewById(R.id.Revision_description);
         RevisionFragment_upload = (Button) v.findViewById(R.id.RevisionFragment_upload);
@@ -134,8 +134,11 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                ID =  SubjectID.get(position);
-                Log.e("idaayi",ID);
+                ID="";
+                if(position != 0) {
+                    ID = SubjectID.get(position);
+                    Log.e("idaayi", ID);
+                }
                 // Toast.makeText(getActivity(), "Selected : "+subjects_name[position] ,Toast.LENGTH_SHORT).show();
             }
 
@@ -149,6 +152,8 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
     {
         try
         {
+            SubjectName.add("Select Subject");
+            SubjectID.add(String.valueOf(0));
             JSONArray jsonArray = new JSONArray(json);
             for (int i = 0; i < jsonArray.length(); i++)
             {
@@ -164,87 +169,160 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private String file_retreive()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = getActivity().openFileInput("Bodhi_Login_School");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
     private void UploadFile(Uri path)
     {
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getActivity());
         Log.e("filepath",x);
         int type = 2;
-        try
+        if (x.contains(".doc") || x.contains(".docx") || x.contains(".pdf") || x.contains(".ppt") || x.contains(".pptx")
+          || x.contains(".mp4") || x.contains(".3gp") || x.contains(".mp3") || x.contains(".jpg") || x.contains(".png") || x.contains(".jpeg"))
         {
-            String url = "https://bodhi.shwetaaromatics.co.in/School/UploadMedia.php";
-            new MultipartUploadRequest(getActivity(), uploadId, url)
-                    .addFileToUpload(String.valueOf(x), "Media")
-                    .addParameter("MediaName",Revision_name.getText().toString())
-                    .addParameter("Description",Revision_description.getText().toString())
-                    .addParameter("SubjectID",ID)
-                    .addParameter("Class",Cls)
-                    //.addParameter("Media",file)
-                    .addParameter("Type", String.valueOf(type))
-                    //.setNotificationConfig(new UploadNotificationConfig())
-                    .setMaxRetries(2)
-                    .setDelegate(new UploadStatusDelegate() {
-                        @Override
-                        public void onProgress(Context context, UploadInfo uploadInfo) {
+            if (x.contains(".mp4") || x.contains(".3gp"))
+            {
+                String thumbpath = null;
+                try
+                {
+                    Bitmap thumb = ThumbnailUtils.createVideoThumbnail(x, MediaStore.Video.Thumbnails.MICRO_KIND);
+                    thumbnailuri = getImageUri(getActivity(),thumb);
+                    Log.e("thumbnail uri", String.valueOf(thumbnailuri));
+                    thumbpath = Commons.getPath(thumbnailuri,getActivity());
+                    Log.e("thumbnailpath", thumbpath);
+                    Log.e("video thumbnail", String.valueOf(thumb));
+                    //Intent intent = new Intent(getActivity(), test.class);
+                    //intent.putExtra("bitmap", thumb);
+                    //startActivity(intent);
 
-                        }
+                } catch (Exception e) {
+                    e.printStackTrace();
 
-                        @Override
-                        public void onError(Context context, UploadInfo uploadInfo, Exception exception) {
-                            Log.e("ERROR",exception+"-----");
-                            //Failed
-                        }
+                }
+                try {
+                    String url = "https://bodhi.shwetaaromatics.co.in/School/UploadMedia.php";
+                    Log.e("Url",url);
+                    Log.e("check","video");
+                    new MultipartUploadRequest(getActivity(), uploadId, url)
+                            .addFileToUpload(String.valueOf(x), "Media")
+                            .addFileToUpload(String.valueOf(thumbpath), "Thumbnail")
+                            .addParameter("MediaName", Revision_name.getText().toString())
+                            .addParameter("Description", Revision_description.getText().toString())
+                            .addParameter("SubjectID", ID)
+                            .addParameter("Class", Cls)
+                            .addParameter("UserID", file_retreive())
+                            //.addParameter("Media",file)
+                            .addParameter("Type", String.valueOf(type))
+                            //.setNotificationConfig(new UploadNotificationConfig())
+                            .setMaxRetries(2)
+                            .setDelegate(new UploadStatusDelegate() {
+                                @Override
+                                public void onProgress(Context context, UploadInfo uploadInfo) {
 
-                        @Override
-                        public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
-                            Revision_description.getText().clear();
-                            Revision_name.getText().clear();
-                        }
+                                }
 
-                        @Override
-                        public void onCancelled(Context context, UploadInfo uploadInfo) {
+                                @Override
+                                public void onError(Context context, UploadInfo uploadInfo, Exception exception) {
+                                    Log.e("ERROR", exception + "-----");
+                                    //Failed
+                                }
 
-                        }
-                    }).startUpload();
+                                @Override
+                                public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
+                                    Revision_description.getText().clear();
+                                    Revision_name.getText().clear();
+                                }
+
+                                @Override
+                                public void onCancelled(Context context, UploadInfo uploadInfo) {
+
+                                }
+                            }).startUpload();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else
+            {
+                try {
+                    String url = "https://bodhi.shwetaaromatics.co.in/School/UploadMedia.php";
+                    Log.e("Url",url);
+                    Log.e("check","others");
+                    new MultipartUploadRequest(getActivity(), uploadId, url)
+                            .addFileToUpload(String.valueOf(x), "Media")
+                            .addParameter("MediaName", Revision_name.getText().toString())
+                            .addParameter("Description", Revision_description.getText().toString())
+                            .addParameter("SubjectID", ID)
+                            .addParameter("Class", Cls)
+                            .addParameter("UserID", file_retreive())
+                            //.addParameter("Media",file)
+                            .addParameter("Type", String.valueOf(type))
+                            //.setNotificationConfig(new UploadNotificationConfig())
+                            .setMaxRetries(2)
+                            .setDelegate(new UploadStatusDelegate() {
+                                @Override
+                                public void onProgress(Context context, UploadInfo uploadInfo) {
+
+                                }
+
+                                @Override
+                                public void onError(Context context, UploadInfo uploadInfo, Exception exception) {
+                                    Log.e("ERROR", exception + "-----");
+                                    //Failed
+                                }
+
+                                @Override
+                                public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
+                                    Revision_description.getText().clear();
+                                    Revision_name.getText().clear();
+                                }
+
+                                @Override
+                                public void onCancelled(Context context, UploadInfo uploadInfo) {
+
+                                }
+                            }).startUpload();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+        else {
+            Toast.makeText(getActivity(), "Please Select Video/Audio/Image/Doc/ppt Files", Toast.LENGTH_LONG).show();
         }
 
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-
-        //for video
-        if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK)
-        {
-            try
-            {
-                uri = data.getData();
-                Toast.makeText(getActivity(), "-" + l, Toast.LENGTH_LONG).show();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    if (data.getClipData() != null)
-                    {
-                        int count = data.getClipData().getItemCount(); //evaluate the count before the for loop --- otherwise, the count is evaluated every loop.
-                        for (l = 0; l < count; l++) {
-                            Uri imageUri = data.getClipData().getItemAt(l).getUri();
-                            uri = data.getData();
-                        }
-                        //do something with the image (save it to some directory or whatever you need to do with it here)
-                    }
-                    else if (data.getData() != null)
-                    {
-                        String imagePath = data.getData().getPath();
-
-                        //do something with the image (save it to some directory or whatever you need to do with it here)
-                    }
-                }
-            }catch(Exception e){}
-        }
-
-        //for doc
         if (requestCode == 100 && resultCode == RESULT_OK)
         {
 
@@ -268,105 +346,22 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
             }catch(Exception e){}
         }
 
-        //for audio
-        if (requestCode == 200 && resultCode == RESULT_OK)
-        {
-
-            try {
-
-                uri = data.getData();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    if (data.getClipData() != null) {
-                        int count = data.getClipData().getItemCount(); //evaluate the count before the for loop --- otherwise, the count is evaluated every loop.
-                        for (j = 0; j < count; j++) {
-                            Uri docUri = data.getClipData().getItemAt(j).getUri();
-                            uri = data.getData();
-                        }
-                        //do something with the image (save it to some directory or whatever you need to do with it here)
-                    } else if (data.getData() != null) {
-                        String docPath = data.getData().getPath();
-                        //do something with the image (save it to some directory or whatever you need to do with it here
-                    }
-                }
-
-            }catch(Exception e){}
-        }
     }
 
-    public void openaudio()
-    {
-        Intent chooseAudio = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseAudio.setType("audio/*");
-        chooseAudio = Intent.createChooser(chooseAudio, "Choose a Audio");
-        startActivityForResult(chooseAudio,200);
-    }
 
-    public void opendoc()
+    public void openfile()
     {
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseFile.setType("application/epub+zip");
+        chooseFile.setType("*/*");
         chooseFile = Intent.createChooser(chooseFile, "Choose a file");
         startActivityForResult(chooseFile,100);
     }
 
 
-    public void openVideo()
-    {
-        Intent choosevideo = new Intent(Intent.ACTION_GET_CONTENT);
-        choosevideo.setType("video/*");
-        choosevideo = Intent.createChooser(choosevideo, "Choose a video");
-        startActivityForResult(choosevideo,PICK_FROM_GALLERY);
-
-
-    }
-
     @Override
     public void onClick(View v) {
-        if(v == main) {
-            floating_close = AnimationUtils.loadAnimation(getActivity(), R.anim.floatingaction_close);
-            floating_open = AnimationUtils.loadAnimation(getActivity(), R.anim.floatingaction_open);
-            floatingrotate_close = AnimationUtils.loadAnimation(getActivity(), R.anim.floatingrotate_close);
-            floatingrotate_open = AnimationUtils.loadAnimation(getActivity(), R.anim.floatingrotate_open);
-            if (open) {
-                RevisionFragment_pickvideo.startAnimation(floating_open);
-                RevisionFragment_pickbook.startAnimation(floating_open);
-                RevisionFragment_pickaudio.startAnimation(floating_open);
-                main.startAnimation(floatingrotate_open);
-                RevisionFragment_pickvideo.setClickable(true);
-                RevisionFragment_pickbook.setClickable(true);
-                RevisionFragment_pickaudio.setClickable(true);
-                RevisionFragment_pickaudio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        openaudio();
-                    }
-                });
-                RevisionFragment_pickvideo.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        openVideo();
-                    }
-                });
-
-                RevisionFragment_pickbook.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        opendoc();
-                    }
-                });
-                open = false;
-
-            } else {
-                RevisionFragment_pickvideo.startAnimation(floating_close);
-                RevisionFragment_pickbook.startAnimation(floating_close);
-                RevisionFragment_pickaudio.startAnimation(floating_close);
-                main.startAnimation(floatingrotate_close);
-                RevisionFragment_pickvideo.setClickable(false);
-                RevisionFragment_pickbook.setClickable(false);
-                RevisionFragment_pickaudio.setClickable(false);
-                open = true;
-            }
+        if(v == pick_file) {
+            openfile();
         }
         if(v == RevisionFragment_upload)
         {

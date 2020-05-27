@@ -135,7 +135,7 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
                 ConfirmPassword.setError("This field can not be empty");
             }
             else {
-                if (ChangePassword.getText().toString().trim().length()<7 && ConfirmPassword.getText().toString().trim().length()<7 ){
+                if (ChangePassword.getText().toString().trim().length()>7 && ConfirmPassword.getText().toString().trim().length()>7 ){
                     StartChangePasswordProcess();
                 }
                   else {

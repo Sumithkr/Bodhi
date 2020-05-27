@@ -35,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ import static android.app.Activity.RESULT_OK;
 public class BooksFragment extends Fragment implements View.OnClickListener {
     EditText Book_name,Book_description;
     Button pick_book,BooksFragment_upload;
-    String[] Class_list = { "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
+    String[] Class_list = {"Select Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     private static final int PICK_FROM_GALLERY = 101;
     ArrayList<String> SubjectName = new ArrayList();
     ArrayList<String> SubjectID = new ArrayList();
@@ -71,9 +72,12 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Cls = Class_list[position];
-                Log.e("class",Cls);
-                Toast.makeText(getActivity(), "Selected : "+Class_list[position] ,Toast.LENGTH_SHORT).show();
+                Cls = "";
+                if(position != 0)
+                {
+                    Cls = Class_list[position];
+                    Log.e("class",Cls);
+                }
             }
 
             @Override
@@ -130,8 +134,11 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                ID =  SubjectID.get(position);
-                Log.e("idaayi",ID);
+                ID = "";
+                if(position != 0) {
+                    ID = SubjectID.get(position);
+                    Log.e("idaayi", ID);
+                }
                 // Toast.makeText(getActivity(), "Selected : "+subjects_name[position] ,Toast.LENGTH_SHORT).show();
             }
 
@@ -145,6 +152,8 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     {
         try
         {
+            SubjectName.add("Select Subject");
+            SubjectID.add(String.valueOf(0));
             JSONArray jsonArray = new JSONArray(json);
             for (int i = 0; i < jsonArray.length(); i++)
             {
@@ -411,6 +420,29 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         return ret;
     }
 
+    private String file_retreive()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = getActivity().openFileInput("Bodhi_Login_School");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
     private void UploadFile(Uri path)
     {
         String uploadId = UUID.randomUUID().toString();
@@ -435,7 +467,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                     .addParameter("Description",Book_description.getText().toString())
                     .addParameter("SubjectID",ID)
                     .addParameter("Class",Cls)
-                    .addParameter("UserID", String.valueOf(8))
+                    .addParameter("UserID", file_retreive())
                     //.addParameter("Media",file)
                     .addParameter("Type", String.valueOf(type))
                     //.setNotificationConfig(new UploadNotificationConfig())

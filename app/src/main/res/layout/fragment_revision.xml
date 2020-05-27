@@ -127,123 +127,27 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="20dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Select file :" />
+                android:text="Select File :" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/pick_File"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="8dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/main"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/main_floating"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_gravity="top|start"
-                        android:layout_marginRight="5dp"
-                        android:elevation="20dp"
-                        android:src="@drawable/add"
-                        app:backgroundTint="@color/supporting"
-                        app:pressedTranslationZ="20dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/login_linear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_marginRight="3dp"
-                    android:orientation="vertical"
-                    android:weightSum="1">
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/RevisionFragment_pickvideo"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginRight="5dp"
-                        android:elevation="20dp"
-                        android:src="@drawable/upload_video_button"
-                        android:visibility="invisible"
-                        app:backgroundTint="@color/supporting"
-                        app:pressedTranslationZ="20dp" />
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/otp_linear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_marginRight="3dp"
-                    android:orientation="vertical"
-                    android:weightSum="1">
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/RevisionFragment_pickbook"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_gravity="bottom|end"
-                        android:layout_marginRight="5dp"
-                        android:elevation="20dp"
-                        android:src="@drawable/upload_book_button"
-                        android:visibility="invisible"
-                        app:backgroundTint="@color/supporting"
-                        app:pressedTranslationZ="20dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/audio_linear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:layout_marginRight="3dp"
-                    android:orientation="vertical"
-                    android:weightSum="1">
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/RevisionFragment_pickaudio"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_gravity="bottom|end"
-                        android:elevation="20dp"
-                        android:src="@drawable/upload_audio_button"
-                        android:visibility="invisible"
-                        app:backgroundTint="@color/supporting"
-                        app:pressedTranslationZ="20dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:background="@drawable/buttonbackwhite"
+                android:drawableLeft="@drawable/upload_book_button" />
         </LinearLayout>
-       <LinearLayout
+
+        <LinearLayout
            android:layout_width="wrap_content"
-           android:layout_marginTop="20dp"
            android:layout_height="wrap_content"
            android:layout_gravity="center">
                 <Button

@@ -141,8 +141,8 @@ public class Forgot_Password extends AppCompatActivity implements View.OnClickLi
                 forgotPassword_NewPasswordConfirm.setError("This field can not be empty");
             }
             else {
-                if (forgotPassword_NewPassword.getText().toString().trim().length()<7
-                   && forgotPassword_NewPasswordConfirm.getText().toString().trim().length()<7 ){
+                if (forgotPassword_NewPassword.getText().toString().trim().length()>7
+                   && forgotPassword_NewPasswordConfirm.getText().toString().trim().length()>7 ){
                     StartChangePasswordProcess();
                 }
                 else {
