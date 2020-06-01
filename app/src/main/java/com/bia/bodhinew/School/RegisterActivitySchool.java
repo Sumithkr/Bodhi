@@ -351,7 +351,6 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
             SelectCity.setOnItemSelectedListener(this);
             SelectCity.setAdapter(CityAdapter);
 
-
         } catch (JSONException e) {
 
             e.printStackTrace();

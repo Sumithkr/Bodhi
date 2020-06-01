@@ -126,7 +126,6 @@ public class LoginActivitySchool extends AppCompatActivity {
                     //file_write_url(email.getText().toString().trim());
                     file_write_url(obj.getString("UserID"));
                     Log.e("userid",obj.getString("UserID"));
-                    Toast.makeText(getApplicationContext(),"Successful",Toast.LENGTH_SHORT).show();
                     Intent success = new Intent(LoginActivitySchool.this, Master_activity.class);
                     success.putExtra("Login", file_retreive());
                     startActivity(success);

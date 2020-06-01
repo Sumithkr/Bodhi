@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 public class MasterStudentActivity extends AppCompatActivity {
 
+    HomePage home = new HomePage();
 
     BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -42,6 +43,7 @@ public class MasterStudentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_master_layout);
+        loadFragment(home);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }

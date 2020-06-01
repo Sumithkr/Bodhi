@@ -22,6 +22,7 @@
 
             <TextView
 
+                android:id="@+id/MainSubjectHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="K.C.M Public School"
@@ -97,6 +98,29 @@
 
         <LinearLayout
 
+            android:id="@+id/NoVideosPanel"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+
+                android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:src="@drawable/no_video_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:text="No Item Available Here"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -130,6 +154,29 @@
             android:layout_height="220dp"
             android:id="@+id/recyclerViewBooks"
             android:orientation="horizontal" />
+
+        <LinearLayout
+
+            android:id="@+id/NoBooksPanel"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+
+                android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:src="@drawable/no_book_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:text="No Item Available Here"/>
+
+        </LinearLayout>
 
         <LinearLayout
 
@@ -186,6 +233,29 @@
 
         <LinearLayout
 
+            android:id="@+id/NoRevisionArticlePanel"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+
+                android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:src="@drawable/no_document_icon"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:text="No Item Available Here"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical">
@@ -216,44 +286,33 @@
 
             android:layout_width="match_parent"
             android:layout_height="190dp"
+            android:layout_marginBottom="40dp"
             android:id="@+id/recyclerViewRevisionMedia"
             android:orientation="horizontal" />
 
-
         <LinearLayout
 
+            android:id="@+id/NoRevisionMediaPanel"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center_vertical">
+            android:layout_height="190dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+
+                android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:src="@drawable/no_media_icon"/>
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Subjects"
-                android:paddingLeft="10dp"
-                android:textColor="@color/darkgrey"
-                android:textSize="17sp" />
-
-            <TextView
-
-                android:id="@+id/total_subject"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="10 Subject"
-                android:paddingRight="10dp"
-                android:textColor="@color/grey"
-                android:textSize="15sp"
-                android:gravity="end"/>
+                android:paddingTop="20dp"
+                android:text="No Item Available Here"/>
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-
-            android:layout_width="match_parent"
-            android:layout_height="190dp"
-            android:id="@+id/recyclerViewSubject"
-            android:orientation="horizontal" />
 
     </LinearLayout>
 

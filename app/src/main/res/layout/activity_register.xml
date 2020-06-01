@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:text="Student Registration"
             android:textSize="21sp"
+            android:paddingTop="20dp"
             android:textColor="@color/White"/>
 
 
@@ -30,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:orientation="vertical"
+        android:paddingTop="10dp"
         android:gravity="center_horizontal">
 
         <EditText
@@ -40,7 +42,7 @@
             android:hint="Name"
             android:selectAllOnFocus="true"
             android:paddingTop="50dp"
-            android:drawableLeft="@drawable/demo_email_icon"
+            android:drawableLeft="@drawable/student_name_icon"
             android:drawablePadding="10dp"
             android:inputType="text"
             app:backgroundTint="@color/MainTheme"/>
@@ -53,7 +55,7 @@
             android:hint="Email"
             android:selectAllOnFocus="true"
             android:paddingTop="20dp"
-            android:drawableLeft="@drawable/demo_email_icon"
+            android:drawableLeft="@drawable/email_icon"
             android:drawablePadding="10dp"
             android:inputType="textEmailAddress"
             app:backgroundTint="@color/MainTheme"/>
@@ -66,7 +68,7 @@
             android:hint="Password"
             android:selectAllOnFocus="true"
             android:paddingTop="20dp"
-            android:drawableLeft="@drawable/demo_email_icon"
+            android:drawableLeft="@drawable/password_icon"
             android:drawablePadding="10dp"
             android:inputType="textPassword"
             app:backgroundTint="@color/MainTheme"/>
@@ -79,7 +81,7 @@
             android:hint="Confirm Password"
             android:selectAllOnFocus="true"
             android:paddingTop="20dp"
-            android:drawableLeft="@drawable/demo_email_icon"
+            android:drawableLeft="@drawable/confirm_password_icon"
             android:drawablePadding="10dp"
             android:inputType="textPassword"
             app:backgroundTint="@color/MainTheme"/>

@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bia.bodhinew.R;
-import com.bia.bodhinew.School.LoginActivitySchool;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -375,8 +374,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         if(parent.getId()  == R.id.SelectSchool){
 
             selectedSchool = SelectSchool.getItemAtPosition(position).toString();
+            SelectSchool.setPrompt("Select School");
             MainSchoolID= SchoolID[position];
-            Toast.makeText(getApplicationContext(), MainSchoolID, Toast.LENGTH_LONG).show();
             AddpUpAllClass();
 
         }
@@ -384,6 +383,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         else if(parent.getId()== R.id.SelectClass){
 
             selectedClass= SelectClass.getItemAtPosition(position).toString();
+            SelectClass.setPrompt("Select Class");
+            SelectClass.setSelection(position);
             //Toast.makeText(getApplicationContext(), selectedClass, Toast.LENGTH_LONG).show();
 
         }

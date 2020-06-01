@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bia.bodhinew.R;
@@ -20,13 +21,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HomePage extends Fragment {
+public class SubjectPage extends Fragment {
 
     ArrayList<HomeDetailsGetandSetVideos> homeClassVideos;
     ArrayList<HomeDetailsGetandSetBooks> homeClassBooks;
     ArrayList<HomeDetailsGetandSetRevisionArticle> homeClassRevisionArticles;
     ArrayList<HomeDetailsGetandSetRevisionMedia> homeClassRevisionMedia;
-    ArrayList<HomeDetailsGetandSetSubjects> homeClassSubjects;
     String[] UploadID = new String[1000];
     String[] Name= new String[1000];
     String[] DateTime= new String[1000];
@@ -39,15 +39,14 @@ public class HomePage extends Fragment {
     String[] isPublic= new String[1000];
     String[] StudentClass= new String[1000];
     ProgressDialog dialog1;
+    LinearLayout NoVideosPanel, NoBooksPanel, NoRevisionArticlePanel, NoRevisionMediaPanel;
     private boolean firstTime = true;
-    int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0, SubjectContain=0;
-    TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles;
+    int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0;
+    TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles, MainSubjectheading;
     ArrayList<HomeDetailsGetandSetVideos> resultsVideos = new ArrayList<>();
     ArrayList<HomeDetailsGetandSetBooks> resultsBooks = new ArrayList<>();
     ArrayList<HomeDetailsGetandSetRevisionArticle> resultsRevisionArticle = new ArrayList<>();
     ArrayList<HomeDetailsGetandSetRevisionMedia> resultsRevisonMedia = new ArrayList<>();
-    ArrayList<HomeDetailsGetandSetSubjects> resultsSubjects = new ArrayList<>();
-    ArrayList<String> resultSubjectCopy= new ArrayList<>();
 
 
     View RootView;
@@ -109,12 +108,20 @@ public class HomePage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        RootView = inflater.inflate(R.layout.activity_home_page, container, false);
+        RootView = inflater.inflate(R.layout.activity_subject_page, container, false);
 
         TotalVideos= RootView.findViewById(R.id.total_videos);
         TotalBooks = RootView.findViewById(R.id.total_book);
         TotalArticles = RootView.findViewById(R.id.total_articles);
         TotalMediaAttachments= RootView.findViewById(R.id.total_media_attachements);
+        MainSubjectheading= RootView.findViewById(R.id.MainSubjectHeading);
+        //Log.e("MainSubject", getArguments().getString("ForSubject"));
+        MainSubjectheading.setText(getArguments().getString("ForSubject"));
+
+        NoVideosPanel= RootView.findViewById(R.id.NoVideosPanel);
+        NoBooksPanel= RootView.findViewById(R.id.NoBooksPanel);
+        NoRevisionArticlePanel= RootView.findViewById(R.id.NoRevisionArticlePanel);
+        NoRevisionMediaPanel= RootView.findViewById(R.id.NoRevisionMediaPanel);
 
         StartServerFile();
 
@@ -150,42 +157,47 @@ public class HomePage extends Fragment {
 
     public void PostExecute()
     {
-        while(Type[universal]!= null){
 
-            if(Type[universal].equals("0")) {
+        while(SubjectName[universal]!= null){
 
-                homeClassBooks = GetBooksDetailing();
-                TotalBooksint++;
+            if(SubjectName[universal].equals(getArguments().getString("ForSubject"))) {
 
-            }
+                if (Type[universal].equals("0")) {
 
-            if(Type[universal].equals("1")) {
-
-                homeClassVideos = GetVideoDetailing();
-                TotalVideoint++;
-
-            }
-
-            if(Type[universal].equals("2")) {
-
-                if( FileURL[universal].contains(".mp4") || FileURL[universal].contains(".3gp")
-                        || FileURL[universal].contains(".jpg") ||FileURL[universal].contains(".png")) {
-
-                    homeClassRevisionMedia = GetRevisionMediaDetailing();
-                    TotalMediaAttachmentsint++;
+                    homeClassBooks = GetBooksDetailing();
+                    TotalBooksint++;
 
                 }
 
-                else {
+                if(Type[universal].equals("1")) {
 
-                    homeClassRevisionArticles = GetRevisionArticleDetailing();
-                    TotalArticlesint++;
+                    homeClassVideos = GetVideoDetailing();
+                    TotalVideoint++;
+
+                }
+
+                if(Type[universal].equals("2")) {
+
+                    if( FileURL[universal].contains(".mp4") || FileURL[universal].contains(".3gp")
+                            || FileURL[universal].contains(".jpg") ||FileURL[universal].contains(".png")) {
+
+                        homeClassRevisionMedia = GetRevisionMediaDetailing();
+                        TotalMediaAttachmentsint++;
+
+                    }
+
+                    else {
+
+                        homeClassRevisionArticles = GetRevisionArticleDetailing();
+                        TotalArticlesint++;
+
+                    }
 
                 }
 
             }
 
-            homeClassSubjects = GetSubjectDetailing();
+            //homeClassSubjects = GetSubjectDetailing();
 
             universal++;
         }
@@ -195,7 +207,7 @@ public class HomePage extends Fragment {
         initRecyclerViewBooks();
         initRecyclerViewRevisionArticle();
         initRecyclerViewRevisionMedia();
-        initRecyclerViewSubjects();
+        //initRecyclerViewSubjects();
 
     }
 
@@ -254,45 +266,95 @@ public class HomePage extends Fragment {
 
     private void initRecyclerViewVideos(){
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = RootView.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForVideos adapter = new HomePageRecyclerAdapterForVideos(getContext(), homeClassVideos);
-        recyclerView.setAdapter(adapter);
+        if(resultsVideos.isEmpty()){
+
+            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerView);
+            recyclerView.setVisibility(View.GONE);
+            NoVideosPanel.setVisibility(View.VISIBLE);
+
+        }
+
+        else {
+
+            NoVideosPanel.setVisibility(View.GONE);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerView);
+            recyclerView.setLayoutManager(layoutManager);
+            HomePageRecyclerAdapterForVideos adapter = new HomePageRecyclerAdapterForVideos(getContext(), homeClassVideos);
+            recyclerView.setAdapter(adapter);
+
+        }
 
     }
 
     private void initRecyclerViewBooks(){
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewBooks);
-        recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForBooks adapter = new HomePageRecyclerAdapterForBooks(getContext(), homeClassBooks);
-        recyclerView.setAdapter(adapter);
+        if(resultsBooks.isEmpty()){
+
+            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewBooks);
+            recyclerView.setVisibility(View.GONE);
+            NoBooksPanel.setVisibility(View.VISIBLE);
+
+        }
+
+        else {
+
+            NoBooksPanel.setVisibility(View.GONE);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewBooks);
+            recyclerView.setLayoutManager(layoutManager);
+            HomePageRecyclerAdapterForBooks adapter = new HomePageRecyclerAdapterForBooks(getContext(), homeClassBooks);
+            recyclerView.setAdapter(adapter);
+        }
 
     }
 
     private void initRecyclerViewRevisionArticle(){
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionArticles);
-        recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForRevisionArticle adapter = new HomePageRecyclerAdapterForRevisionArticle(getContext(), homeClassRevisionArticles);
-        recyclerView.setAdapter(adapter);
+        if(resultsRevisionArticle.isEmpty()){
+
+            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionArticles);
+            recyclerView.setVisibility(View.GONE);
+            NoRevisionArticlePanel.setVisibility(View.VISIBLE);
+
+        }
+
+        else {
+
+            NoRevisionArticlePanel.setVisibility(View.GONE);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionArticles);
+            recyclerView.setLayoutManager(layoutManager);
+            HomePageRecyclerAdapterForRevisionArticle adapter = new HomePageRecyclerAdapterForRevisionArticle(getContext(), homeClassRevisionArticles);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     private void initRecyclerViewRevisionMedia(){
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionMedia);
-        recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForRevisionMedia adapter = new HomePageRecyclerAdapterForRevisionMedia(getContext(), homeClassRevisionMedia);
-        recyclerView.setAdapter(adapter);
+        if(resultsRevisonMedia.isEmpty()){
+
+            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionMedia);
+            recyclerView.setVisibility(View.GONE);
+            NoRevisionMediaPanel.setVisibility(View.VISIBLE);
+
+        }
+
+        else {
+
+            NoRevisionMediaPanel.setVisibility(View.GONE);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionMedia);
+            recyclerView.setLayoutManager(layoutManager);
+            HomePageRecyclerAdapterForRevisionMedia adapter = new HomePageRecyclerAdapterForRevisionMedia(getContext(), homeClassRevisionMedia);
+            recyclerView.setAdapter(adapter);
+        }
+
         dialog1.dismiss();
         dialog1.cancel();
     }
 
-    private void initRecyclerViewSubjects(){
+    /*private void initRecyclerViewSubjects(){
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewSubject);
@@ -300,7 +362,7 @@ public class HomePage extends Fragment {
         HomePageRecyclerAdapterForSubjects adapter = new HomePageRecyclerAdapterForSubjects(getContext(), homeClassSubjects);
         recyclerView.setAdapter(adapter);
 
-    }
+    }*/
 
     private ArrayList<HomeDetailsGetandSetVideos> GetVideoDetailing()
     {
@@ -337,8 +399,8 @@ public class HomePage extends Fragment {
 
         HomeDetailsGetandSetRevisionArticle home = new HomeDetailsGetandSetRevisionArticle();
         home.setName(Name[universal]);
+        Log.e("Description", Description[universal]);
         home.setThumbnailURL(FileURL[universal]);
-        //Log.e("Description", FileURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
 
@@ -373,31 +435,16 @@ public class HomePage extends Fragment {
         return resultsRevisonMedia;
     }
 
-    private ArrayList<HomeDetailsGetandSetSubjects> GetSubjectDetailing()
+    /*private ArrayList<HomeDetailsGetandSetSubjects> GetSubjectDetailing()
     {
 
         HomeDetailsGetandSetSubjects home = new HomeDetailsGetandSetSubjects();
         home.setSubjectName(SubjectName[universal]);
-        boolean present = resultSubjectCopy.contains(SubjectName[universal]);
-        Log.e("SubjectName", String.valueOf(present));
 
-        if(SubjectContain == 0){
-
-            resultsSubjects.add(home);
-            resultSubjectCopy.add(SubjectName[universal]);
-            present= true;
-            SubjectContain++;
-
-        }
-
-        if(!present) {
-
-            resultsSubjects.add(home);
-            resultSubjectCopy.add(SubjectName[universal]);
-        }
+        resultsSubjects.add(home);
 
         return resultsSubjects;
-    }
+    }*/
 
     public void loading()
     {
