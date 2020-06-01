@@ -78,7 +78,7 @@ public class HomePage extends Fragment {
                         // check for permanent denial of permission
                         Log.e("permission","denied");
 //                      Toast.makeText(MainActivity.this, "permission denied", Toast.LENGTH_SHORT).show();
-                        new HomePage().finish();
+                        new HomePageSchool().finish();
                         moveTaskToBack(false);
                         firstTime = true;
 
@@ -288,8 +288,6 @@ public class HomePage extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         HomePageRecyclerAdapterForRevisionMedia adapter = new HomePageRecyclerAdapterForRevisionMedia(getContext(), homeClassRevisionMedia);
         recyclerView.setAdapter(adapter);
-        dialog1.dismiss();
-        dialog1.cancel();
     }
 
     private void initRecyclerViewSubjects(){
@@ -299,6 +297,8 @@ public class HomePage extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         HomePageRecyclerAdapterForSubjects adapter = new HomePageRecyclerAdapterForSubjects(getContext(), homeClassSubjects);
         recyclerView.setAdapter(adapter);
+        dialog1.dismiss();
+        dialog1.cancel();
 
     }
 
@@ -322,10 +322,11 @@ public class HomePage extends Fragment {
 
         HomeDetailsGetandSetBooks home = new HomeDetailsGetandSetBooks();
         home.setName(Name[universal]);
-        Log.e("Description", Description[universal]);
+        Log.e("Description", UploadID[universal]);
         home.setThumbnailURL(FileURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setUploadID(UploadID[universal]);
 
         resultsBooks.add(home);
 

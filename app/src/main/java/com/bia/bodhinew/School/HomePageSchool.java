@@ -1,4 +1,4 @@
-package com.bia.bodhinew.Student;
+package com.bia.bodhinew.School;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -6,10 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bia.bodhinew.R;
+import com.bia.bodhinew.Student.FetchFromDB;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -21,12 +21,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SubjectPage extends Fragment {
+public class HomePageSchool extends Fragment {
 
-    ArrayList<HomeDetailsGetandSetVideos> homeClassVideos;
-    ArrayList<HomeDetailsGetandSetBooks> homeClassBooks;
-    ArrayList<HomeDetailsGetandSetRevisionArticle> homeClassRevisionArticles;
-    ArrayList<HomeDetailsGetandSetRevisionMedia> homeClassRevisionMedia;
+    ArrayList<HomeDetailsGetandSetVideosSchool> homeClassVideos;
+    ArrayList<HomeDetailsGetandSetBooksSchool> homeClassBooks;
+    ArrayList<HomeDetailsGetandSetRevisionArticleSchool> homeClassRevisionArticles;
+    ArrayList<HomeDetailsGetandSetRevisionMediaSchool> homeClassRevisionMedia;
+    ArrayList<HomeDetailsGetandSetSubjectsSchool> homeClassSubjects;
     String[] UploadID = new String[1000];
     String[] Name= new String[1000];
     String[] DateTime= new String[1000];
@@ -39,14 +40,15 @@ public class SubjectPage extends Fragment {
     String[] isPublic= new String[1000];
     String[] StudentClass= new String[1000];
     ProgressDialog dialog1;
-    LinearLayout NoVideosPanel, NoBooksPanel, NoRevisionArticlePanel, NoRevisionMediaPanel;
     private boolean firstTime = true;
-    int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0;
-    TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles, MainSubjectheading;
-    ArrayList<HomeDetailsGetandSetVideos> resultsVideos = new ArrayList<>();
-    ArrayList<HomeDetailsGetandSetBooks> resultsBooks = new ArrayList<>();
-    ArrayList<HomeDetailsGetandSetRevisionArticle> resultsRevisionArticle = new ArrayList<>();
-    ArrayList<HomeDetailsGetandSetRevisionMedia> resultsRevisonMedia = new ArrayList<>();
+    int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0, SubjectContain=0;
+    TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles;
+    ArrayList<HomeDetailsGetandSetVideosSchool> resultsVideos = new ArrayList<>();
+    ArrayList<HomeDetailsGetandSetBooksSchool> resultsBooks = new ArrayList<>();
+    ArrayList<HomeDetailsGetandSetRevisionArticleSchool> resultsRevisionArticle = new ArrayList<>();
+    ArrayList<HomeDetailsGetandSetRevisionMediaSchool> resultsRevisonMedia = new ArrayList<>();
+    ArrayList<HomeDetailsGetandSetSubjectsSchool> resultsSubjects = new ArrayList<>();
+    ArrayList<String> resultSubjectCopy= new ArrayList<>();
 
 
     View RootView;
@@ -108,20 +110,12 @@ public class SubjectPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        RootView = inflater.inflate(R.layout.activity_subject_page, container, false);
+        RootView = inflater.inflate(R.layout.activity_home_page, container, false);
 
         TotalVideos= RootView.findViewById(R.id.total_videos);
         TotalBooks = RootView.findViewById(R.id.total_book);
         TotalArticles = RootView.findViewById(R.id.total_articles);
         TotalMediaAttachments= RootView.findViewById(R.id.total_media_attachements);
-        MainSubjectheading= RootView.findViewById(R.id.MainSubjectHeading);
-        //Log.e("MainSubject", getArguments().getString("ForSubject"));
-        MainSubjectheading.setText(getArguments().getString("ForSubject"));
-
-        NoVideosPanel= RootView.findViewById(R.id.NoVideosPanel);
-        NoBooksPanel= RootView.findViewById(R.id.NoBooksPanel);
-        NoRevisionArticlePanel= RootView.findViewById(R.id.NoRevisionArticlePanel);
-        NoRevisionMediaPanel= RootView.findViewById(R.id.NoRevisionMediaPanel);
 
         StartServerFile();
 
@@ -133,7 +127,7 @@ public class SubjectPage extends Fragment {
     {
         loading();
 
-        String url = "http://bodhi.shwetaaromatics.co.in/Student/FetchHomeMedia.php?UserID="+file_retreive();
+        String url = "http://bodhi.shwetaaromatics.co.in/School/FetchHomeMedia.php?UserID="+file_retreive();
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -157,47 +151,42 @@ public class SubjectPage extends Fragment {
 
     public void PostExecute()
     {
+        while(Type[universal]!= null){
 
-        while(SubjectName[universal]!= null){
+            if(Type[universal].equals("0")) {
 
-            if(SubjectName[universal].equals(getArguments().getString("ForSubject"))) {
+                homeClassBooks = GetBooksDetailing();
+                TotalBooksint++;
 
-                if (Type[universal].equals("0")) {
+            }
 
-                    homeClassBooks = GetBooksDetailing();
-                    TotalBooksint++;
+            if(Type[universal].equals("1")) {
+
+                homeClassVideos = GetVideoDetailing();
+                TotalVideoint++;
+
+            }
+
+            if(Type[universal].equals("2")) {
+
+                if( FileURL[universal].contains(".mp4") || FileURL[universal].contains(".3gp")
+                        || FileURL[universal].contains(".jpg") ||FileURL[universal].contains(".png")) {
+
+                    homeClassRevisionMedia = GetRevisionMediaDetailing();
+                    TotalMediaAttachmentsint++;
 
                 }
 
-                if(Type[universal].equals("1")) {
+                else {
 
-                    homeClassVideos = GetVideoDetailing();
-                    TotalVideoint++;
-
-                }
-
-                if(Type[universal].equals("2")) {
-
-                    if( FileURL[universal].contains(".mp4") || FileURL[universal].contains(".3gp")
-                            || FileURL[universal].contains(".jpg") ||FileURL[universal].contains(".png")) {
-
-                        homeClassRevisionMedia = GetRevisionMediaDetailing();
-                        TotalMediaAttachmentsint++;
-
-                    }
-
-                    else {
-
-                        homeClassRevisionArticles = GetRevisionArticleDetailing();
-                        TotalArticlesint++;
-
-                    }
+                    homeClassRevisionArticles = GetRevisionArticleDetailing();
+                    TotalArticlesint++;
 
                 }
 
             }
 
-            //homeClassSubjects = GetSubjectDetailing();
+            homeClassSubjects = GetSubjectDetailing();
 
             universal++;
         }
@@ -207,7 +196,7 @@ public class SubjectPage extends Fragment {
         initRecyclerViewBooks();
         initRecyclerViewRevisionArticle();
         initRecyclerViewRevisionMedia();
-        //initRecyclerViewSubjects();
+        initRecyclerViewSubjects();
 
     }
 
@@ -266,153 +255,106 @@ public class SubjectPage extends Fragment {
 
     private void initRecyclerViewVideos(){
 
-        if(resultsVideos.isEmpty()){
-
-            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerView);
-            recyclerView.setVisibility(View.GONE);
-            NoVideosPanel.setVisibility(View.VISIBLE);
-
-        }
-
-        else {
-
-            NoVideosPanel.setVisibility(View.GONE);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerView);
-            recyclerView.setLayoutManager(layoutManager);
-            HomePageRecyclerAdapterForVideos adapter = new HomePageRecyclerAdapterForVideos(getContext(), homeClassVideos);
-            recyclerView.setAdapter(adapter);
-
-        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = RootView.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(layoutManager);
+        HomePageRecyclerAdapterForVideosSchool adapter = new HomePageRecyclerAdapterForVideosSchool(getContext(), homeClassVideos);
+        recyclerView.setAdapter(adapter);
 
     }
 
     private void initRecyclerViewBooks(){
 
-        if(resultsBooks.isEmpty()){
-
-            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewBooks);
-            recyclerView.setVisibility(View.GONE);
-            NoBooksPanel.setVisibility(View.VISIBLE);
-
-        }
-
-        else {
-
-            NoBooksPanel.setVisibility(View.GONE);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewBooks);
-            recyclerView.setLayoutManager(layoutManager);
-            HomePageRecyclerAdapterForBooks adapter = new HomePageRecyclerAdapterForBooks(getContext(), homeClassBooks);
-            recyclerView.setAdapter(adapter);
-        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewBooks);
+        recyclerView.setLayoutManager(layoutManager);
+        HomePageRecyclerAdapterForBooksSchool adapter = new HomePageRecyclerAdapterForBooksSchool(getContext(), homeClassBooks);
+        recyclerView.setAdapter(adapter);
 
     }
 
     private void initRecyclerViewRevisionArticle(){
 
-        if(resultsRevisionArticle.isEmpty()){
-
-            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionArticles);
-            recyclerView.setVisibility(View.GONE);
-            NoRevisionArticlePanel.setVisibility(View.VISIBLE);
-
-        }
-
-        else {
-
-            NoRevisionArticlePanel.setVisibility(View.GONE);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionArticles);
-            recyclerView.setLayoutManager(layoutManager);
-            HomePageRecyclerAdapterForRevisionArticle adapter = new HomePageRecyclerAdapterForRevisionArticle(getContext(), homeClassRevisionArticles);
-            recyclerView.setAdapter(adapter);
-        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionArticles);
+        recyclerView.setLayoutManager(layoutManager);
+        HomePageRecyclerAdapterForRevisionArticleSchool adapter = new HomePageRecyclerAdapterForRevisionArticleSchool(getContext(), homeClassRevisionArticles);
+        recyclerView.setAdapter(adapter);
     }
 
     private void initRecyclerViewRevisionMedia(){
 
-        if(resultsRevisonMedia.isEmpty()){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionMedia);
+        recyclerView.setLayoutManager(layoutManager);
+        HomePageRecyclerAdapterForRevisionMediaSchool adapter = new HomePageRecyclerAdapterForRevisionMediaSchool(getContext(), homeClassRevisionMedia);
+        recyclerView.setAdapter(adapter);
 
-            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionMedia);
-            recyclerView.setVisibility(View.GONE);
-            NoRevisionMediaPanel.setVisibility(View.VISIBLE);
-
-        }
-
-        else {
-
-            NoRevisionMediaPanel.setVisibility(View.GONE);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-            RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionMedia);
-            recyclerView.setLayoutManager(layoutManager);
-            HomePageRecyclerAdapterForRevisionMedia adapter = new HomePageRecyclerAdapterForRevisionMedia(getContext(), homeClassRevisionMedia);
-            recyclerView.setAdapter(adapter);
-        }
-
-        dialog1.dismiss();
-        dialog1.cancel();
     }
 
-    /*private void initRecyclerViewSubjects(){
+    private void initRecyclerViewSubjects(){
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewSubject);
         recyclerView.setLayoutManager(layoutManager);
         HomePageRecyclerAdapterForSubjectsSchool adapter = new HomePageRecyclerAdapterForSubjectsSchool(getContext(), homeClassSubjects);
         recyclerView.setAdapter(adapter);
+        dialog1.dismiss();
+        dialog1.cancel();
 
-    }*/
+    }
 
-    private ArrayList<HomeDetailsGetandSetVideos> GetVideoDetailing()
+    private ArrayList<HomeDetailsGetandSetVideosSchool> GetVideoDetailing()
     {
 
-        HomeDetailsGetandSetVideos home = new HomeDetailsGetandSetVideos();
+        HomeDetailsGetandSetVideosSchool home = new HomeDetailsGetandSetVideosSchool();
         home.setName(Name[universal]);
-        Log.e("Description", Description[universal]);
         home.setThumbnailURL(ThumbnailURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setUploadID(UploadID[universal]);
 
         resultsVideos.add(home);
 
         return resultsVideos;
     }
 
-    private ArrayList<HomeDetailsGetandSetBooks> GetBooksDetailing()
+    private ArrayList<HomeDetailsGetandSetBooksSchool> GetBooksDetailing()
     {
 
-        HomeDetailsGetandSetBooks home = new HomeDetailsGetandSetBooks();
+        HomeDetailsGetandSetBooksSchool home = new HomeDetailsGetandSetBooksSchool();
         home.setName(Name[universal]);
-        Log.e("Description", Description[universal]);
+        Log.e("Description", UploadID[universal]);
         home.setThumbnailURL(FileURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setUploadID(UploadID[universal]);
 
         resultsBooks.add(home);
 
         return resultsBooks;
     }
 
-    private ArrayList<HomeDetailsGetandSetRevisionArticle> GetRevisionArticleDetailing()
+    private ArrayList<HomeDetailsGetandSetRevisionArticleSchool> GetRevisionArticleDetailing()
     {
 
-        HomeDetailsGetandSetRevisionArticle home = new HomeDetailsGetandSetRevisionArticle();
+        HomeDetailsGetandSetRevisionArticleSchool home = new HomeDetailsGetandSetRevisionArticleSchool();
         home.setName(Name[universal]);
-        Log.e("Description", Description[universal]);
         home.setThumbnailURL(FileURL[universal]);
+        //Log.e("Description", FileURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setUploadID(UploadID[universal]);
 
         resultsRevisionArticle.add(home);
 
         return resultsRevisionArticle;
     }
 
-    private ArrayList<HomeDetailsGetandSetRevisionMedia> GetRevisionMediaDetailing()
+    private ArrayList<HomeDetailsGetandSetRevisionMediaSchool> GetRevisionMediaDetailing()
     {
 
-        HomeDetailsGetandSetRevisionMedia home = new HomeDetailsGetandSetRevisionMedia();
+        HomeDetailsGetandSetRevisionMediaSchool home = new HomeDetailsGetandSetRevisionMediaSchool();
         home.setName(Name[universal]);
         Log.e("Description", Description[universal]);
 
@@ -429,22 +371,38 @@ public class SubjectPage extends Fragment {
 
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setUploadID(UploadID[universal]);
 
         resultsRevisonMedia.add(home);
 
         return resultsRevisonMedia;
     }
 
-    /*private ArrayList<HomeDetailsGetandSetSubjectsSchool> GetSubjectDetailing()
+    private ArrayList<HomeDetailsGetandSetSubjectsSchool> GetSubjectDetailing()
     {
 
         HomeDetailsGetandSetSubjectsSchool home = new HomeDetailsGetandSetSubjectsSchool();
         home.setSubjectName(SubjectName[universal]);
+        boolean present = resultSubjectCopy.contains(SubjectName[universal]);
+        Log.e("SubjectName", String.valueOf(present));
 
-        resultsSubjects.add(home);
+        if(SubjectContain == 0){
+
+            resultsSubjects.add(home);
+            resultSubjectCopy.add(SubjectName[universal]);
+            present= true;
+            SubjectContain++;
+
+        }
+
+        if(!present) {
+
+            resultsSubjects.add(home);
+            resultSubjectCopy.add(SubjectName[universal]);
+        }
 
         return resultsSubjects;
-    }*/
+    }
 
     public void loading()
     {
@@ -459,7 +417,7 @@ public class SubjectPage extends Fragment {
     {
         FileInputStream inputStream = null;
         try {
-            inputStream = getContext().openFileInput("Bodhi_Login");
+            inputStream = getContext().openFileInput("Bodhi_Login_School");
             StringBuffer fileContent = new StringBuffer("");
 
             byte[] buffer = new byte[1024];
