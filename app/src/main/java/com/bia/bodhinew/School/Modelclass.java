@@ -15,6 +15,7 @@ public class Modelclass {
     private boolean msgRead;
     private ImageView new_message_icon;
 
+
     public void setContent_of_notice(String content_of_notice) { this.content_of_notice = content_of_notice;
     }
 

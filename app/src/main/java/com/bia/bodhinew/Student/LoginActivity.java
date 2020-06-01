@@ -120,8 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 if(obj.getString("result").equals("yes"))
                 {
-                    file_write_url(email.getText().toString().trim());
-
+                    file_write_url(obj.getString("UserID"));
                     Intent main= new Intent(getApplicationContext(), MasterStudentActivity.class);
                     main.putExtra("Login", email.getText().toString());
                     startActivity(main);
