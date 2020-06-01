@@ -32,6 +32,13 @@ public class Previously_watched extends AppCompatActivity {
     static String[] FileName = new String[1000];
     static String[] FileID = new String[1000];
     String[] FileUrl = new String[1000];
+    String[] FileThumbnailUrl = new String[1000];
+    String[] FileDescription = new String[1000];
+    String[] FileDateTime = new String[1000];
+    String[] SubjectName = new String[1000];
+    String[] SubjectID = new String[1000];
+    String[] ispublic = new String[1000];
+    String[] Type = new String[1000];
     static ArrayList<Modelclass> list;
 
     @Override
@@ -72,7 +79,7 @@ public class Previously_watched extends AppCompatActivity {
     public void StartServerFile()
     {
 
-        String url = "http://bodhi.shwetaaromatics.co.in/School/FetchStudents.php?Class="+catgerory+"&UserID="+file_retreive();
+        String url = "http://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+file_retreive();
         Log.e("url",url);
         com.bia.bodhinew.FetchFromDB asyncTask = (com.bia.bodhinew.FetchFromDB) new com.bia.bodhinew.FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -103,12 +110,22 @@ public class Previously_watched extends AppCompatActivity {
             for (int i = 0; i < jsonArray.length(); i++)
             {
                 JSONObject obj = jsonArray.getJSONObject(i);
-                FileName[i]=obj.getString("UserName");
+                FileName[i]=obj.getString("Name");
                 Log.e("name",FileName[i]);
-                FileID[i]=obj.getString("UserID");
+                FileID[i]=obj.getString("ID");
                 Log.e("id",FileID[i]);
-                FileUrl[i] = obj.getString("Email");
+                FileUrl[i] = obj.getString("URL");
                 Log.e("url",FileUrl[i]);
+                FileThumbnailUrl[i] = obj.getString("ThumbnailURL");
+                Log.e("url",FileUrl[i]);
+                FileDescription[i] = obj.getString("Description");
+                Log.e("description",FileDescription[i]);
+                FileDateTime[i] = obj.getString("DateTime");
+                Log.e("datetime",FileDateTime[i]);
+                SubjectName[i] = obj.getString("SubjectName");
+                SubjectID[i] = obj.getString("SubjectID");
+                Type[i] = obj.getString("Type");
+                ispublic[i] = obj.getString("isPublic");
 
             }
         }
@@ -133,6 +150,7 @@ public class Previously_watched extends AppCompatActivity {
             nodata.setVisibility(View.GONE);
             list_previously_watched.setVisibility(View.VISIBLE);
             Modelclass ar1 = new Modelclass();
+
 
             k++;
         }

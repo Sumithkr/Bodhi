@@ -13,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,13 +30,12 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import androidx.core.content.FileProvider;
-import in.gauriinfotech.commons.Commons;
 
 public class SchoolNoticeShowAdaptor extends BaseAdapter {
-      Context context;
-      private static ArrayList<Modelclass> ArrayList;
-      LayoutInflater inflater;
-     ImageView icon_for_attachment;
+    Context context;
+    private static ArrayList<Modelclass> ArrayList;
+    LayoutInflater inflater;
+    ImageView icon_for_attachment;
     ProgressDialog dialog;
 
 
@@ -70,7 +67,7 @@ public class SchoolNoticeShowAdaptor extends BaseAdapter {
             holder = new ViewHolder();
             holder.content_of_notice=(TextView)convertView.findViewById(R.id.content_of_notice);
             //     ArrayList.get(position).setID();
-           holder.datetime_of_notice =(TextView)convertView.findViewById(R.id.datetime_of_notice);
+            holder.datetime_of_notice =(TextView)convertView.findViewById(R.id.datetime_of_notice);
             holder.msg_notice_image= (ImageView) convertView.findViewById(R.id.notice_img);
             holder.msg_notice_image.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -155,7 +152,7 @@ public class SchoolNoticeShowAdaptor extends BaseAdapter {
         {
             //holder.msg_notice_image.setImageDrawable(context.getResources().getDrawable(R.drawable.last));
             icon_for_attachment.setVisibility(View.GONE);
-             holder.msg_notice_image.setVisibility(View.GONE);
+            holder.msg_notice_image.setVisibility(View.GONE);
         }
 
         //holder.msg_notice_image.setImageBitmap(ArrayList.get(position).getNotice_image());
@@ -173,6 +170,7 @@ public class SchoolNoticeShowAdaptor extends BaseAdapter {
 
 
         String url = filePath;
+
         Log.e("urlincheck",url);
         String dataType="";
 
@@ -215,7 +213,7 @@ public class SchoolNoticeShowAdaptor extends BaseAdapter {
 
     private void openDocument(String path,String dataType)
     {
-        File file = new File(Environment.getExternalStorageDirectory(),path);
+        File file = new File(path);
         Uri uri ;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
@@ -242,6 +240,7 @@ public class SchoolNoticeShowAdaptor extends BaseAdapter {
 
     class DownloadFileFromURL extends AsyncTask<String, String, String>
     {
+        String extension = "";
         /**
          * Before starting background thread Show Progress Bar Dialog
          * */
@@ -268,6 +267,10 @@ public class SchoolNoticeShowAdaptor extends BaseAdapter {
             try
             {
 
+
+                if (f_url[0].contains("."))
+                    extension = f_url[0].substring(f_url[0].lastIndexOf("."));
+
                 URL url = new URL(f_url[0]);
                 Log.e("LOG KA",f_url[0]);
                 URLConnection conection = url.openConnection();
@@ -284,7 +287,7 @@ public class SchoolNoticeShowAdaptor extends BaseAdapter {
                 // Output stream
                 OutputStream output = new FileOutputStream(Environment
                         .getExternalStorageDirectory().toString()
-                        + "/doc.docx");
+                        + "/file"+extension);
 
 
                 byte data[] = new byte[1024];
@@ -330,13 +333,17 @@ public class SchoolNoticeShowAdaptor extends BaseAdapter {
          * After completing background task Dismiss the progress dialog
          * **/
         @Override
-        protected void onPostExecute(String file_url) {
+        protected void onPostExecute(String file_url)
+        {
+
+
+
             // dismiss the dialog after the file was downloaded
             Log.e("hoighj","yaha dekho");
             //String x = Commons.getPath(Uri.parse(Environment.getExternalStorageDirectory().toString()+ "/doc.docx"), context);
             String x = Environment
                     .getExternalStorageDirectory().toString()
-                    + "/doc.docx";
+                    + "/file"+extension;
             CheckFile(x);
             dialog.dismiss();
             dialog.cancel();

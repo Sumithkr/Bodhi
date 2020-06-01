@@ -1,15 +1,50 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/White"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".School.UploadFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="200dp"
+        android:background="@drawable/master_student_bg">
+
+        <Button
+            android:id="@+id/pick_File"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/buttonbackwhite"
+            android:drawableLeft="@drawable/arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.653" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
+            android:gravity="end"
+            android:paddingRight="24dp"
+            android:textColorHint="@color/White"
+            android:hint="K.C.M Public School"
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.748"
+            app:layout_constraintStart_toEndOf="@+id/pick_File" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -17,7 +52,6 @@
             android:layout_height="wrap_content"
             app:tabMode="fixed"
             app:tabGravity="fill"/>
-    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
@@ -25,4 +59,4 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

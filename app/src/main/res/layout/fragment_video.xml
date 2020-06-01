@@ -7,31 +7,14 @@
     android:layout_height="match_parent"
     tools:context=".School.VideoFragment">
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="School name"
-            android:textAlignment="center"
-            android:textSize="21sp" />
-    </LinearLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
+        android:paddingTop="20dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        tools:layout_editor_absoluteX="0dp">
+        >
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/VideoFragment_Class"
@@ -70,51 +53,48 @@
         tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Video Name :" />
-
             <EditText
                 android:id="@+id/Video_name"
-                android:layout_width="220dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:background="@drawable/boundarywhitish"
-                android:hint="Give Name">
+                android:gravity="top"
+                android:hint="Video Name"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#9C9A9A"
+                android:textColorHint="#9C9A9A"
+                android:textSize="16sp"
+                tools:ignore="MissingConstraints"
+                >
 
             </EditText>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description :" />
-
             <EditText
                 android:id="@+id/Video_description"
-                android:layout_width="220dp"
-                android:layout_height="200dp"
-                android:layout_marginLeft="18dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/boundarywhitish"
                 android:gravity="top"
-                android:hint="Write Something"
+                android:hint="Description"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -131,27 +111,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:background="@drawable/boundryorange"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select Video :" />
+                android:text="Select Video : |" />
 
             <Button
                 android:id="@+id/pick_video"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/buttonbackwhite"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:background="#FCE6E1"
                 android:drawableLeft="@drawable/upload_video_button" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center">
 
             <Button

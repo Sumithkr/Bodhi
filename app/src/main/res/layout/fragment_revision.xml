@@ -7,28 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".School.RevisionFragment">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="School name"
-            android:textAlignment="center"
-            android:textSize="21sp" />
-    </LinearLayout>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:paddingTop="20dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:layout_editor_absoluteX="16dp">
@@ -73,22 +56,24 @@
         <LinearLayout
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Revision Name :" />
 
             <EditText
                 android:id="@+id/Revision_name"
-                android:layout_marginLeft="10dp"
-                android:layout_width="220dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/boundarywhitish"
-                android:hint="Give Name">
+                android:gravity="top"
+                android:hint="Revision Name"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColorHint="#9C9A9A"
+                android:textSize="16sp"
+                tools:ignore="MissingConstraints">
 
             </EditText>
 
@@ -98,23 +83,18 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description :" />
 
             <EditText
                 android:id="@+id/Revision_description"
-                android:layout_marginLeft="35dp"
-                android:layout_width="220dp"
-                android:layout_height="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@drawable/boundarywhitish"
                 android:gravity="top"
-                android:hint="Write Something"
+                android:hint="Description"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -130,6 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:background="@drawable/boundryorange"
             android:orientation="horizontal">
 
             <TextView
@@ -139,10 +120,10 @@
 
             <Button
                 android:id="@+id/pick_File"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginLeft="20dp"
-                android:background="@drawable/buttonbackwhite"
+                android:background="#FCE6E1"
                 android:drawableLeft="@drawable/upload_book_button" />
         </LinearLayout>
 

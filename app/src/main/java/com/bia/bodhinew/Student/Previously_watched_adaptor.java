@@ -48,24 +48,24 @@ public class Previously_watched_adaptor extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null)
         {
-            convertView = inflater.inflate(R.layout.school_view_students_list_design, null);
+            convertView = inflater.inflate(R.layout.priviously_watched_list_design, null);
             holder = new ViewHolder();
-            holder.student_name=(TextView)convertView.findViewById(R.id.student_name);
+            holder.file_name=(TextView)convertView.findViewById(R.id.FileName);
+            holder.file_description=(TextView)convertView.findViewById(R.id.FileDescription);
             //     ArrayList.get(position).setID();
-            holder.student_icon= (ImageView) convertView.findViewById(R.id.icon);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.student_name.setText(ArrayList.get(position).getStudent_name());
+        holder.file_name.setText(ArrayList.get(position).getStudent_name());
+        holder.file_description.setText(ArrayList.get(position).getContent_of_notice());
         return convertView;
     }
 
     static class ViewHolder {
-        TextView student_name;
-        ImageView student_icon;
+        TextView file_name,file_description;
 
     }
 
