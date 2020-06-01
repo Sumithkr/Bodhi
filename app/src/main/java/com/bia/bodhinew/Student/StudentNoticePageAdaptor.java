@@ -1,6 +1,8 @@
 package com.bia.bodhinew.Student;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ public class StudentNoticePageAdaptor extends BaseAdapter {
     Context context;
     private static java.util.ArrayList<Modelclass> ArrayList;
     LayoutInflater inflater;
+    ImageView icon_for_attachment;
 
 
     public StudentNoticePageAdaptor(Context c, java.util.ArrayList<Modelclass> arrayList)
@@ -52,6 +55,16 @@ public class StudentNoticePageAdaptor extends BaseAdapter {
             holder.datetime_of_notice =(TextView)convertView.findViewById(R.id.datetime_of_notice);
             holder.msg_notice_image= (ImageView) convertView.findViewById(R.id.notice_img);
             holder.new_message_icon= convertView.findViewById(R.id.new_notice_icon);
+            holder.msg_notice_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(ArrayList.get(position).getImg_of_notice()), "image/*");
+                    context.startActivity(intent);
+                }
+            });
+            icon_for_attachment = (ImageView) convertView.findViewById(R.id.icon_for_attachment);
 
             //holder.msg_notice_image.setImageBitmap(notice_image_main[poistion]);
 
@@ -67,20 +80,25 @@ public class StudentNoticePageAdaptor extends BaseAdapter {
         if (ArrayList.get(position).getBoolImage() == true)
         {
 
-            if (ArrayList.get(position).getImg_of_notice().contains(".docx") || ArrayList.get(position).getImg_of_notice().contains(".pdf"))
+            if ( ArrayList.get(position).getImg_of_notice().contains(".pdf"))
             {
-                final ImageView icon_for_attachment = (ImageView) convertView.findViewById(R.id.icon_for_attachment);
+                holder.msg_notice_image.setVisibility(View.GONE);
+                icon_for_attachment = (ImageView) convertView.findViewById(R.id.icon_for_attachment);
                 icon_for_attachment.setVisibility(View.VISIBLE);
                 icon_for_attachment.setBackgroundResource(R.drawable.attachment);
                 icon_for_attachment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_VIEW);
+                        intent.setDataAndType(Uri.parse(ArrayList.get(position).getImg_of_notice()), "application/pdf");
+                        context.startActivity(intent);
                     }
                 });
             }
 
             else{
+                icon_for_attachment.setVisibility(View.GONE);
                 holder.msg_notice_image.setVisibility(View.VISIBLE);
                 Picasso.with(context)
                         .load(ArrayList.get(position).getImg_of_notice())
@@ -95,6 +113,7 @@ public class StudentNoticePageAdaptor extends BaseAdapter {
         else
         {
             //holder.msg_notice_image.setImageDrawable(context.getResources().getDrawable(R.drawable.last));
+            icon_for_attachment.setVisibility(View.GONE);
             holder.msg_notice_image.setVisibility(View.GONE);
         }
 

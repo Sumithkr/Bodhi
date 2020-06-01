@@ -87,15 +87,8 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="35dp"
                 android:background="@drawable/buttonbackwhite"
-                android:drawableLeft="@drawable/upload_book_button" />
+                android:drawableLeft="@drawable/attachment" />
 
-            <Button
-                android:id="@+id/pick_img"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/buttonbackwhite"
-                android:drawableLeft="@drawable/upload_img_button" />
         </LinearLayout>
 
         <LinearLayout

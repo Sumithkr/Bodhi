@@ -1,5 +1,6 @@
 package com.bia.bodhinew.School;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -32,18 +33,19 @@ import androidx.fragment.app.Fragment;
 public class StudentsFragment extends Fragment {
     String[] Class_list = { "Select Class","1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     String Cls;
-    ImageView nodata;
-    ListView list_students;
-    String[] StudentName = new String[1000];
-    String[] StudentID = new String[1000];
+    static ImageView nodata;
+    static ListView list_students;
+    static String[] StudentName = new String[1000];
+    static String[] StudentID = new String[1000];
     String[] StudentEmail = new String[1000];
     String[] StudentDateTime = new String[1000];
-    String[] StudentisEnable = new String[1000];
+    static String[] StudentisEnable = new String[1000];
     String data;
-    private ViewStudentShowAdaptor adaptor;
+    private static ViewStudentShowAdaptor adaptor;
     AutoCompleteTextView autoCompleteTextView;
-    ArrayList<Modelclass> list;
-    String[] hints= new String[100];
+    static ArrayList<Modelclass> list;
+    static String[] hints= new String[100];
+    static Context c;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class StudentsFragment extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_students, container, false);
         //StartServerFile();
         nodata = (ImageView)v.findViewById(R.id.nodata);
+        c = getActivity();
         // Class spinner
         Spinner spin = (Spinner)v. findViewById(R.id.StudentsFragment_Class);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
@@ -163,8 +166,40 @@ public class StudentsFragment extends Fragment {
             e.printStackTrace();
         }
     }
+    private static ArrayList<Modelclass> GetPublisherResults(String id)
+    {
+        ArrayList<Modelclass> results = new ArrayList<>();
+        int k =0;
+        if(StudentName[k] == null)
+        {
+            nodata.setVisibility(View.VISIBLE);
+            list_students.setVisibility(View.GONE);
+        }
 
-    private ArrayList<Modelclass> GetPublisherResults()
+        while (StudentName[k] != null)
+        {
+            nodata.setVisibility(View.GONE);
+            list_students.setVisibility(View.VISIBLE);
+            Modelclass ar1 = new Modelclass();
+            hints[k]=  StudentName[k];
+            if (StudentisEnable[k].equals("1") && id.equals(StudentID[k]) == false)
+            {
+                ar1.setStudent_name(StudentName[k]);
+                ar1.setID(StudentID[k]);
+                results.add(ar1);
+            }
+
+            k++;
+        }
+
+
+        for(int j=k;j<hints.length;j++)
+        {
+            hints[j] = "";
+        }
+        return results;
+    }
+    private static ArrayList<Modelclass> GetPublisherResults()
     {
         ArrayList<Modelclass> results = new ArrayList<>();
         int k =0;
@@ -234,5 +269,20 @@ public class StudentsFragment extends Fragment {
             e.printStackTrace();
             return "error";
         }
+    }
+
+    public static void regenerate(String id)
+    {
+        //StartServerFile();
+
+        adaptor = new ViewStudentShowAdaptor(c, GetPublisherResults(id));
+        list_students.setAdapter(adaptor);
+    }
+
+    public static void refresh(String id)
+    {
+        //StartServerFile();
+        list.clear();
+        regenerate(id);
     }
 }

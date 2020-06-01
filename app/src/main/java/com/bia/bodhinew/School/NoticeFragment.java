@@ -1,7 +1,6 @@
 package com.bia.bodhinew.School;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
@@ -51,8 +49,7 @@ public class NoticeFragment extends Fragment {
 
         nodata = (ImageView)v.findViewById(R.id.nodata);
         notice_list = v.findViewById(R.id.notice_list);
-        Log.e("class", Cls);
-        StartServerFile();
+        //StartServerFile();
        //Class spinner
         spin_class = (Spinner)v. findViewById(R.id.NoticeFragment_Class);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
@@ -61,17 +58,18 @@ public class NoticeFragment extends Fragment {
         spin_class.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                 Cls = "";
-                if(position != 0) {
-                    Cls = Class_list[position];
-                    Log.e("class", Cls);
-                   // NoticeClass[position] = Cls;
-                    Arrays.fill(NoticeContent, null);
-                    Arrays.fill(NoticeDateTime, null);
-                    Arrays.fill(NoticeClass, null);
-                    Arrays.fill(NoticeUrl, null);
 
+                 Cls = "";
+                if(position != 0)
+                {
+                    Cls = Class_list[position];
                 }
+                else {
+                    // All data to be shown without any condition
+                    Cls = "All";
+                }
+                GetPublisherResults(Cls);
+                Log.e("class", Cls);
             }
 
             @Override
@@ -118,41 +116,65 @@ public class NoticeFragment extends Fragment {
     }
 
 
-    private ArrayList<Modelclass> GetPublisherResults() {
+    private ArrayList<Modelclass> GetPublisherResults(String Cls) {
         ArrayList<Modelclass> results = new ArrayList<>();
+        Log.e("cls",Cls);
+        int i = 0;
 
-        int i =0;
-        if(NoticeContent[i] == null)
-        {
-            nodata.setVisibility(View.VISIBLE);
-            notice_list.setVisibility(View.GONE);
-        }
-        while (NoticeContent[i] != null)
-        {
-            if (Cls == NoticeClass[i]) {
+        while (NoticeClass[i] != null)
+        {boolean checkdata = true;
+            Modelclass notice = new Modelclass();
+            if(Cls.equals("All"))
+            {
+                Log.e("checkone","All");
+                checkdata = false;
                 nodata.setVisibility(View.GONE);
                 notice_list.setVisibility(View.VISIBLE);
-                Modelclass notice = new Modelclass();
                 notice.setContent_of_notice(NoticeContent[i]);
                 notice.setDatetime_of_notice(NoticeDateTime[i]);
                 notice.setImg_of_notice(NoticeUrl[i]);
 
                 if (NoticeUrl[i].equals("") || NoticeUrl[i] == null) {
                     notice.setBoolImage(false);
+
                 } else {
                     if (NoticeUrl[i].contains(".jpg") || NoticeUrl[i].contains(".png") || NoticeUrl[i].contains(".jpeg")
                             || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf"))
                         notice.setBoolImage(true);
                 }
 
-                i++;
                 results.add(notice);
             }
-            else
+            else {
+                if (NoticeClass[i].equals(Cls))
                 {
+                    Log.e("checktwo","others");
+                    checkdata = false;
+                    nodata.setVisibility(View.GONE);
+                    notice_list.setVisibility(View.VISIBLE);
+                    notice.setContent_of_notice(NoticeContent[i]);
+                    notice.setDatetime_of_notice(NoticeDateTime[i]);
+                    notice.setImg_of_notice(NoticeUrl[i]);
+
+                    if (NoticeUrl[i].equals("") || NoticeUrl[i] == null) {
+                        notice.setBoolImage(false);
+
+                    } else {
+                        if (NoticeUrl[i].contains(".jpg") || NoticeUrl[i].contains(".png") || NoticeUrl[i].contains(".jpeg")
+                                || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf"))
+                            notice.setBoolImage(true);
+                    }
+
+                    results.add(notice);
+                }
+            }
+            if (checkdata == true)
+            {
+                Log.e("true or false","checkthree");
                 nodata.setVisibility(View.VISIBLE);
                 notice_list.setVisibility(View.GONE);
             }
+            i++;
         }
         return results;
     }
@@ -203,7 +225,7 @@ public class NoticeFragment extends Fragment {
                 Log.e("noticeclass",NoticeClass[i]);
                 NoticeDateTime[i] = obj.getString("DateTime");
             }
-            final ArrayList<Modelclass> listing_of_notice = GetPublisherResults();
+            final ArrayList<Modelclass> listing_of_notice = GetPublisherResults(Cls);
             notice_list.setAdapter(new SchoolNoticeShowAdaptor(getActivity(), listing_of_notice));
         }
         catch (Exception e)

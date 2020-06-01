@@ -72,8 +72,6 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
         Notice = (EditText)findViewById(R.id.Notice);
         Doc = (Button)findViewById(R.id.pick_doc);
         Doc.setOnClickListener(this);
-        Img = (Button)findViewById(R.id.pick_img);
-        Img.setOnClickListener(this);
         Notice_post_post = (Button)findViewById(R.id.Notice_post_post);
         Notice_post_post.setOnClickListener(this);
     }
@@ -198,33 +196,34 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
 
     public void opendoc()
     {
-        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseFile.setType("application/epub+zip");
-        chooseFile = Intent.createChooser(chooseFile, "Choose a file");
-        startActivityForResult(chooseFile,100);
+        String[] mimeTypes =
+                {"application/pdf","application/msword",
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document","image/*"};
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
+            if (mimeTypes.length > 0) {
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+            }
+        } else {
+            String mimeTypesStr = "";
+            for (String mimeType : mimeTypes) {
+                mimeTypesStr += mimeType + "|";
+            }
+            intent.setType(mimeTypesStr.substring(0,mimeTypesStr.length() - 1));
+        }
+        startActivityForResult(Intent.createChooser(intent,"ChooseFile"), 100);
     }
 
-
-    public void openimg()
-    {
-        Intent choosevideo = new Intent(Intent.ACTION_GET_CONTENT);
-        choosevideo.setType("image/*");
-        choosevideo = Intent.createChooser(choosevideo, "Choose a video");
-        startActivityForResult(choosevideo,PICK_FROM_GALLERY);
-
-
-    }
 
     @Override
     public void onClick(View v) {
         if(v == Doc)
         {
             opendoc();
-        }
-
-        if (v == Img)
-        {
-            openimg();
         }
 
         if (v == Notice_post_post)

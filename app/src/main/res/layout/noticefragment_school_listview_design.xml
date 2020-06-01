@@ -112,7 +112,7 @@ Can easily edit your school, username."
                             android:id="@+id/icon_for_attachment"
                             android:layout_width="31dp"
                             android:layout_height="23dp"
-                            android:visibility="invisible"
+                            android:visibility="gone"
                             android:layout_centerVertical="true"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true" />

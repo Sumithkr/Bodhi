@@ -1,24 +1,19 @@
 package com.bia.bodhinew.School;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.bia.bodhinew.School.StudentsFragment;
 
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ViewStudentShowAdaptor extends BaseAdapter {
     Context context;
@@ -77,7 +72,13 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
         return convertView;
     }
 
-    public void Delete_student(String id)
+    public void refreshEvents(ArrayList<Modelclass> events) {
+        this.ArrayList.clear();
+        this.ArrayList.addAll(events);
+        notifyDataSetChanged();
+    }
+
+    public void Delete_student(final String id)
     {
 
         String pack = "http://bodhi.shwetaaromatics.co.in/School/DisableStudent.php?UserID="+id;
@@ -92,6 +93,11 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
                 try
                 {
                     Log.e("TAG","Selected Members Deleted.......");
+                    StudentsFragment.refresh(id);
+
+
+
+
 
                 }
                 catch (Exception e)
@@ -108,5 +114,7 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
         ImageView student_icon;
 
     }
+
+
 }
 
