@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 public class Master_activity extends AppCompatActivity {
 
+    HomePageSchool home= new HomePageSchool();
 
     BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -27,7 +28,7 @@ public class Master_activity extends AppCompatActivity {
             Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.Home:
-                    fragment = new HomeFragment();
+                    fragment = new HomePageSchool();
                     break;
                 case R.id.Upload:
                     fragment = new UploadFragment();
@@ -53,6 +54,7 @@ public class Master_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_master_activity);
         isStoragePermissionGranted();
+        loadFragment(home);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }

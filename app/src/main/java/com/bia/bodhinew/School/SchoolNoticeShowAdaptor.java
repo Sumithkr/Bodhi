@@ -13,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +30,6 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import androidx.core.content.FileProvider;
-import in.gauriinfotech.commons.Commons;
 
 public class SchoolNoticeShowAdaptor extends BaseAdapter {
     Context context;

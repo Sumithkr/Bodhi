@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    tools:context=".Student.HomePage">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/master_student_bg"
+            android:gravity="center_vertical">
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="K.C.M Public School"
+                android:textSize="20sp"
+                android:paddingRight="24dp"
+                android:textColor="@color/White"
+                android:gravity="end"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="Videos"
+                android:paddingStart="20dp" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sumith Kumar"
+                android:paddingLeft="10dp"
+                android:textColor="@color/darkgrey"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Videos"
+                android:paddingLeft="10dp"
+                android:textColor="@color/Black"
+                android:textSize="17sp" />
+
+            <TextView
+
+                android:id="@+id/total_videos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10 Videos"
+                android:paddingRight="10dp"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:id="@+id/recyclerView"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Books"
+                android:paddingLeft="10dp"
+                android:textColor="@color/Black"
+                android:textSize="17sp" />
+
+            <TextView
+
+                android:id="@+id/total_book"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10 Books"
+                android:paddingRight="10dp"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:id="@+id/recyclerViewBooks"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Revision"
+                android:paddingLeft="10dp"
+                android:textColor="@color/Black"
+                android:textSize="17sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Articles"
+                android:paddingLeft="10dp"
+                android:textColor="@color/darkgrey"
+                android:textSize="17sp" />
+
+            <TextView
+
+                android:id="@+id/total_articles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10 Articles"
+                android:paddingRight="10dp"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/recyclerViewRevisionArticles"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Media Attachments"
+                android:paddingLeft="10dp"
+                android:textColor="@color/darkgrey"
+                android:textSize="17sp" />
+
+            <TextView
+
+                android:id="@+id/total_media_attachements"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10 Attachments"
+                android:paddingRight="10dp"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            android:id="@+id/recyclerViewRevisionMedia"
+            android:orientation="horizontal" />
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subjects"
+                android:paddingLeft="10dp"
+                android:textColor="@color/darkgrey"
+                android:textSize="17sp" />
+
+            <TextView
+
+                android:id="@+id/total_subject"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10 Subject"
+                android:paddingRight="10dp"
+                android:textColor="@color/grey"
+                android:textSize="15sp"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:id="@+id/recyclerViewSubject"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

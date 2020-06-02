@@ -88,7 +88,7 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
                 JSONObject obj = jsonArray.getJSONObject(i);
                 if(obj.getString("result").equals("yes"))
                 {
-                    //Intent main= new Intent(getApplicationContext(), HomePage.class);
+                    //Intent main= new Intent(getApplicationContext(), HomePageSchool.class);
                    // startActivity(main);
                    // finish();
 
