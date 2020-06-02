@@ -3,6 +3,9 @@ package com.bia.bodhinew.School;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bia.bodhinew.R;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.io.IOException;
@@ -31,7 +35,8 @@ public class HomePageRecyclerAdapterForVideosSchool extends RecyclerView.Adapter
     private Context mContext;*/
 
 
-    public HomePageRecyclerAdapterForVideosSchool(Context mContext, java.util.ArrayList<HomeDetailsGetandSetVideosSchool> homeClass) {
+    public HomePageRecyclerAdapterForVideosSchool(Context mContext, java.util.ArrayList<HomeDetailsGetandSetVideosSchool> homeClass)
+    {
 
         ArrayList = homeClass;
         context = mContext;
@@ -46,27 +51,32 @@ public class HomePageRecyclerAdapterForVideosSchool extends RecyclerView.Adapter
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position)
+    {
         Log.e(TAG, "onBindViewHolder: called.");
 
         RequestOptions requestOptions= new RequestOptions();
         requestOptions.error(R.drawable.ic_launcher_background);
 
-        /*Glide.with(mContext)
-                .load(mImageUrls.get(position))
+      /*  Glide.with(context)
+                .load(ArrayList.get(position).getThumbnailURL())
                 .apply(requestOptions)
-                .thumbnail(Glide.with(mContext).load(mImageUrls.get(position)))
-                .into(holder.image);*/
+                //.thumbnail(Glide.with(context).load(mImageUrls.get(position)))
+                .into(holder.EntityName);  */
 
         /*Glide.with(mContext)
                 .load(mImageUrls.get(position))
                 .asBitmap()
                 .into(holder.image);*/
 
-        holder.EntityName.setText(ArrayList.get(position).getName());
-        /*Bitmap VideoThumbnail = getBitmapFromURL(ArrayList.get(position).getThumbnailURL());
+      /*  holder.EntityName.setText(ArrayList.get(position).getName());
+        Bitmap VideoThumbnail = getBitmapFromURL(ArrayList.get(position).getThumbnailURL());
         Drawable VideoDrawable= new BitmapDrawable(VideoThumbnail);
-        holder.EntityName.setBackgroundDrawable(VideoDrawable);*/
+        holder.EntityName.setBackgroundDrawable(VideoDrawable); */
+
+        AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner(ArrayList.get(position).getThumbnailURL(),holder);
+        asyncTaskRunner.execute();
+
         holder.EntitySubjectName.setText(ArrayList.get(position).getSubjectName());
         holder.EntityDescription.setText(ArrayList.get(position).getDescription());
 
@@ -117,6 +127,44 @@ public class HomePageRecyclerAdapterForVideosSchool extends RecyclerView.Adapter
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+    private class AsyncTaskRunner extends AsyncTask<String, String, String>
+    {
+        String Imageurl;
+        Bitmap bitmap;
+        ViewHolder holder;
+
+        public AsyncTaskRunner(String Imageurl, ViewHolder holder) {
+            this.Imageurl = Imageurl;
+            this.holder = holder;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+
+                URL url = new URL(Imageurl);
+                bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s)
+        {
+            super.onPostExecute(s);
+
+            Drawable VideoDrawable= new BitmapDrawable(bitmap);
+            holder.EntityName.setBackgroundDrawable(VideoDrawable);
+
+
         }
     }
 

@@ -91,7 +91,7 @@
         <androidx.recyclerview.widget.RecyclerView
 
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="210dp"
             android:id="@+id/recyclerView"
             android:orientation="horizontal" />
 
@@ -127,7 +127,7 @@
         <androidx.recyclerview.widget.RecyclerView
 
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="270dp"
             android:id="@+id/recyclerViewBooks"
             android:orientation="horizontal" />
 
@@ -180,7 +180,7 @@
         <androidx.recyclerview.widget.RecyclerView
 
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="250dp"
             android:id="@+id/recyclerViewRevisionArticles"
             android:orientation="horizontal" />
 
@@ -215,7 +215,7 @@
         <androidx.recyclerview.widget.RecyclerView
 
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="210dp"
             android:id="@+id/recyclerViewRevisionMedia"
             android:orientation="horizontal" />
 

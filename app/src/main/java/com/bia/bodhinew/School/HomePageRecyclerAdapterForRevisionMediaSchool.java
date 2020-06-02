@@ -48,7 +48,7 @@ public class HomePageRecyclerAdapterForRevisionMediaSchool extends RecyclerView.
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_recycler_listview_revisonmedia, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_recycler_listview_revisonmedia_school, parent, false);
         return new ViewHolder(view);
     }
 

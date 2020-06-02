@@ -140,7 +140,8 @@ public class HomePageRecyclerAdapterForBooksSchool extends RecyclerView.Adapter<
         }
     }
 
-    public void DeleteItem(int position){
+
+    public void DeleteItem(final int position){
 
         Log.e("Upload ID", ArrayList.get(position).getUploadID());
 
@@ -156,6 +157,8 @@ public class HomePageRecyclerAdapterForBooksSchool extends RecyclerView.Adapter<
                 try
                 {
                     ConvertFromJSON(output);
+
+                    HomePageSchool.initRecyclerViewBooks(ArrayList.get(position).getUploadID());
                 }
                 catch (Exception e)
                 {
