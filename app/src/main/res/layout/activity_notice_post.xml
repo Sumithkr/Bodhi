@@ -75,7 +75,6 @@
             android:id="@+id/Notice"
             android:layout_width="350dp"
             android:layout_height="250dp"
-            android:layout_marginLeft="10dp"
             android:background="@drawable/boundarywhitish"
             android:gravity="top"
             android:hint="Write Something"
