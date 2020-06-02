@@ -49,7 +49,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
 
     EditText Revision_name,Revision_description;
     Button RevisionFragment_upload ,pick_file;
-    String[] Class_list = { "Select Class","1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
+    String[] Class_list = { "Class","1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     ArrayList<String> SubjectName = new ArrayList();
     ArrayList<String> SubjectID = new ArrayList();
     String ID;
@@ -152,7 +152,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
     {
         try
         {
-            SubjectName.add("Select Subject");
+            SubjectName.add("Subject");
             SubjectID.add(String.valueOf(0));
             JSONArray jsonArray = new JSONArray(json);
             for (int i = 0; i < jsonArray.length(); i++)

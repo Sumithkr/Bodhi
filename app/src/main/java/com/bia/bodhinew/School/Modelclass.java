@@ -17,8 +17,7 @@ public class Modelclass {
     //previously watched
     private String file_name = "";
     private String file_description = "";
-    private String file_url = "";
-
+    private String subject_name = "";
 
     public void setContent_of_notice(String content_of_notice) { this.content_of_notice = content_of_notice;
     }
@@ -91,6 +90,14 @@ public class Modelclass {
 
     public String getFile_description() {
         return file_description;
+    }
+
+
+    public void setSubject_name(String subject_name) { this.subject_name = subject_name;
+    }
+
+    public String getSubject_name() {
+        return subject_name;
     }
 
 

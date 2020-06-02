@@ -10,11 +10,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:background="@drawable/master_student_bg">
 
         <Button
-            android:id="@+id/pick_File"
+            android:id="@+id/BackButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="start"
@@ -23,8 +23,7 @@
             android:drawableLeft="@drawable/arrow_back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.653" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
 

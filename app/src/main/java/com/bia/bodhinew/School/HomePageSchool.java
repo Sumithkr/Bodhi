@@ -65,7 +65,7 @@ public class HomePageSchool extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        RootView = inflater.inflate(R.layout.activity_home_page, container, false);
+        RootView = inflater.inflate(R.layout.activity_home_page_school, container, false);
 
         TotalVideos= RootView.findViewById(R.id.total_videos);
         TotalBooks = RootView.findViewById(R.id.total_book);

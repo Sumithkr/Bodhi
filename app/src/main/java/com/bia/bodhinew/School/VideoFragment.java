@@ -46,7 +46,7 @@ import in.gauriinfotech.commons.Commons;
 import static android.app.Activity.RESULT_OK;
 
 public class VideoFragment extends Fragment implements View.OnClickListener {
-    String[] Class_list = {"Select Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
+    String[] Class_list = {"Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     Spinner spin_subjects;
     Uri filePath,thumbnailuri;
     EditText Video_name,Video_description;
@@ -152,7 +152,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     {
         try
         {
-            SubjectName.add("Select Subject");
+            SubjectName.add("Subject");
             SubjectID.add(String.valueOf(0));
             JSONArray jsonArray = new JSONArray(json);
             for (int i = 0; i < jsonArray.length(); i++)

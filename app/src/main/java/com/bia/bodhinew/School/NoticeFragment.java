@@ -32,8 +32,8 @@ public class NoticeFragment extends Fragment {
     String[] NoticeUrl = new String[1000];
     String[] NoticeClass = new String[1000];
     String[] NoticeDateTime = new String[1000];
-    String[] Class_list = {"Select Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
-    String[] Days_list = {"Select Days","30", "60", "90", "120"};
+    String[] Class_list = {"Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
+    String[] Days_list = {"Days","30", "60", "90", "120"};
     Spinner spin_class,spin_days;
     String Cls ="All" ,Day;
     ListView notice_list;

@@ -18,6 +18,8 @@ import com.bia.bodhinew.School.ViewStudentShowAdaptor;
 
 import java.util.ArrayList;
 
+import androidx.cardview.widget.CardView;
+
 public class Previously_watched_adaptor extends BaseAdapter {
     Context context;
     private static java.util.ArrayList<Modelclass> ArrayList;
@@ -53,6 +55,7 @@ public class Previously_watched_adaptor extends BaseAdapter {
             holder.file_name=(TextView)convertView.findViewById(R.id.FileName);
             holder.file_description=(TextView)convertView.findViewById(R.id.FileDescription);
             holder.file_datetime=(TextView)convertView.findViewById(R.id.FileDatetime);
+            holder.subjectname=(TextView)convertView.findViewById(R.id.SubjectName);
             //     ArrayList.get(position).setID();
 
             convertView.setTag(holder);
@@ -63,11 +66,12 @@ public class Previously_watched_adaptor extends BaseAdapter {
         holder.file_name.setText(ArrayList.get(position).getFile_name());
         holder.file_description.setText(ArrayList.get(position).getFile_description());
         holder.file_datetime.setText(ArrayList.get(position).getDatetime_of_notice());
+        holder.subjectname.setText(ArrayList.get(position).getSubject_name());
         return convertView;
     }
 
     static class ViewHolder {
-        TextView file_name,file_description,file_datetime;
+        TextView file_name,file_description,file_datetime,subjectname;
 
     }
 

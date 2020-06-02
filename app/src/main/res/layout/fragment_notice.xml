@@ -7,97 +7,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
+    android:background="@color/White"
     tools:context=".School.NoticeFragment">
-
-    <RelativeLayout
-        android:layout_weight=".1"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Notice"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:textSize="20sp"
-            android:textColor="#000"
-            />
-
-    </RelativeLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="180dp"
+        android:background="@drawable/notice_bg">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
+        <Button
+            android:id="@+id/BackButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/buttonbackwhite"
+            android:drawableLeft="@drawable/arrow_back"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="SELECT CLASS">
-
-            </TextView>
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/NoticeFragment_Class"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/spinner_background"
-                android:elevation="3dp"
-                android:textAlignment="center"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout8"
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.22" />
 
-            <TextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/BackButton"
+            app:layout_constraintVertical_bias="0.529">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="SELECT MONTH">
+                android:layout_margin="10dp">
 
-            </TextView>
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/NoticeFragment_Class"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/spinner_background"
+                    android:elevation="3dp"
+                    android:textAlignment="center"
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/NoticeFragment_Month"
-                android:layout_width="120dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout8"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/spinner_background"
-                android:elevation="3dp"
-                android:textAlignment="center"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
 
-                />
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/NoticeFragment_Month"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/spinner_background"
+                    android:elevation="3dp"
+                    android:textAlignment="center"
+
+                    />
+            </LinearLayout>
+
         </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
-        android:layout_weight=".8"
+        android:layout_weight=".97"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -106,7 +88,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="5dp">
 
             <ImageView
                 android:id="@+id/nodata"
@@ -129,13 +111,10 @@
 
     </LinearLayout>
 
-
-
     <LinearLayout
-        android:layout_weight=".1"
+        android:layout_weight=".03"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center">
 
         <Button

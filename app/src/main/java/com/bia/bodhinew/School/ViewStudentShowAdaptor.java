@@ -58,7 +58,7 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
 
         holder.student_name.setText(ArrayList.get(position).getStudent_name());
         Log.e("content",ArrayList.get(position).getStudent_name());
-        holder.student_icon.setBackgroundResource(R.drawable.name_icon);
+        holder.student_icon.setBackgroundResource(R.drawable.student);
         final ImageButton ok_delete = (ImageButton) convertView.findViewById(R.id.delete);
         ok_delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,12 +70,6 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
             }
         });
         return convertView;
-    }
-
-    public void refreshEvents(ArrayList<Modelclass> events) {
-        this.ArrayList.clear();
-        this.ArrayList.addAll(events);
-        notifyDataSetChanged();
     }
 
     public void Delete_student(final String id)
@@ -94,10 +88,6 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
                 {
                     Log.e("TAG","Selected Members Deleted.......");
                     StudentsFragment.refresh(id);
-
-
-
-
 
                 }
                 catch (Exception e)

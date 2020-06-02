@@ -36,7 +36,7 @@ import java.io.FileInputStream;
 import java.util.UUID;
 
 public class Notice_post extends AppCompatActivity implements View.OnClickListener {
-    String[] Class_list = {"Select Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
+    String[] Class_list = {"Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     EditText Notice;
     Button Doc,Img,Notice_post_post;
     private static final int PICK_FROM_GALLERY = 101;
