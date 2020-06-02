@@ -1,14 +1,18 @@
 package com.bia.bodhinew.Student;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.bia.bodhinew.R;
+import com.bia.bodhinew.School.LoginActivitySchool;
+import com.bia.bodhinew.School.Master_activity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,6 +43,7 @@ public class HomePage extends Fragment {
     String[] isPublic= new String[1000];
     String[] StudentClass= new String[1000];
     ProgressDialog dialog1;
+    Button Previously_watched_button;
     private boolean firstTime = true;
     int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0, SubjectContain=0;
     TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles;
@@ -115,6 +120,14 @@ public class HomePage extends Fragment {
         TotalBooks = RootView.findViewById(R.id.total_book);
         TotalArticles = RootView.findViewById(R.id.total_articles);
         TotalMediaAttachments= RootView.findViewById(R.id.total_media_attachements);
+        Previously_watched_button = (Button)RootView.findViewById(R.id.Previously_watched_button);
+        Previously_watched_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent success = new Intent(getActivity(), Previously_watched.class);
+                startActivity(success);
+            }
+        });
 
         StartServerFile();
 

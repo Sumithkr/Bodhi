@@ -255,6 +255,19 @@
             android:id="@+id/recyclerViewSubject"
             android:orientation="horizontal" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+            <Button
+                android:id="@+id/Previously_watched_button"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:text="Incomplete"></Button>
+
+        </LinearLayout>
+
     </LinearLayout>
+
 
 </androidx.core.widget.NestedScrollView>
