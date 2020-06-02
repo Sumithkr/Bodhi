@@ -23,7 +23,6 @@ public class UpdateCredentials extends AppCompatActivity {
 
         email= findViewById(R.id.email);
         password= findViewById(R.id.password);
-        update= findViewById(R.id.update);
 
 
 

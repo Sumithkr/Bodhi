@@ -147,7 +147,7 @@ public class HomePageRecyclerAdapterForRevisionArticleSchool extends RecyclerVie
         }
     }
 
-    public void DeleteItem(int position){
+    public void DeleteItem(final int position){
 
         Log.e("Upload ID", ArrayList.get(position).getUploadID());
 
@@ -163,6 +163,9 @@ public class HomePageRecyclerAdapterForRevisionArticleSchool extends RecyclerVie
                 try
                 {
                     ConvertFromJSON(output);
+
+                    HomePageSchool.initRecyclerViewRevisionArticle(ArrayList.get(position).getUploadID());
+
                 }
                 catch (Exception e)
                 {
@@ -183,6 +186,7 @@ public class HomePageRecyclerAdapterForRevisionArticleSchool extends RecyclerVie
             for (int i = 0; i < jsonArray.length(); i++)
             {
                 JSONObject obj = jsonArray.getJSONObject(i);
+                Log.e("Result", obj.getString("result"));
                 if(obj.getString("result").equals("yes"))
                 {
                     Toast.makeText(context,"Item Deleted",Toast.LENGTH_SHORT).show();
@@ -225,5 +229,7 @@ public class HomePageRecyclerAdapterForRevisionArticleSchool extends RecyclerVie
             return "error";
         }
     }
+
+
 
 }

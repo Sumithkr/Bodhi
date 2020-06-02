@@ -37,7 +37,7 @@ public class HomeDetailsGetandSetBooksSchool {
         return URL;
     }
 
-    public void setThumbnailURL(String video_costing) { this.ThumbnailURL = ThumbnailURL; }
+    public void setThumbnailURL(String ThumbnailURL) { this.ThumbnailURL = ThumbnailURL; }
 
     public String getThumbnailURL() {
         return ThumbnailURL;

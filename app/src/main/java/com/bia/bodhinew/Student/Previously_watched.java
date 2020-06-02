@@ -20,6 +20,7 @@ import com.bia.bodhinew.School.ViewStudentShowAdaptor;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,14 +32,14 @@ public class Previously_watched extends AppCompatActivity {
     static ListView list_previously_watched;
     static String[] FileName = new String[1000];
     static String[] FileID = new String[1000];
-    String[] FileUrl = new String[1000];
-    String[] FileThumbnailUrl = new String[1000];
-    String[] FileDescription = new String[1000];
-    String[] FileDateTime = new String[1000];
-    String[] SubjectName = new String[1000];
-    String[] SubjectID = new String[1000];
-    String[] ispublic = new String[1000];
-    String[] Type = new String[1000];
+    static String[] FileUrl = new String[1000];
+    static String[] FileThumbnailUrl = new String[1000];
+    static String[] FileDescription = new String[1000];
+    static String[] FileDateTime = new String[1000];
+    static String[] SubjectName = new String[1000];
+    static String[] SubjectID = new String[1000];
+    static String[] ispublic = new String[1000];
+    static String[] Type = new String[1000];
     static ArrayList<Modelclass> list;
 
     @Override
@@ -46,6 +47,7 @@ public class Previously_watched extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_previously_watched);
         nodata = (ImageView)findViewById(R.id.nodata);
+        StartServerFile();
         // Class spinner
         Spinner spin = (Spinner) findViewById(R.id.Previously_watched_category);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, Categories);
@@ -79,7 +81,8 @@ public class Previously_watched extends AppCompatActivity {
     public void StartServerFile()
     {
 
-        String url = "http://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+file_retreive();
+       // String url = "http://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+file_retreive();
+        String url = "http://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+38;
         Log.e("url",url);
         com.bia.bodhinew.FetchFromDB asyncTask = (com.bia.bodhinew.FetchFromDB) new com.bia.bodhinew.FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -150,7 +153,10 @@ public class Previously_watched extends AppCompatActivity {
             nodata.setVisibility(View.GONE);
             list_previously_watched.setVisibility(View.VISIBLE);
             Modelclass ar1 = new Modelclass();
-
+            ar1.setFile_name(FileName[k]);
+            ar1.setFile_description(FileDescription[k]);
+            ar1.setDatetime_of_notice(FileDateTime[k]);
+            results.add(ar1);
 
             k++;
         }

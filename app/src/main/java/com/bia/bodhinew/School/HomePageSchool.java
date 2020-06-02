@@ -1,6 +1,7 @@
 package com.bia.bodhinew.School;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,89 +24,42 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class HomePageSchool extends Fragment {
 
-    ArrayList<HomeDetailsGetandSetVideosSchool> homeClassVideos;
-    ArrayList<HomeDetailsGetandSetBooksSchool> homeClassBooks;
-    ArrayList<HomeDetailsGetandSetRevisionArticleSchool> homeClassRevisionArticles;
-    ArrayList<HomeDetailsGetandSetRevisionMediaSchool> homeClassRevisionMedia;
-    ArrayList<HomeDetailsGetandSetSubjectsSchool> homeClassSubjects;
-    String[] UploadID = new String[1000];
-    String[] Name= new String[1000];
-    String[] DateTime= new String[1000];
-    String[] Description = new String[1000];
-    String[] FileURL= new String[1000];
-    String[] ThumbnailURL = new String[1000];
-    String[] SubjectID= new String[1000];
-    String[] SubjectName = new String[1000];
-    String[] Type= new String[1000];
-    String[] isPublic= new String[1000];
+    static ArrayList<HomeDetailsGetandSetVideosSchool> homeClassVideos;
+    static ArrayList<HomeDetailsGetandSetBooksSchool> homeClassBooks;
+    static ArrayList<HomeDetailsGetandSetRevisionArticleSchool> homeClassRevisionArticles;
+    static ArrayList<HomeDetailsGetandSetRevisionMediaSchool> homeClassRevisionMedia;
+    static ArrayList<HomeDetailsGetandSetSubjectsSchool> homeClassSubjects;
+    static String[] UploadID = new String[1000];
+    static String[] Name= new String[1000];
+    static String[] DateTime= new String[1000];
+    static String[] Description = new String[1000];
+    static String[] FileURL= new String[1000];
+    static String[] ThumbnailURL = new String[1000];
+    static String[] SubjectID= new String[1000];
+    static String[] SubjectName = new String[1000];
+    static String[] Type= new String[1000];
+    static String[] isPublic= new String[1000];
     String[] StudentClass= new String[1000];
     ProgressDialog dialog1;
     private boolean firstTime = true;
-    int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0, SubjectContain=0;
+    static int universal=0;
+    int TotalVideoint= 0;
+    static int TotalBooksint =0;
+    int TotalMediaAttachmentsint =0;
+    int TotalArticlesint =0;
+    int SubjectContain=0;
     TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles;
-    ArrayList<HomeDetailsGetandSetVideosSchool> resultsVideos = new ArrayList<>();
-    ArrayList<HomeDetailsGetandSetBooksSchool> resultsBooks = new ArrayList<>();
-    ArrayList<HomeDetailsGetandSetRevisionArticleSchool> resultsRevisionArticle = new ArrayList<>();
-    ArrayList<HomeDetailsGetandSetRevisionMediaSchool> resultsRevisonMedia = new ArrayList<>();
+    static ArrayList<HomeDetailsGetandSetVideosSchool> resultsVideos = new ArrayList<>();
+    static ArrayList<HomeDetailsGetandSetBooksSchool> resultsBooks = new ArrayList<>();
+    static ArrayList<HomeDetailsGetandSetRevisionArticleSchool> resultsRevisionArticle = new ArrayList<>();
+    static ArrayList<HomeDetailsGetandSetRevisionMediaSchool> resultsRevisonMedia = new ArrayList<>();
     ArrayList<HomeDetailsGetandSetSubjectsSchool> resultsSubjects = new ArrayList<>();
     ArrayList<String> resultSubjectCopy= new ArrayList<>();
 
 
-    View RootView;
+    static View RootView;
+    static Context c;
 
-    /*public void  checkPermission()
-    {
-        Dexter.withActivity(this)
-                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .withListener(new PermissionListener()
-                {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        // permission is granted, open the camera
-                        if(firstTime)
-                        {
-                            Log.e("permission", "granted");
-                            //new UploadFeed().execute();
-                            firstTime = false;
-                        }
-
-//                        Toast.makeText(MainActivity.this, "permission granted", Toast.LENGTH_SHORT).show();
-                        //    new UploadFeed().execute();
-                    }
-
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response)
-                    {
-                        // check for permanent denial of permission
-                        Log.e("permission","denied");
-//                      Toast.makeText(MainActivity.this, "permission denied", Toast.LENGTH_SHORT).show();
-                        new HomePageSchool().finish();
-                        moveTaskToBack(false);
-                        firstTime = true;
-
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", getPackageName(), null);
-                        intent.setData(uri);
-                        startActivity(intent);
-                        /*if (response.isPermanentlyDenied()) {
-                            // navigate user to app settings
-
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(com.karumi.dexter.listener.PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
-
-    }*/
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        checkPermission();
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,7 +70,7 @@ public class HomePageSchool extends Fragment {
         TotalBooks = RootView.findViewById(R.id.total_book);
         TotalArticles = RootView.findViewById(R.id.total_articles);
         TotalMediaAttachments= RootView.findViewById(R.id.total_media_attachements);
-
+        c = getActivity();
         StartServerFile();
 
         return RootView;
@@ -192,10 +146,10 @@ public class HomePageSchool extends Fragment {
         }
 
         SettingTextViews();
-        initRecyclerViewVideos();
-        initRecyclerViewBooks();
-        initRecyclerViewRevisionArticle();
-        initRecyclerViewRevisionMedia();
+        initRecyclerViewVideos("0");
+        initRecyclerViewBooks("0");
+        initRecyclerViewRevisionArticle("0");
+        initRecyclerViewRevisionMedia("0");
         initRecyclerViewSubjects();
 
     }
@@ -231,7 +185,7 @@ public class HomePageSchool extends Fragment {
                     }*/
                     Type[i] = obj.getString("Type");
                     isPublic[i] = obj.getString("isPublic");
-                    //StudentClass[i] = obj.getString("Class");
+
 
                 }
 
@@ -253,43 +207,156 @@ public class HomePageSchool extends Fragment {
 
     }
 
-    private void initRecyclerViewVideos(){
+    public static void initRecyclerViewVideos(String MediaID){
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        if(!MediaID.equals("0"))
+        {
+            homeClassVideos.clear();
+            SetNewDatInVideoAdapter(MediaID);
+        }
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(c, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = RootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForVideosSchool adapter = new HomePageRecyclerAdapterForVideosSchool(getContext(), homeClassVideos);
+        HomePageRecyclerAdapterForVideosSchool adapter = new HomePageRecyclerAdapterForVideosSchool(c, homeClassVideos);
         recyclerView.setAdapter(adapter);
 
     }
+    public static void SetNewDatInVideoAdapter(String MediaID)
+    {
+        universal = 0;
+         //TotalVideos = 1;
+        while(Type[universal]!= null)
+        {
+            if(Type[universal].equals("1"))
+            {
+                if(!UploadID[universal].equals(MediaID) && !UploadID[universal].equals("null"))
+                {
+                    homeClassVideos = GetVideoDetailing();
+                    TotalBooksint++;
+                }
+                else
+                {
+                    UploadID[universal] = "null";
+                }
+            }
+            universal++;
+        }
+    }
 
-    private void initRecyclerViewBooks(){
+    public static void initRecyclerViewBooks(String MediaID)
+    {
+        if(!MediaID.equals("0"))
+        {
+            homeClassBooks.clear();
+            SetNewDatInBookAdapter(MediaID);
+        }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(c, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewBooks);
         recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForBooksSchool adapter = new HomePageRecyclerAdapterForBooksSchool(getContext(), homeClassBooks);
+        HomePageRecyclerAdapterForBooksSchool adapter = new HomePageRecyclerAdapterForBooksSchool(c, homeClassBooks);
         recyclerView.setAdapter(adapter);
 
     }
 
-    private void initRecyclerViewRevisionArticle(){
+  public static void SetNewDatInBookAdapter(String MediaID)
+  {
+      universal = 0;
+      TotalBooksint = 1;
+      while(Type[universal]!= null)
+      {
+          if(Type[universal].equals("0"))
+          {
+              if(!UploadID[universal].equals(MediaID) && !UploadID[universal].equals("null"))
+              {
+                  homeClassBooks = GetBooksDetailing();
+                  TotalBooksint++;
+              }
+              else
+              {
+                  UploadID[universal] = "null";
+              }
+          }
+          universal++;
+      }
+      //SetText in TotalNumber of books
+  }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+
+    public static void initRecyclerViewRevisionArticle(String MediaID)
+    {
+
+        if(!MediaID.equals("0"))
+        {
+            homeClassRevisionArticles.clear();
+            SetNewDatInRevisionArticleAdapter(MediaID);
+        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(c, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionArticles);
         recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForRevisionArticleSchool adapter = new HomePageRecyclerAdapterForRevisionArticleSchool(getContext(), homeClassRevisionArticles);
+        HomePageRecyclerAdapterForRevisionArticleSchool adapter = new HomePageRecyclerAdapterForRevisionArticleSchool(c, homeClassRevisionArticles);
         recyclerView.setAdapter(adapter);
     }
+    public static void SetNewDatInRevisionArticleAdapter(String MediaID)
+    {
+        universal = 0;
+        //TotalVideos = 1;
+        while(Type[universal]!= null)
+        {
+            if(Type[universal].equals("2")) {
+                if (FileURL[universal].contains(".mp4") || FileURL[universal].contains(".3gp")
+                        || FileURL[universal].contains(".jpg") || FileURL[universal].contains(".png")) {
+                } else {
+                    if (!UploadID[universal].equals(MediaID) && !UploadID[universal].equals("null")) {
+                        homeClassRevisionArticles = GetRevisionArticleDetailing();
+                        TotalBooksint++;
+                    } else {
+                        UploadID[universal] = "null";
+                    }
+                }
+            }
+            universal++;
+        }
+        //SetText of Total Number of Articles here
+    }
+    public static void initRecyclerViewRevisionMedia(String MediaID){
 
-    private void initRecyclerViewRevisionMedia(){
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        if(!MediaID.equals("0"))
+        {
+            homeClassRevisionMedia.clear();
+            SetNewDatInRevisionMediaAdapter(MediaID);
+        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(c, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionMedia);
         recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForRevisionMediaSchool adapter = new HomePageRecyclerAdapterForRevisionMediaSchool(getContext(), homeClassRevisionMedia);
+        HomePageRecyclerAdapterForRevisionMediaSchool adapter = new HomePageRecyclerAdapterForRevisionMediaSchool(c, homeClassRevisionMedia);
         recyclerView.setAdapter(adapter);
 
+    }
+    public static void SetNewDatInRevisionMediaAdapter(String MediaID)
+    {
+        universal = 0;
+        //TotalVideos = 1;
+        while(Type[universal]!= null)
+        {
+            if(Type[universal].equals("2")) {
+                if (FileURL[universal].contains(".mp4") || FileURL[universal].contains(".3gp")
+                        || FileURL[universal].contains(".jpg") || FileURL[universal].contains(".png")) {
+
+                    if (!UploadID[universal].equals(MediaID) && !UploadID[universal].equals("null")) {
+                        homeClassRevisionMedia = GetRevisionMediaDetailing();
+                        TotalBooksint++;
+                    } else {
+                        UploadID[universal] = "null";
+                    }
+                }
+
+            }
+            universal++;
+        }
+        //SetText of Total Number of Articles here
     }
 
     private void initRecyclerViewSubjects(){
@@ -304,11 +371,12 @@ public class HomePageSchool extends Fragment {
 
     }
 
-    private ArrayList<HomeDetailsGetandSetVideosSchool> GetVideoDetailing()
+    private static ArrayList<HomeDetailsGetandSetVideosSchool> GetVideoDetailing()
     {
 
         HomeDetailsGetandSetVideosSchool home = new HomeDetailsGetandSetVideosSchool();
         home.setName(Name[universal]);
+        Log.e("School Name", Name[universal]);
         home.setThumbnailURL(ThumbnailURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
@@ -319,12 +387,11 @@ public class HomePageSchool extends Fragment {
         return resultsVideos;
     }
 
-    private ArrayList<HomeDetailsGetandSetBooksSchool> GetBooksDetailing()
+    private static ArrayList<HomeDetailsGetandSetBooksSchool> GetBooksDetailing()
     {
 
         HomeDetailsGetandSetBooksSchool home = new HomeDetailsGetandSetBooksSchool();
         home.setName(Name[universal]);
-        Log.e("Description", UploadID[universal]);
         home.setThumbnailURL(FileURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
@@ -335,7 +402,7 @@ public class HomePageSchool extends Fragment {
         return resultsBooks;
     }
 
-    private ArrayList<HomeDetailsGetandSetRevisionArticleSchool> GetRevisionArticleDetailing()
+    private static ArrayList<HomeDetailsGetandSetRevisionArticleSchool> GetRevisionArticleDetailing()
     {
 
         HomeDetailsGetandSetRevisionArticleSchool home = new HomeDetailsGetandSetRevisionArticleSchool();
@@ -351,7 +418,7 @@ public class HomePageSchool extends Fragment {
         return resultsRevisionArticle;
     }
 
-    private ArrayList<HomeDetailsGetandSetRevisionMediaSchool> GetRevisionMediaDetailing()
+    private static ArrayList<HomeDetailsGetandSetRevisionMediaSchool> GetRevisionMediaDetailing()
     {
 
         HomeDetailsGetandSetRevisionMediaSchool home = new HomeDetailsGetandSetRevisionMediaSchool();

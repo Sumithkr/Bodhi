@@ -25,11 +25,13 @@
         <activity android:name=".OTP" />
         <activity android:name=".Forgot_Password" />
         <activity android:name=".choose">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".School.Master_activity" />
         <activity android:name=".Student.MasterStudentActivity" />
@@ -42,6 +44,9 @@
         <activity android:name=".Student.SuccessfulLogin" />
         <activity android:name=".Student.AfterGoogleSignIn" />
         <activity android:name=".Student.GoogleSignInActivity" />
+        <activity android:name=".School.UpdateCredentialsSchool">
+
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

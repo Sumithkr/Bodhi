@@ -14,6 +14,10 @@ public class Modelclass {
     //student part
     private boolean msgRead;
     private ImageView new_message_icon;
+    //previously watched
+    private String file_name = "";
+    private String file_description = "";
+    private String file_url = "";
 
 
     public void setContent_of_notice(String content_of_notice) { this.content_of_notice = content_of_notice;
@@ -72,6 +76,22 @@ public class Modelclass {
     public void setBoolMSgRead(boolean msgRead){this.msgRead= msgRead;}
 
     public boolean getBoolMsgRead(){ return msgRead;}
+
+    //previously watched
+
+    public void setFile_name(String file_name) { this.file_name = file_name;
+    }
+
+    public String getFile_name() {
+        return file_name;
+    }
+
+    public void setFile_description(String file_description) { this.file_description = file_description;
+    }
+
+    public String getFile_description() {
+        return file_description;
+    }
 
 
 }

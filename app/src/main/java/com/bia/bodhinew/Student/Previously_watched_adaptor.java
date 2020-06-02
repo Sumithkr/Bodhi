@@ -52,6 +52,7 @@ public class Previously_watched_adaptor extends BaseAdapter {
             holder = new ViewHolder();
             holder.file_name=(TextView)convertView.findViewById(R.id.FileName);
             holder.file_description=(TextView)convertView.findViewById(R.id.FileDescription);
+            holder.file_datetime=(TextView)convertView.findViewById(R.id.FileDatetime);
             //     ArrayList.get(position).setID();
 
             convertView.setTag(holder);
@@ -59,13 +60,14 @@ public class Previously_watched_adaptor extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.file_name.setText(ArrayList.get(position).getStudent_name());
-        holder.file_description.setText(ArrayList.get(position).getContent_of_notice());
+        holder.file_name.setText(ArrayList.get(position).getFile_name());
+        holder.file_description.setText(ArrayList.get(position).getFile_description());
+        holder.file_datetime.setText(ArrayList.get(position).getDatetime_of_notice());
         return convertView;
     }
 
     static class ViewHolder {
-        TextView file_name,file_description;
+        TextView file_name,file_description,file_datetime;
 
     }
 

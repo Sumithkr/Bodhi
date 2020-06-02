@@ -17,18 +17,6 @@
         android:orientation="vertical"
         >
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#000"
-            android:text="Previously Watched"
-            android:gravity="center"
-            android:textColorHint="#464545"
-            android:textSize="18sp"
-
-            />
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"

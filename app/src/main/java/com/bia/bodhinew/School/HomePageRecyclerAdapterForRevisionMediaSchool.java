@@ -3,6 +3,9 @@ package com.bia.bodhinew.School;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,12 +74,11 @@ public class HomePageRecyclerAdapterForRevisionMediaSchool extends RecyclerView.
                 .into(holder.image);*/
 
         holder.EntityName.setText(ArrayList.get(position).getName());
-        /*Bitmap VideoThumbnail = getBitmapFromURL(ArrayList.get(position).getThumbnailURL());
-        Drawable VideoDrawable= new BitmapDrawable(VideoThumbnail);
-        holder.EntityName.setBackgroundDrawable(VideoDrawable);*/
+
         holder.EntitySubjectName.setText(ArrayList.get(position).getSubjectName());
         holder.EntityDescription.setText(ArrayList.get(position).getDescription());
-
+        AsyncTaskRunner asyncTaskRunner = new AsyncTaskRunner(ArrayList.get(position).getThumbnailURL(),holder);
+        asyncTaskRunner.execute();
         holder.DeleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +140,46 @@ public class HomePageRecyclerAdapterForRevisionMediaSchool extends RecyclerView.
         }
     }
 
-    public void DeleteItem(int position){
+    private class AsyncTaskRunner extends AsyncTask<String, String, String>
+    {
+        String Imageurl;
+        Bitmap bitmap;
+        ViewHolder holder;
+
+        public AsyncTaskRunner(String Imageurl, ViewHolder holder) {
+            this.Imageurl = Imageurl;
+            this.holder = holder;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+
+                URL url = new URL(Imageurl);
+                bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s)
+        {
+            super.onPostExecute(s);
+
+            Drawable VideoDrawable= new BitmapDrawable(bitmap);
+            holder.EntityName.setBackgroundDrawable(VideoDrawable);
+
+
+        }
+    }
+
+    public void DeleteItem(final int position){
 
         Log.e("Upload ID", ArrayList.get(position).getUploadID());
 
@@ -154,6 +195,9 @@ public class HomePageRecyclerAdapterForRevisionMediaSchool extends RecyclerView.
                 try
                 {
                     ConvertFromJSON(output);
+
+                    HomePageSchool.initRecyclerViewRevisionMedia(ArrayList.get(position).getUploadID());
+
                 }
                 catch (Exception e)
                 {
