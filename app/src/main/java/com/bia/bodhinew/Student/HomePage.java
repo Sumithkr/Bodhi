@@ -11,8 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.bia.bodhinew.R;
-import com.bia.bodhinew.School.LoginActivitySchool;
-import com.bia.bodhinew.School.Master_activity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

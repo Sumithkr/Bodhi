@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/White"
-    tools:context=".School.SettingsFragment">
+    tools:context=".School.NoticeFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,12 +20,16 @@
             <LinearLayout
 
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 android:orientation="horizontal"
-                android:padding="35dp">
+                android:gravity="bottom"
+                android:paddingLeft="35dp"
+                android:paddingRight="35dp"
+                android:paddingBottom="5dp">
 
                 <androidx.cardview.widget.CardView
 
+                    android:id="@+id/ProfileSchool"
                     android:layout_width="120dp"
                     android:layout_height="140dp"
                     android:layout_marginBottom="5dp"

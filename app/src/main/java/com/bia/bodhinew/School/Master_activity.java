@@ -42,7 +42,7 @@ public class Master_activity extends AppCompatActivity {
                     break;
 
                 case R.id.Setting:
-                    fragment = new SettingsFragment();
+                    fragment = new SettingsSchoolPage();
                     break;
             }
             return loadFragment(fragment);

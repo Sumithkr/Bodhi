@@ -7,6 +7,8 @@ import android.widget.EditText;
 
 import com.bia.bodhinew.R;
 
+import java.io.FileInputStream;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class UpdateCredentials extends AppCompatActivity {
@@ -21,7 +23,8 @@ public class UpdateCredentials extends AppCompatActivity {
 
         email= findViewById(R.id.email);
         password= findViewById(R.id.password);
-        update= findViewById(R.id.update);
+
+
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,4 +50,28 @@ public class UpdateCredentials extends AppCompatActivity {
         });
 
     }
+
+    private String file_retreive()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = openFileInput("Bodhi_Login");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
 }

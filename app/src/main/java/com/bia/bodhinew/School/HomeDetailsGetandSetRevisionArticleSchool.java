@@ -13,7 +13,7 @@ public class HomeDetailsGetandSetRevisionArticleSchool {
     private String isPublic="";
     private String StudentClass="";
 
-    public void setUploadID(String total_package_costing) { this.UploadID = UploadID; }
+    public void setUploadID(String UploadID) { this.UploadID = UploadID; }
 
     public String getUploadID() {
         return UploadID;

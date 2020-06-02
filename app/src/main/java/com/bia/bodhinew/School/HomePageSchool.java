@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,11 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class HomePageSchool extends Fragment {
 
-    ArrayList<HomeDetailsGetandSetVideosSchool> homeClassVideos;
+    static ArrayList<HomeDetailsGetandSetVideosSchool> homeClassVideos;
     static ArrayList<HomeDetailsGetandSetBooksSchool> homeClassBooks;
-    ArrayList<HomeDetailsGetandSetRevisionArticleSchool> homeClassRevisionArticles;
-    ArrayList<HomeDetailsGetandSetRevisionMediaSchool> homeClassRevisionMedia;
-    ArrayList<HomeDetailsGetandSetSubjectsSchool> homeClassSubjects;
+    static ArrayList<HomeDetailsGetandSetRevisionArticleSchool> homeClassRevisionArticles;
+    static ArrayList<HomeDetailsGetandSetRevisionMediaSchool> homeClassRevisionMedia;
+    static ArrayList<HomeDetailsGetandSetSubjectsSchool> homeClassSubjects;
     static String[] UploadID = new String[1000];
     static String[] Name= new String[1000];
     static String[] DateTime= new String[1000];
@@ -50,10 +49,10 @@ public class HomePageSchool extends Fragment {
     int TotalArticlesint =0;
     int SubjectContain=0;
     TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles;
-    ArrayList<HomeDetailsGetandSetVideosSchool> resultsVideos = new ArrayList<>();
+    static ArrayList<HomeDetailsGetandSetVideosSchool> resultsVideos = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetBooksSchool> resultsBooks = new ArrayList<>();
-    ArrayList<HomeDetailsGetandSetRevisionArticleSchool> resultsRevisionArticle = new ArrayList<>();
-    ArrayList<HomeDetailsGetandSetRevisionMediaSchool> resultsRevisonMedia = new ArrayList<>();
+    static ArrayList<HomeDetailsGetandSetRevisionArticleSchool> resultsRevisionArticle = new ArrayList<>();
+    static ArrayList<HomeDetailsGetandSetRevisionMediaSchool> resultsRevisonMedia = new ArrayList<>();
     ArrayList<HomeDetailsGetandSetSubjectsSchool> resultsSubjects = new ArrayList<>();
     ArrayList<String> resultSubjectCopy= new ArrayList<>();
 
@@ -208,7 +207,7 @@ public class HomePageSchool extends Fragment {
 
     }
 
-    private void initRecyclerViewVideos(String MediaID){
+    public static void initRecyclerViewVideos(String MediaID){
 
         if(!MediaID.equals("0"))
         {
@@ -216,10 +215,10 @@ public class HomePageSchool extends Fragment {
             SetNewDatInVideoAdapter(MediaID);
         }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(c, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = RootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForVideosSchool adapter = new HomePageRecyclerAdapterForVideosSchool(getContext(), homeClassVideos);
+        HomePageRecyclerAdapterForVideosSchool adapter = new HomePageRecyclerAdapterForVideosSchool(c, homeClassVideos);
         recyclerView.setAdapter(adapter);
 
     }
@@ -233,7 +232,7 @@ public class HomePageSchool extends Fragment {
             {
                 if(!UploadID[universal].equals(MediaID) && !UploadID[universal].equals("null"))
                 {
-                    homeClassBooks = GetBooksDetailing();
+                    homeClassVideos = GetVideoDetailing();
                     TotalBooksint++;
                 }
                 else
@@ -286,7 +285,7 @@ public class HomePageSchool extends Fragment {
 
 
 
-    private void initRecyclerViewRevisionArticle(String MediaID)
+    public static void initRecyclerViewRevisionArticle(String MediaID)
     {
 
         if(!MediaID.equals("0"))
@@ -294,10 +293,10 @@ public class HomePageSchool extends Fragment {
             homeClassRevisionArticles.clear();
             SetNewDatInRevisionArticleAdapter(MediaID);
         }
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(c, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionArticles);
         recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForRevisionArticleSchool adapter = new HomePageRecyclerAdapterForRevisionArticleSchool(getContext(), homeClassRevisionArticles);
+        HomePageRecyclerAdapterForRevisionArticleSchool adapter = new HomePageRecyclerAdapterForRevisionArticleSchool(c, homeClassRevisionArticles);
         recyclerView.setAdapter(adapter);
     }
     public static void SetNewDatInRevisionArticleAdapter(String MediaID)
@@ -311,7 +310,7 @@ public class HomePageSchool extends Fragment {
                         || FileURL[universal].contains(".jpg") || FileURL[universal].contains(".png")) {
                 } else {
                     if (!UploadID[universal].equals(MediaID) && !UploadID[universal].equals("null")) {
-                        homeClassBooks = GetBooksDetailing();
+                        homeClassRevisionArticles = GetRevisionArticleDetailing();
                         TotalBooksint++;
                     } else {
                         UploadID[universal] = "null";
@@ -322,17 +321,17 @@ public class HomePageSchool extends Fragment {
         }
         //SetText of Total Number of Articles here
     }
-    private void initRecyclerViewRevisionMedia(String MediaID){
+    public static void initRecyclerViewRevisionMedia(String MediaID){
 
         if(!MediaID.equals("0"))
         {
             homeClassRevisionMedia.clear();
             SetNewDatInRevisionMediaAdapter(MediaID);
         }
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(c, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = RootView.findViewById(R.id.recyclerViewRevisionMedia);
         recyclerView.setLayoutManager(layoutManager);
-        HomePageRecyclerAdapterForRevisionMediaSchool adapter = new HomePageRecyclerAdapterForRevisionMediaSchool(getContext(), homeClassRevisionMedia);
+        HomePageRecyclerAdapterForRevisionMediaSchool adapter = new HomePageRecyclerAdapterForRevisionMediaSchool(c, homeClassRevisionMedia);
         recyclerView.setAdapter(adapter);
 
     }
@@ -347,7 +346,7 @@ public class HomePageSchool extends Fragment {
                         || FileURL[universal].contains(".jpg") || FileURL[universal].contains(".png")) {
 
                     if (!UploadID[universal].equals(MediaID) && !UploadID[universal].equals("null")) {
-                        homeClassBooks = GetBooksDetailing();
+                        homeClassRevisionMedia = GetRevisionMediaDetailing();
                         TotalBooksint++;
                     } else {
                         UploadID[universal] = "null";
@@ -372,11 +371,12 @@ public class HomePageSchool extends Fragment {
 
     }
 
-    private ArrayList<HomeDetailsGetandSetVideosSchool> GetVideoDetailing()
+    private static ArrayList<HomeDetailsGetandSetVideosSchool> GetVideoDetailing()
     {
 
         HomeDetailsGetandSetVideosSchool home = new HomeDetailsGetandSetVideosSchool();
         home.setName(Name[universal]);
+        Log.e("School Name", Name[universal]);
         home.setThumbnailURL(ThumbnailURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
@@ -392,7 +392,6 @@ public class HomePageSchool extends Fragment {
 
         HomeDetailsGetandSetBooksSchool home = new HomeDetailsGetandSetBooksSchool();
         home.setName(Name[universal]);
-        Log.e("Description", UploadID[universal]);
         home.setThumbnailURL(FileURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
@@ -403,7 +402,7 @@ public class HomePageSchool extends Fragment {
         return resultsBooks;
     }
 
-    private ArrayList<HomeDetailsGetandSetRevisionArticleSchool> GetRevisionArticleDetailing()
+    private static ArrayList<HomeDetailsGetandSetRevisionArticleSchool> GetRevisionArticleDetailing()
     {
 
         HomeDetailsGetandSetRevisionArticleSchool home = new HomeDetailsGetandSetRevisionArticleSchool();
@@ -419,7 +418,7 @@ public class HomePageSchool extends Fragment {
         return resultsRevisionArticle;
     }
 
-    private ArrayList<HomeDetailsGetandSetRevisionMediaSchool> GetRevisionMediaDetailing()
+    private static ArrayList<HomeDetailsGetandSetRevisionMediaSchool> GetRevisionMediaDetailing()
     {
 
         HomeDetailsGetandSetRevisionMediaSchool home = new HomeDetailsGetandSetRevisionMediaSchool();
