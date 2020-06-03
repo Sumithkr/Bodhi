@@ -43,12 +43,12 @@ public class HomePageSchool extends Fragment {
     ProgressDialog dialog1;
     private boolean firstTime = true;
     static int universal=0;
-    int TotalVideoint= 0;
+    static int TotalVideoint= 0;
     static int TotalBooksint =0;
-    int TotalMediaAttachmentsint =0;
-    int TotalArticlesint =0;
+    static int TotalMediaAttachmentsint =0;
+    static int TotalArticlesint =0;
     int SubjectContain=0;
-    TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles;
+    static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles;
     static ArrayList<HomeDetailsGetandSetVideosSchool> resultsVideos = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetBooksSchool> resultsBooks = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetRevisionArticleSchool> resultsRevisionArticle = new ArrayList<>();
@@ -222,10 +222,11 @@ public class HomePageSchool extends Fragment {
         recyclerView.setAdapter(adapter);
 
     }
+
     public static void SetNewDatInVideoAdapter(String MediaID)
     {
         universal = 0;
-         //TotalVideos = 1;
+        TotalVideoint = 0;
         while(Type[universal]!= null)
         {
             if(Type[universal].equals("1"))
@@ -233,7 +234,7 @@ public class HomePageSchool extends Fragment {
                 if(!UploadID[universal].equals(MediaID) && !UploadID[universal].equals("null"))
                 {
                     homeClassVideos = GetVideoDetailing();
-                    TotalBooksint++;
+                    TotalVideoint++;
                 }
                 else
                 {
@@ -242,6 +243,9 @@ public class HomePageSchool extends Fragment {
             }
             universal++;
         }
+
+        Log.e("Total Videos", String.valueOf(TotalVideoint));
+        TotalVideos.setText(TotalVideoint+" Videos");
     }
 
     public static void initRecyclerViewBooks(String MediaID)
@@ -263,7 +267,7 @@ public class HomePageSchool extends Fragment {
   public static void SetNewDatInBookAdapter(String MediaID)
   {
       universal = 0;
-      TotalBooksint = 1;
+      TotalBooksint = 0;
       while(Type[universal]!= null)
       {
           if(Type[universal].equals("0"))
@@ -280,7 +284,8 @@ public class HomePageSchool extends Fragment {
           }
           universal++;
       }
-      //SetText in TotalNumber of books
+
+      TotalBooks.setText(TotalBooksint+" Books");
   }
 
 
@@ -302,7 +307,7 @@ public class HomePageSchool extends Fragment {
     public static void SetNewDatInRevisionArticleAdapter(String MediaID)
     {
         universal = 0;
-        //TotalVideos = 1;
+        TotalArticlesint = 0;
         while(Type[universal]!= null)
         {
             if(Type[universal].equals("2")) {
@@ -311,7 +316,7 @@ public class HomePageSchool extends Fragment {
                 } else {
                     if (!UploadID[universal].equals(MediaID) && !UploadID[universal].equals("null")) {
                         homeClassRevisionArticles = GetRevisionArticleDetailing();
-                        TotalBooksint++;
+                        TotalArticlesint++;
                     } else {
                         UploadID[universal] = "null";
                     }
@@ -319,7 +324,7 @@ public class HomePageSchool extends Fragment {
             }
             universal++;
         }
-        //SetText of Total Number of Articles here
+        TotalArticles.setText(TotalArticlesint + " Article");
     }
     public static void initRecyclerViewRevisionMedia(String MediaID){
 
@@ -338,7 +343,7 @@ public class HomePageSchool extends Fragment {
     public static void SetNewDatInRevisionMediaAdapter(String MediaID)
     {
         universal = 0;
-        //TotalVideos = 1;
+        TotalMediaAttachmentsint = 0;
         while(Type[universal]!= null)
         {
             if(Type[universal].equals("2")) {
@@ -347,7 +352,7 @@ public class HomePageSchool extends Fragment {
 
                     if (!UploadID[universal].equals(MediaID) && !UploadID[universal].equals("null")) {
                         homeClassRevisionMedia = GetRevisionMediaDetailing();
-                        TotalBooksint++;
+                        TotalMediaAttachmentsint++;
                     } else {
                         UploadID[universal] = "null";
                     }
@@ -356,7 +361,7 @@ public class HomePageSchool extends Fragment {
             }
             universal++;
         }
-        //SetText of Total Number of Articles here
+        TotalMediaAttachments.setText(TotalMediaAttachmentsint+" Media Attachments");
     }
 
     private void initRecyclerViewSubjects(){
