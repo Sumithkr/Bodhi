@@ -527,7 +527,8 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         if(v == BooksFragment_upload)
         {
             if(Book_name.getText().toString()!=null && !Book_name.getText().toString().trim().equals("")
-                    && Book_description.getText().toString()!=null && !Book_description.getText().toString().trim().equals(""))
+                    && Book_description.getText().toString()!=null && !Book_description.getText().toString().trim().equals("")
+                    && Cls!=null && ID!=null && !Cls.equals("") && !ID.equals(""))
             {
                 UploadFile(filePath);
             }

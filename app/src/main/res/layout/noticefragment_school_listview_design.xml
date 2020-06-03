@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
 
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:background="@drawable/bg_grey_four_borders"
         android:layout_gravity="center"
         android:layout_width="match_parent"
@@ -37,8 +37,8 @@
                     <ImageView
 
                         android:id="@+id/notice_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_marginLeft="15dp"
                         app:srcCompat="@drawable/ic_launcher_background"
                         android:layout_centerVertical="true"
@@ -59,7 +59,7 @@
                 <LinearLayout
 
                     android:layout_width="match_parent"
-                    android:layout_height="50dp">
+                    android:layout_height="wrap_content">
 
 
                     <TextView
@@ -68,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:text="Date : 08/01/2015"
                         android:id="@+id/datetime_of_notice"
-                        android:textSize="17sp"
+                        android:textSize="11sp"
                         android:textColor="@color/Black"
                         android:layout_gravity="bottom"/>
 
@@ -99,8 +99,8 @@ Can easily edit your school, username."
 
                     android:orientation="horizontal"
                     android:layout_gravity="bottom"
-                    android:layout_width="150dp"
-                    android:layout_height="40dp">
+                    android:layout_width="50dp"
+                    android:layout_height="30dp">
 
                     <RelativeLayout
 

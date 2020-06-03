@@ -366,7 +366,8 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         if(v == RevisionFragment_upload)
         {
             if(Revision_name.getText().toString()!=null && !Revision_name.getText().toString().trim().equals("")
-                    && Revision_description.getText().toString()!=null && !Revision_description.getText().toString().trim().equals(""))
+                    && Revision_description.getText().toString()!=null && !Revision_description.getText().toString().trim().equals("")
+            && Cls!=null && ID!=null && !Cls.equals("") && !ID.equals(""))
             {
                 UploadFile(uri);
             }

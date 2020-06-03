@@ -33,7 +33,8 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".School.Master_activity" />
+        <activity android:name=".School.Master_activity"
+            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan"/>/>
         <activity android:name=".Student.MasterStudentActivity" />
         <activity android:name=".Student.HomePage" />
         <activity android:name=".Student.RegisterActivity" />
