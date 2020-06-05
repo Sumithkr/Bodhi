@@ -1,5 +1,6 @@
 package com.bia.bodhinew.School;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,7 @@ public class NoticeFragment extends Fragment {
     ImageView nodata;
     Button CreateNotice_Button;
     View v;
+    ProgressDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -178,9 +180,17 @@ public class NoticeFragment extends Fragment {
         }
         return results;
     }
-
+    public void onPreServerFile()
+    {
+        dialog=new ProgressDialog(getActivity());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+    }
     public void StartServerFile()
     {
+        onPreServerFile();
         String url = "https://bodhi.shwetaaromatics.co.in/School/FetchNotice.php?UserID="+file_retreive()+"&Day="+Day;
         Log.e("TAG",url);
 
@@ -232,6 +242,8 @@ public class NoticeFragment extends Fragment {
         {
             e.printStackTrace();
         }
+        dialog.dismiss();
+        dialog.cancel();
     }
     private String file_retreive()
     {

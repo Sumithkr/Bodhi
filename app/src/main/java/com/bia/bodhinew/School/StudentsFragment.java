@@ -1,5 +1,6 @@
 package com.bia.bodhinew.School;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -46,6 +47,7 @@ public class StudentsFragment extends Fragment {
     static ArrayList<Modelclass> list;
     static String[] hints= new String[100];
     static Context c;
+    ProgressDialog dialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -109,12 +111,16 @@ public class StudentsFragment extends Fragment {
 
     public void onPreServerFile()
     {
-        //
+        dialog=new ProgressDialog(getActivity());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
     }
 
     public void StartServerFile()
     {
-
+         onPreServerFile();
         String url = "http://bodhi.shwetaaromatics.co.in/School/FetchStudents.php?Class="+Cls+"&UserID="+file_retreive();
         Log.e("url",url);
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
@@ -165,6 +171,8 @@ public class StudentsFragment extends Fragment {
         {
             e.printStackTrace();
         }
+        dialog.dismiss();
+        dialog.cancel();
     }
     private static ArrayList<Modelclass> GetPublisherResults(String id)
     {
@@ -203,16 +211,18 @@ public class StudentsFragment extends Fragment {
     {
         ArrayList<Modelclass> results = new ArrayList<>();
         int k =0;
-        if(StudentName[k] == null)
+        if(StudentName[k] == null )
         {
             nodata.setVisibility(View.VISIBLE);
             list_students.setVisibility(View.GONE);
         }
+        else {
+            nodata.setVisibility(View.GONE);
+            list_students.setVisibility(View.VISIBLE);
+        }
 
         while (StudentName[k] != null)
         {
-            nodata.setVisibility(View.GONE);
-            list_students.setVisibility(View.VISIBLE);
             Modelclass ar1 = new Modelclass();
             hints[k]=  StudentName[k];
             if (StudentisEnable[k].equals("1"))

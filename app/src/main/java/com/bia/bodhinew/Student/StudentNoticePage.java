@@ -1,5 +1,6 @@
 package com.bia.bodhinew.Student;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,8 @@ public class StudentNoticePage extends Fragment {
     ListView notice_list;
     ImageView nodata;
     String[] msg_read = new String[1000];
+    String[] NoticeId = new String[1000];
+    ProgressDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,14 +95,14 @@ public class StudentNoticePage extends Fragment {
                         || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf") )
                     notice.setBoolImage(true);
             }
-            if(msg_read[i].equals("1"))
+           /* if(msg_read[i].equals("1"))
             {
                 notice.setBoolMSgRead(true);
             }
             else
             {
                 notice.setBoolMSgRead(false);
-            }
+            }*/
             i++;
             results.add(notice);
         }
@@ -107,8 +110,18 @@ public class StudentNoticePage extends Fragment {
         return results;
     }
 
+    public void onPreServerFile()
+    {
+        dialog=new ProgressDialog(getActivity());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+    }
+
     public void StartServerFile()
     {
+        onPreServerFile();
         String url = "http://bodhi.shwetaaromatics.co.in/Student/FetchNotice.php?UserID="+file_retreive()+"&Day="+Day;
         Log.e("TAG",url);
 
@@ -152,7 +165,7 @@ public class StudentNoticePage extends Fragment {
                 Log.e("notice img url", NoticeUrl[i]);
                 NoticeClass[i] = obj.getString("Class");
                 NoticeDateTime[i] = obj.getString("DateTime");
-                msg_read[i] = obj.getString("NoticeID");
+                NoticeId[i] = obj.getString("NoticeID");
             }
             final ArrayList<Modelclass> listing_of_notice = GetPublisherResults();
             notice_list.setAdapter(new StudentNoticePageAdaptor(getActivity(), listing_of_notice));
@@ -161,6 +174,8 @@ public class StudentNoticePage extends Fragment {
         {
             e.printStackTrace();
         }
+        dialog.dismiss();
+        dialog.cancel();
     }
     private String file_retreive()
     {

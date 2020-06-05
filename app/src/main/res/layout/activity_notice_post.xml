@@ -23,8 +23,8 @@
             android:layout_height="50dp"
             android:layout_gravity="start"
             android:layout_marginStart="16dp"
-            android:background="@drawable/buttonbackwhite"
-            android:drawableLeft="@drawable/arrow_back"
+            android:background="@drawable/backbuttonback"
+            android:drawableLeft="@drawable/back_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -69,12 +69,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
-        app:layout_constraintVertical_bias="0.211">
+        app:layout_constraintVertical_bias="0.006">
 
         <EditText
             android:id="@+id/Notice"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="250dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:background="@drawable/boundarywhitish"
             android:gravity="top"
             android:hint="Write Something"
@@ -110,6 +112,7 @@
                 android:id="@+id/Notice_post_post"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:background="@drawable/button_background"
                 android:text="post notice"
                 android:textColor="@color/White">

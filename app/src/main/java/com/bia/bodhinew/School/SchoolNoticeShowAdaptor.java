@@ -251,7 +251,7 @@ public class SchoolNoticeShowAdaptor extends BaseAdapter {
             //  showDialog(progress_bar_type);
             //ShowDialog();
             dialog= new ProgressDialog(context);
-            dialog.setMessage("Fetching Book...");
+            dialog.setMessage("Fetching ...");
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
             dialog.show();

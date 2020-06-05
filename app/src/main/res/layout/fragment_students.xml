@@ -14,17 +14,6 @@
         android:layout_height="150dp"
         android:background="@drawable/master_student_bg">
 
-        <Button
-            android:id="@+id/BackButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="start"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/buttonbackwhite"
-            android:drawableLeft="@drawable/arrow_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
 
