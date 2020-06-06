@@ -6,6 +6,8 @@
             <item android:left="5dp" android:top="5dp">
                 <shape>
                     <solid android:color="#A6FF9800" />
+
+                    <corners android:radius="20.0dip" />
                 </shape>
             </item>
             <item android:bottom="2dp" android:right="2dp">
@@ -15,11 +17,13 @@
                         android:startColor="#ffffff" />
                     <stroke android:width="1dp"
                         android:color="#A6FF9800" />
+                    <corners android:radius="20.0dip" />
                     <padding android:left="8.0dip"
                         android:top="8.0dip"
                         android:right="8.0dip"
                         android:bottom="8.0dip" />
                 </shape>
+
             </item>
         </layer-list>
     </item>

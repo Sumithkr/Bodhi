@@ -38,7 +38,7 @@ import java.util.UUID;
 public class Notice_post extends AppCompatActivity implements View.OnClickListener {
     String[] Class_list = {"Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     EditText Notice;
-    Button Doc,Img,Notice_post_post;
+    Button Doc,Img,Notice_post_post,BackButton;
     private static final int PICK_FROM_GALLERY = 101;
     Uri uri;
     int l = 1,j = 1;
@@ -74,6 +74,8 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
         Doc.setOnClickListener(this);
         Notice_post_post = (Button)findViewById(R.id.Notice_post_post);
         Notice_post_post.setOnClickListener(this);
+        BackButton = (Button)findViewById(R.id.BackButton);
+        BackButton.setOnClickListener(this);
     }
 
     private void UploadFile(Uri path)
@@ -217,7 +219,12 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
         }
         startActivityForResult(Intent.createChooser(intent,"ChooseFile"), 100);
     }
-
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+        super.onBackPressed();
+    }
 
     @Override
     public void onClick(View v) {
@@ -228,7 +235,8 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
 
         if (v == Notice_post_post)
         {
-            if(Notice.getText().toString()!=null && !Notice.getText().toString().trim().equals("") && !Cls.equals(""))
+            if(Notice.getText().toString()!=null && !Notice.getText().toString().trim().equals("")
+                    && !Cls.equals("") &&Cls !=null)
             {
                 UploadFile(uri);
             }
@@ -237,6 +245,11 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
 
                 Toast.makeText(getApplicationContext(), "Notice is empty", Toast.LENGTH_SHORT).show();
             }
+        }
+        if (v == BackButton)
+        {
+           onBackPressed();
+
         }
 
     }
