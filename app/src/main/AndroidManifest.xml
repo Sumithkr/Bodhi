@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.STORAGE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -34,7 +36,7 @@
 
         </activity>
         <activity android:name=".School.Master_activity"
-            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan"/>/>
+            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan"/>
         <activity android:name=".Student.MasterStudentActivity" />
         <activity android:name=".Student.HomePage" />
         <activity android:name=".Student.RegisterActivity" />

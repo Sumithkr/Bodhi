@@ -34,6 +34,7 @@
 
         <ImageView
 
+            android:id="@+id/open_book"
             android:layout_height="100dp"
             android:layout_width="80dp"
             android:src="@drawable/universal_book_icon"/>

@@ -1,8 +1,15 @@
 package com.bia.bodhinew.School;
 
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +25,19 @@ import com.bumptech.glide.request.RequestOptions;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class HomePageRecyclerAdapterForRevisionArticleSchool extends RecyclerView.Adapter<HomePageRecyclerAdapterForRevisionArticleSchool.ViewHolder> {
@@ -32,6 +45,7 @@ public class HomePageRecyclerAdapterForRevisionArticleSchool extends RecyclerVie
     private static final String TAG = "RecyclerViewAdapter";
     private static java.util.ArrayList<HomeDetailsGetandSetRevisionArticleSchool> ArrayList;
     private Context context;
+    ProgressDialog dialog;
     //vars
     /*private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
@@ -89,6 +103,16 @@ public class HomePageRecyclerAdapterForRevisionArticleSchool extends RecyclerVie
             public void onClick(View v) {
 
                 DeleteItem(position);
+
+            }
+        });
+
+        holder.ArticleIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String filePath = ArrayList.get(position).getThumbnailURL() ;
+                new DownloadFileFromURL().execute(filePath);
 
             }
         });
@@ -230,6 +254,189 @@ public class HomePageRecyclerAdapterForRevisionArticleSchool extends RecyclerVie
         }
     }
 
+    private void CheckFile( String filePath)
+    {
 
+
+        String url = filePath;
+
+        Log.e("urlincheck",url);
+        String dataType="";
+
+
+        if (url.toString().contains(".doc") || url.toString().contains(".docx"))
+        {
+            // Word document
+            dataType = "application/msword";
+        }
+        else if(url.toString().contains(".pdf"))
+        {
+            // PDF file
+            dataType = "application/pdf";
+        }
+        else if(url.toString().contains(".ppt") || url.toString().contains(".pptx"))
+        {
+            // Powerpoint file
+            dataType =  "application/vnd.ms-powerpoint";
+        }
+        else if(url.toString().contains(".xls") || url.toString().contains(".xlsx")) {
+            // Excel file
+            dataType = "application/vnd.ms-excel";
+        } else if(url.toString().contains(".zip") || url.toString().contains(".rar"))
+        {
+            // WAV audio file
+            dataType = "application/x-wav";
+        }
+        else if(url.toString().contains(".jpg"))
+        {
+            // WAV audio file
+            dataType = "image/jpg";
+        }
+        else if(url.toString().contains(".png"))
+        {
+            // WAV audio file
+            dataType = "image/png";
+        }
+        openDocument(url, dataType);
+    }
+
+    private void openDocument(String path,String dataType)
+    {
+        File file = new File(path);
+        Uri uri ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            uri = FileProvider.getUriForFile(context, "com.bia.bodhi.provider", file);
+            Log.e("urihere", String.valueOf(uri));
+        } else
+        {
+            uri = Uri.fromFile(file);
+            Log.e("urihere", String.valueOf(uri));
+        }
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setDataAndType(uri, dataType);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "Application not found", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    class DownloadFileFromURL extends AsyncTask<String, String, String>
+    {
+        String extension = "";
+        /**
+         * Before starting background thread Show Progress Bar Dialog
+         * */
+        @Override
+        protected void onPreExecute()
+        {
+            super.onPreExecute();
+            //  showDialog(progress_bar_type);
+            //ShowDialog();
+            dialog= new ProgressDialog(context);
+            dialog.setMessage("Opening Article...");
+            dialog.setCancelable(false);
+            dialog.setInverseBackgroundForced(false);
+            dialog.show();
+
+        }
+
+        /**
+         * Downloading file in background thread
+         * */
+        @Override
+        protected String doInBackground(String... f_url) {
+            int count;
+            try
+            {
+
+
+                if (f_url[0].contains("."))
+                    extension = f_url[0].substring(f_url[0].lastIndexOf("."));
+
+                URL url = new URL(f_url[0]);
+                Log.e("LOG KA",f_url[0]);
+                URLConnection conection = url.openConnection();
+                conection.connect();
+
+                // this will be useful so that you can show a tipical 0-100%
+                // progress bar
+                int lenghtOfFile = conection.getContentLength();
+
+                // download the file
+                InputStream input = new BufferedInputStream(url.openStream(),
+                        8192);
+
+                // Output stream
+                OutputStream output = new FileOutputStream(Environment
+                        .getExternalStorageDirectory().toString()
+                        + "/file"+extension);
+
+
+                byte data[] = new byte[1024];
+
+                long total = 0;
+
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    // publishing the progress....
+                    // After this onProgressUpdate will be called
+                    //       publishProgress("" + (int) ((total * 100) / lenghtOfFile));
+
+                    // writing data to file
+                    output.write(data, 0, count);
+                }
+
+                // flushing output
+                output.flush();
+
+                // closing streams
+                output.close();
+                input.close();
+
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return null;
+        }
+
+        /**
+         * Updating progress bar
+         * */
+        protected void onProgressUpdate(String... progress) {
+            // setting progress percentage
+
+            dialog.setMessage("Opening Article..." + progress[0]+ "%");
+
+            Log.e("Progress - ", String.valueOf(Integer.parseInt(progress[0])));
+        }
+
+        /**
+         * After completing background task Dismiss the progress dialog
+         * **/
+        @Override
+        protected void onPostExecute(String file_url)
+        {
+
+
+
+            // dismiss the dialog after the file was downloaded
+            //String x = Commons.getPath(Uri.parse(Environment.getExternalStorageDirectory().toString()+ "/doc.docx"), context);
+            String x = Environment
+                    .getExternalStorageDirectory().toString()
+                    + "/file"+extension;
+            CheckFile(x);
+            dialog.dismiss();
+            dialog.cancel();
+        }
+
+    }
 
 }

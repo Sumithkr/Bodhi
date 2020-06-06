@@ -51,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     final List<String> SchoolList = new ArrayList<String>();
     final List<String> ClassList = new ArrayList<String>();
 
-    ArrayAdapter<String> ClassAdapter;
     String[] SchoolID= new String[1000];
     String MainSchoolID;
 
@@ -211,7 +210,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     public void StartProcessRegister(){
 
-        String url = "http://bodhi.shwetaaromatics.co.in/Student/Register.php?SchoolID="+MainSchoolID+"&UserName="+name.getText().toString()+
+        String url = "https://bodhi.shwetaaromatics.co.in/Student/Register.php?SchoolID="+MainSchoolID+"&UserName="+name.getText().toString()+
                 "&Class="+selectedClass+"&Email="+email.getText().toString()+"&Password="+password.getText().toString();
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
@@ -299,10 +298,10 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
             }
 
-            ClassAdapter = new ArrayAdapter<String>(this, R.layout.custom_spinner_city, ClassList);
+            ArrayAdapter<String> ClassAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom_spinner_city, ClassList);
             ClassAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_city);
-            SelectClass.setOnItemSelectedListener(this);
             SelectClass.setAdapter(ClassAdapter);
+            SelectClass.setOnItemSelectedListener(this);
 
 
         } catch (Exception e) {
@@ -398,7 +397,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     public void AddUpAllSchool()
     {
-        String url = "http://bodhi.shwetaaromatics.co.in/Student/SchoolFetch.php";
+        String url = "https://bodhi.shwetaaromatics.co.in/Student/SchoolFetch.php";
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -431,13 +430,10 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
             }
 
-            ArrayAdapter<String> SchoolAdapter = new ArrayAdapter<>(
-                    this,
-                    R.layout.custom_spinner,SchoolList);
-
+            ArrayAdapter<String> SchoolAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.custom_spinner, SchoolList);
             SchoolAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
-            SelectSchool.setOnItemSelectedListener(this);
             SelectSchool.setAdapter(SchoolAdapter);
+            SelectSchool.setOnItemSelectedListener(this);
 
         }
         catch (Exception e)

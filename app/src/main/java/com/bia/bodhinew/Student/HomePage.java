@@ -137,7 +137,7 @@ public class HomePage extends Fragment {
     {
         loading();
 
-        String url = "http://bodhi.shwetaaromatics.co.in/Student/FetchHomeMedia.php?UserID="+file_retreive();
+        String url = "https://bodhi.shwetaaromatics.co.in/Student/FetchHomeMedia.php?UserID="+file_retreive();
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {

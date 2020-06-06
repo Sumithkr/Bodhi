@@ -1,6 +1,5 @@
 package com.bia.bodhinew.School;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,21 +20,17 @@ import android.widget.Toast;
 
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
-import com.bia.bodhinew.Student.test;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
 import net.gotev.uploadservice.UploadInfo;
-import net.gotev.uploadservice.UploadNotificationConfig;
 import net.gotev.uploadservice.UploadStatusDelegate;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -112,7 +107,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             public void processFinish(String output) //onPOstFinish
             {
                 //this function executes after
-                Toast.makeText(getActivity(),"END",Toast.LENGTH_SHORT).show();
                 try
                 {
                     ConvertFromJSON(output);

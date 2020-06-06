@@ -32,7 +32,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,10 +49,8 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
     private GoogleSignInOptions gso;
     private static final int RC_SIGN_IN = 1;
 
-    final List<String> StateList = new ArrayList<String>();
-    final List<String> CityList = new ArrayList<String>();
-
-    ArrayAdapter<String> CityAdapter;
+    final ArrayList<String> StateList = new ArrayList<String>();
+    final ArrayList<String> CityList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -211,7 +208,7 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
 
     public void StartProcessRegister(){
 
-        String url = "http://bodhi.shwetaaromatics.co.in/School/Regsiter.php?Email="+email.getText().toString()+"&Password="+password.getText().toString()+
+        String url = "https://bodhi.shwetaaromatics.co.in/School/Regsiter.php?Email="+email.getText().toString()+"&Password="+password.getText().toString()+
                 "&Name="+name.getText().toString()+"&City="+selectedCity+"&State="+selectedState;
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
@@ -308,13 +305,10 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
 
             }
 
-            ArrayAdapter<String> StateAdapter = new ArrayAdapter<>(
-                    this,
-                    R.layout.custom_spinner,StateList);
-
+            ArrayAdapter<String> StateAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.custom_spinner, StateList);
             StateAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
-            SelectState.setOnItemSelectedListener(this);
             SelectState.setAdapter(StateAdapter);
+            SelectState.setOnItemSelectedListener(this);
 
 
         } catch (JSONException e) {
@@ -346,10 +340,10 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
 
             }
 
-            CityAdapter = new ArrayAdapter<String>(this, R.layout.custom_spinner_city, CityList);
+            ArrayAdapter<String> CityAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom_spinner_city, CityList);
             CityAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_city);
-            SelectCity.setOnItemSelectedListener(this);
             SelectCity.setAdapter(CityAdapter);
+            SelectCity.setOnItemSelectedListener(this);
 
         } catch (JSONException e) {
 
@@ -424,6 +418,7 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
         if(parent.getId()  == R.id.SelectState){
 
             selectedState = SelectState.getItemAtPosition(position).toString();
+            SelectState.setPrompt("Select State");
             //Toast.makeText(getApplicationContext(), selectedState, Toast.LENGTH_LONG).show();
             AddUpAllCities();
 
@@ -432,6 +427,7 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
         else if(parent.getId()== R.id.SelectCity){
 
             selectedCity= SelectCity.getItemAtPosition(position).toString();
+            SelectCity.setPrompt("Select City");
             //Toast.makeText(getApplicationContext(), selectedCity, Toast.LENGTH_LONG).show();
 
         }

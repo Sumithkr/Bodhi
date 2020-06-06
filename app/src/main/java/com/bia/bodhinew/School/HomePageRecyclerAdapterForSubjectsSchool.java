@@ -120,7 +120,13 @@ public class HomePageRecyclerAdapterForSubjectsSchool extends RecyclerView.Adapt
 
     @Override
     public int getItemCount() {
-        return ArrayList.size();
+        try {
+            return ArrayList.size();
+
+        }catch(Exception e){
+
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
