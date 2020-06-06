@@ -62,7 +62,13 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_revision, container, false);
-        StartServerFile();
+        Bundle bundle = this.getArguments();
+        if (bundle != null)
+        {
+            String output = bundle.getString("output");
+            ConvertFromJSON(output);
+            Log.e("vvdvbdk",output);
+        }
         // Class spinner
         Spinner spin = (Spinner)v. findViewById(R.id.RevisionFragment_Class);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
@@ -87,46 +93,6 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         });
         // Subject spinner
         spin_subjects = (Spinner)v. findViewById(R.id.RevisionFragment_Subject);
-
-        pick_file =(Button) v.findViewById(R.id.pick_File);
-        pick_file.setOnClickListener(this);
-        Revision_name = (EditText)v.findViewById(R.id.Revision_name);
-        Revision_description = (EditText)v.findViewById(R.id.Revision_description);
-        RevisionFragment_upload = (Button) v.findViewById(R.id.RevisionFragment_upload);
-        RevisionFragment_upload.setOnClickListener(this);
-        return v;
-    }
-
-    public void onPreServerFile()
-    {
-        //
-    }
-
-    public void StartServerFile()
-    {
-
-        String url = "https://bodhi.shwetaaromatics.co.in/SubjectFetch.php";
-        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
-        {
-            @Override
-            public void processFinish(String output) //onPOstFinish
-            {
-                //this function executes after
-                Toast.makeText(getActivity(),"END",Toast.LENGTH_SHORT).show();
-                try
-                {
-                    ConvertFromJSON(output);
-                    EndServerFile();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }).execute();
-    }
-    public void EndServerFile()
-    {
         ArrayAdapter<String> subject_adaptor = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, SubjectName);
         subject_adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_subjects.setAdapter(subject_adaptor);
@@ -139,7 +105,6 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                     ID = SubjectID.get(position);
                     Log.e("idaayi", ID);
                 }
-                // Toast.makeText(getActivity(), "Selected : "+subjects_name[position] ,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -147,7 +112,16 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
+        pick_file =(Button) v.findViewById(R.id.pick_File);
+        pick_file.setOnClickListener(this);
+        Revision_name = (EditText)v.findViewById(R.id.Revision_name);
+        Revision_description = (EditText)v.findViewById(R.id.Revision_description);
+        RevisionFragment_upload = (Button) v.findViewById(R.id.RevisionFragment_upload);
+        RevisionFragment_upload.setOnClickListener(this);
+        return v;
     }
+
     private void ConvertFromJSON(String json)
     {
         try

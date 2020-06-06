@@ -61,7 +61,13 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_video, container, false);
-        StartServerFile();
+        Bundle bundle = this.getArguments();
+        if (bundle != null)
+        {
+            String output = bundle.getString("output");
+            ConvertFromJSON(output);
+            Log.e("vvdvbdk",output);
+        }
         // Class spinner
         Spinner spin = (Spinner)v. findViewById(R.id.VideoFragment_Class);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
@@ -86,47 +92,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         });
         // Subject spinner
         spin_subjects = (Spinner)v. findViewById(R.id.VideoFragment_Subject);
-
-        Video_name = (EditText)v.findViewById(R.id.Video_name);
-        Video_description = (EditText)v.findViewById(R.id.Video_description);
-        pick_video = (Button)v.findViewById(R.id.pick_video);
-        pick_video.setOnClickListener(this);
-        VideoFragmment_upload = (Button)v.findViewById(R.id.VideoFragmment_upload);
-        VideoFragmment_upload.setOnClickListener(this);
-        return v;
-
-    }
-
-    public void onPreServerFile()
-    {
-        //
-    }
-
-    public void StartServerFile()
-    {
-
-        String url = "https://bodhi.shwetaaromatics.co.in/SubjectFetch.php";
-        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
-        {
-            @Override
-            public void processFinish(String output) //onPOstFinish
-            {
-                //this function executes after
-                Toast.makeText(getActivity(),"END",Toast.LENGTH_SHORT).show();
-                try
-                {
-                    ConvertFromJSON(output);
-                    EndServerFile();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }).execute();
-    }
-    public void EndServerFile()
-    {
         ArrayAdapter<String> subject_adaptor = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, SubjectName);
         subject_adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_subjects.setAdapter(subject_adaptor);
@@ -147,7 +112,17 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
+        Video_name = (EditText)v.findViewById(R.id.Video_name);
+        Video_description = (EditText)v.findViewById(R.id.Video_description);
+        pick_video = (Button)v.findViewById(R.id.pick_video);
+        pick_video.setOnClickListener(this);
+        VideoFragmment_upload = (Button)v.findViewById(R.id.VideoFragmment_upload);
+        VideoFragmment_upload.setOnClickListener(this);
+        return v;
+
     }
+
     private void ConvertFromJSON(String json)
     {
         try

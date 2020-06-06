@@ -21,6 +21,26 @@
                         android:bottom="8.0dip" />
                 </shape>
             </item>
+            <item>
+                <rotate
+                    android:fromDegrees="100"
+                    android:pivotX="100%"
+                    android:pivotY="60%"
+                    android:toDegrees="125">
+                    <rotate
+                        android:fromDegrees="125"
+                        android:pivotX="100%"
+                        android:pivotY="60%"
+                        android:toDegrees="45">
+                        <shape android:shape="rectangle">
+                            <stroke
+                                android:width="10dp"
+                                android:color="#A6FF9800" />
+                            <solid android:color="#A6FF9800" />
+                        </shape>
+                    </rotate>
+                </rotate>
+            </item>
         </layer-list>
     </item>
 
