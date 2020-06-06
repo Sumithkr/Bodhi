@@ -37,9 +37,8 @@
                     android:layout_gravity="center"
                     android:background="@drawable/spinner_background"
                     android:elevation="3dp"
-                    android:textAlignment="center"
+                    android:textAlignment="center" />
 
-                    />
             </LinearLayout>
 
             <LinearLayout

@@ -29,6 +29,8 @@ import java.net.URL;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import tcking.github.com.giraffeplayer2.GiraffePlayer;
+import tcking.github.com.giraffeplayer2.VideoInfo;
 
 public class HomePageRecyclerAdapterForVideosSchool extends RecyclerView.Adapter<HomePageRecyclerAdapterForVideosSchool.ViewHolder> {
 
@@ -91,6 +93,15 @@ public class HomePageRecyclerAdapterForVideosSchool extends RecyclerView.Adapter
             public void onClick(View v) {
 
                 DeleteItem(position);
+
+            }
+        });
+
+        holder.EntityName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                GiraffePlayer.play(context, new VideoInfo(String.valueOf(ArrayList.get(position).getURL())));
 
             }
         });

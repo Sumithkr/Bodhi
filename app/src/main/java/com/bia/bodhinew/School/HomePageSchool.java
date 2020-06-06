@@ -81,7 +81,7 @@ public class HomePageSchool extends Fragment {
     {
         loading();
 
-        String url = "http://bodhi.shwetaaromatics.co.in/School/FetchHomeMedia.php?UserID="+file_retreive();
+        String url = "https://bodhi.shwetaaromatics.co.in/School/FetchHomeMedia.php?UserID="+file_retreive();
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -386,6 +386,7 @@ public class HomePageSchool extends Fragment {
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
         home.setUploadID(UploadID[universal]);
+        home.setURL(FileURL[universal]);
 
         resultsVideos.add(home);
 
@@ -400,6 +401,7 @@ public class HomePageSchool extends Fragment {
         home.setThumbnailURL(FileURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setURL(FileURL[universal]);
         home.setUploadID(UploadID[universal]);
 
         resultsBooks.add(home);

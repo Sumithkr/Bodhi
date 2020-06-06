@@ -67,7 +67,6 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         {
             String output = bundle.getString("output");
             ConvertFromJSON(output);
-            Log.e("vvdvbdk",output);
         }
         // Class spinner
         Spinner spin = (Spinner)v. findViewById(R.id.RevisionFragment_Class);

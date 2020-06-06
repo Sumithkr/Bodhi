@@ -1,6 +1,5 @@
 package com.bia.bodhinew.School;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,21 +20,17 @@ import android.widget.Toast;
 
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
-import com.bia.bodhinew.Student.test;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
 import net.gotev.uploadservice.UploadInfo;
-import net.gotev.uploadservice.UploadNotificationConfig;
 import net.gotev.uploadservice.UploadStatusDelegate;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -66,7 +61,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         {
             String output = bundle.getString("output");
             ConvertFromJSON(output);
-            Log.e("vvdvbdk",output);
         }
         // Class spinner
         Spinner spin = (Spinner)v. findViewById(R.id.VideoFragment_Class);
@@ -104,7 +98,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                     ID = SubjectID.get(position);
                     Log.e("idaayi", ID);
                 }
-                // Toast.makeText(getActivity(), "Selected : "+subjects_name[position] ,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -112,7 +105,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-
         Video_name = (EditText)v.findViewById(R.id.Video_name);
         Video_description = (EditText)v.findViewById(R.id.Video_description);
         pick_video = (Button)v.findViewById(R.id.pick_video);
@@ -122,6 +114,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         return v;
 
     }
+
 
     private void ConvertFromJSON(String json)
     {

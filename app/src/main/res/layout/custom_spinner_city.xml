@@ -4,8 +4,9 @@
     style="?attr/spinnerDropDownItemStyle"
     android:singleLine="true"
     android:layout_width="match_parent"
-    android:layout_height="?attr/dropdownListPreferredItemHeight"
+    android:layout_height="19dp"
     android:ellipsize="marquee"
-    android:textColor="@android:color/white"
-    android:background="@drawable/abc_spinner_mtrl_am_alpha"
-    android:backgroundTint="@android:color/white"/>
+    android:textColor="@color/Black"
+    android:background="@color/White"
+    android:textSize="17sp"
+    android:textAlignment="center"/>
