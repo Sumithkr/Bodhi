@@ -44,7 +44,7 @@ public class HomePage extends Fragment {
     Button Previously_watched_button;
     private boolean firstTime = true;
     static int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0, SubjectContain=0;
-    static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles;
+    static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles, SchoolName;
     static ArrayList<HomeDetailsGetandSetVideos> resultsVideos = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetBooks> resultsBooks = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetRevisionArticle> resultsRevisionArticle = new ArrayList<>();
@@ -118,10 +118,13 @@ public class HomePage extends Fragment {
         TotalBooks = RootView.findViewById(R.id.total_book);
         TotalArticles = RootView.findViewById(R.id.total_articles);
         TotalMediaAttachments= RootView.findViewById(R.id.total_media_attachements);
+        SchoolName= RootView.findViewById(R.id.SchoolName);
+        SchoolName.setText(file_retreive_school());
         Previously_watched_button = (Button)RootView.findViewById(R.id.Previously_watched_button);
         Previously_watched_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent success = new Intent(getActivity(), Previously_watched.class);
                 startActivity(success);
             }
@@ -442,6 +445,7 @@ public class HomePage extends Fragment {
         home.setThumbnailURL(ThumbnailURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setURL(FileURL[universal]);
 
         resultsVideos.add(home);
 
@@ -458,6 +462,7 @@ public class HomePage extends Fragment {
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
         home.setUploadID(UploadID[universal]);
+        home.setURL(FileURL[universal]);
 
         resultsBooks.add(home);
 
@@ -499,6 +504,7 @@ public class HomePage extends Fragment {
 
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setURL(FileURL[universal]);
 
         resultsRevisonMedia.add(home);
 
@@ -545,6 +551,29 @@ public class HomePage extends Fragment {
         FileInputStream inputStream = null;
         try {
             inputStream = getContext().openFileInput("Bodhi_Login");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    private String file_retreive_school()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = getContext().openFileInput("Bodhi_School");
             StringBuffer fileContent = new StringBuffer("");
 
             byte[] buffer = new byte[1024];

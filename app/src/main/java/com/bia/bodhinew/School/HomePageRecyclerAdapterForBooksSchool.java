@@ -345,7 +345,7 @@ public class HomePageRecyclerAdapterForBooksSchool extends RecyclerView.Adapter<
         {
             // setting progress percentage
 
-            download_dialog.setMessage("Fetching Book...." + progress[0]+ "%");
+            download_dialog.setMessage("Fetching Book....");
 
             Log.e("Percent - "," - "+ progress[0]);
         }

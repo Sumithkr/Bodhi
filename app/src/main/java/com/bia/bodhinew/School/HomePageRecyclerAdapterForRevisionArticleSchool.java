@@ -57,6 +57,7 @@ public class HomePageRecyclerAdapterForRevisionArticleSchool extends RecyclerVie
         ArrayList = homeClass;
         context = mContext;
 
+
     }
 
     @NonNull

@@ -125,6 +125,7 @@ public class LoginActivitySchool extends AppCompatActivity {
                 {
                     //file_write_url(email.getText().toString().trim());
                     file_write_url(obj.getString("UserID"));
+                    file_write_school(obj.getString("UserName"));
                     Log.e("userid",obj.getString("UserID"));
                     Intent success = new Intent(LoginActivitySchool.this, Master_activity.class);
                     success.putExtra("Login", file_retreive());
@@ -154,6 +155,18 @@ public class LoginActivitySchool extends AppCompatActivity {
         FileOutputStream outputStream = null;
         try {
             outputStream = openFileOutput("Bodhi_Login_School", Context.MODE_PRIVATE);
+            outputStream.write(username.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void file_write_school(String username)
+    {
+        FileOutputStream outputStream = null;
+        try {
+            outputStream = openFileOutput("Bodhi_School", Context.MODE_PRIVATE);
             outputStream.write(username.getBytes());
             outputStream.close();
         } catch (Exception e) {

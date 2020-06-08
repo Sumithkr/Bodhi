@@ -90,6 +90,16 @@ public class HomePageRecyclerAdapterForRevisionArticle extends RecyclerView.Adap
         holder.EntitySubjectName.setText(ArrayList.get(position).getSubjectName());
         holder.EntityDescription.setText(ArrayList.get(position).getDescription());
 
+        holder.ArticleIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String filePath = ArrayList.get(position).getThumbnailURL();
+                new DownloadFileFromURL().execute(filePath);
+
+            }
+        });
+
         /*holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -48,7 +48,7 @@ public class HomePageSchool extends Fragment {
     static int TotalMediaAttachmentsint =0;
     static int TotalArticlesint =0;
     int SubjectContain=0;
-    static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles;
+    static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles, SchoolName;
     static ArrayList<HomeDetailsGetandSetVideosSchool> resultsVideos = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetBooksSchool> resultsBooks = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetRevisionArticleSchool> resultsRevisionArticle = new ArrayList<>();
@@ -70,6 +70,8 @@ public class HomePageSchool extends Fragment {
         TotalBooks = RootView.findViewById(R.id.total_book);
         TotalArticles = RootView.findViewById(R.id.total_articles);
         TotalMediaAttachments= RootView.findViewById(R.id.total_media_attachements);
+        SchoolName= RootView.findViewById(R.id.SchoolName);
+        SchoolName.setText(file_retreive_school());
         c = getActivity();
         StartServerFile();
 
@@ -401,8 +403,8 @@ public class HomePageSchool extends Fragment {
         home.setThumbnailURL(FileURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
-        home.setURL(FileURL[universal]);
         home.setUploadID(UploadID[universal]);
+        home.setURL(FileURL[universal]);
 
         resultsBooks.add(home);
 
@@ -446,6 +448,7 @@ public class HomePageSchool extends Fragment {
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
         home.setUploadID(UploadID[universal]);
+        home.setURL(FileURL[universal]);
 
         resultsRevisonMedia.add(home);
 
@@ -492,6 +495,29 @@ public class HomePageSchool extends Fragment {
         FileInputStream inputStream = null;
         try {
             inputStream = getContext().openFileInput("Bodhi_Login_School");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    private String file_retreive_school()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = getContext().openFileInput("Bodhi_School");
             StringBuffer fileContent = new StringBuffer("");
 
             byte[] buffer = new byte[1024];

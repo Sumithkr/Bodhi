@@ -19,6 +19,7 @@
 
         <ImageView
 
+            android:id="@+id/OpenBook"
             android:layout_height="130dp"
             android:layout_width="80dp"
             android:paddingTop="20dp"
