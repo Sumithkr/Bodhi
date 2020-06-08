@@ -1,5 +1,6 @@
 package com.bia.bodhinew.School;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -55,15 +56,23 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     private static final int PICK_FROM_GALLERY = 101;
     ArrayList<String> SubjectName = new ArrayList();
     ArrayList<String> SubjectID = new ArrayList();
-    Spinner spin_subjects;
+    private Spinner spin_subjects;
     String ID;
     String Cls;
     Uri filePath = null;
+    String check = "no";
+    private ProgressDialog dialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_books, container, false);
-        StartServerFile();
+        Bundle bundle = this.getArguments();
+        if (bundle != null)
+        {
+            String output = bundle.getString("output");
+            ConvertFromJSON(output);
+        }
         // Class spinner
         Spinner spin = (Spinner)v. findViewById(R.id.BooksFragment_Class);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
@@ -87,46 +96,6 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         });
         // Subject spinner
         spin_subjects = (Spinner)v. findViewById(R.id.BooksFragment_Subject);
-
-        Book_name = (EditText)v.findViewById(R.id.Book_name);
-        Book_description = (EditText)v.findViewById(R.id.Book_description);
-        pick_book = (Button)v.findViewById(R.id.pick_book);
-        pick_book.setOnClickListener(this);
-        BooksFragment_upload = (Button)v.findViewById(R.id.BooksFragment_upload);
-        BooksFragment_upload.setOnClickListener(this);
-        return v;
-    }
-
-    public void onPreServerFile()
-    {
-        //
-    }
-
-    public void StartServerFile()
-    {
-
-        String url = "https://bodhi.shwetaaromatics.co.in/SubjectFetch.php";
-        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
-        {
-            @Override
-            public void processFinish(String output) //onPOstFinish
-            {
-                //this function executes after
-                Toast.makeText(getActivity(),"END",Toast.LENGTH_SHORT).show();
-                try
-                {
-                    ConvertFromJSON(output);
-                    EndServerFile();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }).execute();
-    }
-    public void EndServerFile()
-    {
         ArrayAdapter<String> subject_adaptor = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, SubjectName);
         subject_adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_subjects.setAdapter(subject_adaptor);
@@ -139,7 +108,6 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                     ID = SubjectID.get(position);
                     Log.e("idaayi", ID);
                 }
-                // Toast.makeText(getActivity(), "Selected : "+subjects_name[position] ,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -147,7 +115,16 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
+        Book_name = (EditText)v.findViewById(R.id.Book_name);
+        Book_description = (EditText)v.findViewById(R.id.Book_description);
+        pick_book = (Button)v.findViewById(R.id.pick_book);
+        pick_book.setOnClickListener(this);
+        BooksFragment_upload = (Button)v.findViewById(R.id.BooksFragment_upload);
+        BooksFragment_upload.setOnClickListener(this);
+        return v;
     }
+
     private void ConvertFromJSON(String json)
     {
         try
@@ -168,6 +145,16 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
     }
+
+    public void progress()
+    {
+        dialog=new ProgressDialog(getActivity());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+    }
+
 
     /* Get uri related content real local file path. */
     private String getUriRealPath(Context ctx, Uri uri)
@@ -475,7 +462,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                     .setDelegate(new UploadStatusDelegate() {
                         @Override
                         public void onProgress(Context context, UploadInfo uploadInfo) {
-
+                        progress();
                         }
 
                         @Override
@@ -488,6 +475,8 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                         public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
                             Book_description.getText().clear();
                             Book_name.getText().clear();
+                            dialog.dismiss();
+                            dialog.cancel();
                         }
 
                         @Override
@@ -509,6 +498,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK && data != null && data.getData() != null)
         {
             filePath = data.getData();
+            check = "yes";
             Log.e("heljl", String.valueOf(filePath));
 
         }
@@ -528,7 +518,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         {
             if(Book_name.getText().toString()!=null && !Book_name.getText().toString().trim().equals("")
                     && Book_description.getText().toString()!=null && !Book_description.getText().toString().trim().equals("")
-                    && Cls!=null && ID!=null && !Cls.equals("") && !ID.equals(""))
+                    && Cls!=null && ID!=null && !Cls.equals("") && !ID.equals("") && check.equals("yes"))
             {
                 UploadFile(filePath);
             }

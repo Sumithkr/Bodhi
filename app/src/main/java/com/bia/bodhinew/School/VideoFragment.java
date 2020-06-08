@@ -1,5 +1,6 @@
 package com.bia.bodhinew.School;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -42,21 +43,28 @@ import static android.app.Activity.RESULT_OK;
 
 public class VideoFragment extends Fragment implements View.OnClickListener {
     String[] Class_list = {"Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
-    Spinner spin_subjects;
-    Uri filePath,thumbnailuri;
+    private Spinner spin_subjects;
+    Uri filePath ,thumbnailuri;
+    String check = "no";
     EditText Video_name,Video_description;
     Button VideoFragmment_upload,pick_video;
     ArrayList<String> SubjectName = new ArrayList();
     ArrayList<String> SubjectID = new ArrayList();
     String ID;
     String Cls;
+    private ProgressDialog dialog;
     private static final int PICK_FROM_GALLERY = 101;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_video, container, false);
-        StartServerFile();
+        Bundle bundle = this.getArguments();
+        if (bundle != null)
+        {
+            String output = bundle.getString("output");
+            ConvertFromJSON(output);
+        }
         // Class spinner
         Spinner spin = (Spinner)v. findViewById(R.id.VideoFragment_Class);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
@@ -81,46 +89,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         });
         // Subject spinner
         spin_subjects = (Spinner)v. findViewById(R.id.VideoFragment_Subject);
-
-        Video_name = (EditText)v.findViewById(R.id.Video_name);
-        Video_description = (EditText)v.findViewById(R.id.Video_description);
-        pick_video = (Button)v.findViewById(R.id.pick_video);
-        pick_video.setOnClickListener(this);
-        VideoFragmment_upload = (Button)v.findViewById(R.id.VideoFragmment_upload);
-        VideoFragmment_upload.setOnClickListener(this);
-        return v;
-
-    }
-
-    public void onPreServerFile()
-    {
-        //
-    }
-
-    public void StartServerFile()
-    {
-
-        String url = "https://bodhi.shwetaaromatics.co.in/SubjectFetch.php";
-        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
-        {
-            @Override
-            public void processFinish(String output) //onPOstFinish
-            {
-                //this function executes after
-                try
-                {
-                    ConvertFromJSON(output);
-                    EndServerFile();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }).execute();
-    }
-    public void EndServerFile()
-    {
         ArrayAdapter<String> subject_adaptor = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, SubjectName);
         subject_adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_subjects.setAdapter(subject_adaptor);
@@ -133,7 +101,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                     ID = SubjectID.get(position);
                     Log.e("idaayi", ID);
                 }
-                // Toast.makeText(getActivity(), "Selected : "+subjects_name[position] ,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -141,7 +108,17 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+        Video_name = (EditText)v.findViewById(R.id.Video_name);
+        Video_description = (EditText)v.findViewById(R.id.Video_description);
+        pick_video = (Button)v.findViewById(R.id.pick_video);
+        pick_video.setOnClickListener(this);
+        VideoFragmment_upload = (Button)v.findViewById(R.id.VideoFragmment_upload);
+        VideoFragmment_upload.setOnClickListener(this);
+        return v;
+
     }
+
+
     private void ConvertFromJSON(String json)
     {
         try
@@ -161,6 +138,16 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         {
             e.printStackTrace();
         }
+    }
+
+
+    public void progress()
+    {
+        dialog=new ProgressDialog(getActivity());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -183,9 +170,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
            thumbpath = Commons.getPath(thumbnailuri,getActivity());
            Log.e("thumbnailpath", thumbpath);
            Log.e("video thumbnail", String.valueOf(thumb));
-            //Intent intent = new Intent(getActivity(), test.class);
-            //intent.putExtra("bitmap", thumb);
-            //startActivity(intent);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,31 +189,34 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                     .addParameter("SubjectID",ID)
                     .addParameter("UserID", file_retreive())
                     .addParameter("Class",Cls)
-                    //.addParameter("Thumbnail", String.valueOf(thumbnailuri))
                     .addParameter("Type", String.valueOf(type))
                     //.setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(2)
                     .setDelegate(new UploadStatusDelegate() {
                         @Override
                         public void onProgress(Context context, UploadInfo uploadInfo) {
-
+                        progress();
                         }
 
                         @Override
                         public void onError(Context context, UploadInfo uploadInfo, Exception exception) {
                             Log.e("ERROR",exception+"-----");
                             //Failed
+                            Toast.makeText(context, "error occurred", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
                             Video_description.getText().clear();
                             Video_name.getText().clear();
+                            dialog.cancel();
+                            dialog.dismiss();
+
                         }
 
                         @Override
                         public void onCancelled(Context context, UploadInfo uploadInfo) {
-
+                            Toast.makeText(context, "error occurred", Toast.LENGTH_SHORT).show();
                         }
                     }).startUpload();
         }
@@ -269,6 +257,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         {
 
             filePath = data.getData();
+            check = "yes";
         }
     }
 
@@ -279,8 +268,6 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         chooseFile = Intent.createChooser(chooseFile, "Choose a file");
         startActivityForResult( chooseFile,PICK_FROM_GALLERY);
 
-
-
     }
 
     @Override
@@ -289,7 +276,8 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         {
             if(Video_name.getText().toString()!=null && !Video_name.getText().toString().trim().equals("")
                     && Video_description.getText().toString()!=null && !Video_description.getText().toString().trim().equals("")
-                    && Cls!=null && ID!=null && !Cls.equals("") && !ID.equals(""))
+                    && Cls!=null && ID!=null && !Cls.equals("") && !ID.equals("")
+                    && check.equals("yes"))
             {
                 UploadFile(filePath);
             }

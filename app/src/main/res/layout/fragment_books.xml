@@ -12,9 +12,9 @@
         android:id="@+id/constraintLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        android:paddingTop="20dp"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp">
 
         <androidx.appcompat.widget.AppCompatSpinner
@@ -40,6 +40,7 @@
             android:textAlignment="center"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -68,7 +69,8 @@
                 android:background="@drawable/boundarywhitish"
                 android:gravity="top"
                 android:hint="Book Name"
-                android:inputType="textMultiLine"
+                android:maxLines="1"
+                android:inputType="text"
                 android:padding="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#9C9A9A"
@@ -95,7 +97,8 @@
                 android:background="@drawable/boundarywhitish"
                 android:gravity="top"
                 android:hint="Description"
-                android:inputType="textMultiLine"
+                android:maxLines="1"
+                android:inputType="text"
                 android:padding="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#9C9A9A"

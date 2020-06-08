@@ -39,6 +39,7 @@
             android:elevation="3dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
@@ -68,7 +69,8 @@
                 android:background="@drawable/boundarywhitish"
                 android:gravity="top"
                 android:hint="Revision Name"
-                android:inputType="textMultiLine"
+                android:maxLines="1"
+                android:inputType="text"
                 android:padding="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColorHint="#9C9A9A"
@@ -95,7 +97,8 @@
                 android:background="@drawable/boundarywhitish"
                 android:gravity="top"
                 android:hint="Description"
-                android:inputType="textMultiLine"
+                android:maxLines="1"
+                android:inputType="text"
                 android:padding="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColorHint="#9C9A9A"

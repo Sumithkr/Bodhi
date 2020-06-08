@@ -122,7 +122,7 @@ public class StudentNoticePage extends Fragment {
     public void StartServerFile()
     {
         onPreServerFile();
-        String url = "http://bodhi.shwetaaromatics.co.in/Student/FetchNotice.php?UserID="+file_retreive()+"&Day="+Day;
+        String url = "https://bodhi.shwetaaromatics.co.in/Student/FetchNotice.php?UserID="+file_retreive()+"&Day="+Day;
         Log.e("TAG",url);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.CUPCAKE) {

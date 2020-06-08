@@ -1,12 +1,19 @@
 package com.bia.bodhinew.School;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
 import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,31 +21,90 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 public class UploadFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    BooksFragment books_fragment = new BooksFragment();
+    VideoFragment video_fragment = new VideoFragment();
+    RevisionFragment revision_fragment = new RevisionFragment();
+    ProgressDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View v =inflater.inflate(R.layout.fragment_upload, container, false);
         viewPager = (ViewPager)v.findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
         tabLayout = (TabLayout)v.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        StartServerFile();
     return v;
     }
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new VideoFragment(), "Video");
-        adapter.addFragment(new BooksFragment(), "Books");
-        adapter.addFragment(new RevisionFragment(), "Revision");
 
-        viewPager.setAdapter(adapter);
+    public void onPreServerFile()
+    {
+        dialog=new ProgressDialog(getActivity());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
     }
+
+    public void StartServerFile()
+    {
+        onPreServerFile();
+        String url = "https://bodhi.shwetaaromatics.co.in/SubjectFetch.php";
+        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
+        {
+            @Override
+            public void processFinish(String output) //onPOstFinish
+            {
+                //this function executes after
+                Toast.makeText(getActivity(),"END",Toast.LENGTH_SHORT).show();
+                try
+                {
+                    ConvertFromJSON(output);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).execute();
+    }
+
+    private void ConvertFromJSON(String json)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putString("output", json);
+        books_fragment.setArguments(bundle);
+        video_fragment.setArguments(bundle);
+        revision_fragment.setArguments(bundle);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter.addFragment(video_fragment, "Video");
+        adapter.addFragment(books_fragment, "Books");
+        adapter.addFragment(revision_fragment, "Revision");
+        viewPager.setAdapter(adapter);
+        try
+        {
+
+            JSONArray jsonArray = new JSONArray(json);
+            for (int i = 0; i < jsonArray.length(); i++)
+            {
+                JSONObject obj = jsonArray.getJSONObject(i);
+
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        dialog.dismiss();
+        dialog.cancel();
+    }
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

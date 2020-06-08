@@ -1,5 +1,6 @@
 package com.bia.bodhinew.School;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -55,14 +56,21 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
     String ID;
     String Cls;
     Uri uri,thumbnailuri;
+    String check ="no";
     int l = 1,j = 1;
-    Spinner spin_subjects;
+    private Spinner spin_subjects;
+    ProgressDialog dialog;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_revision, container, false);
-        StartServerFile();
+        Bundle bundle = this.getArguments();
+        if (bundle != null)
+        {
+            String output = bundle.getString("output");
+            ConvertFromJSON(output);
+        }
         // Class spinner
         Spinner spin = (Spinner)v. findViewById(R.id.RevisionFragment_Class);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
@@ -87,46 +95,6 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         });
         // Subject spinner
         spin_subjects = (Spinner)v. findViewById(R.id.RevisionFragment_Subject);
-
-        pick_file =(Button) v.findViewById(R.id.pick_File);
-        pick_file.setOnClickListener(this);
-        Revision_name = (EditText)v.findViewById(R.id.Revision_name);
-        Revision_description = (EditText)v.findViewById(R.id.Revision_description);
-        RevisionFragment_upload = (Button) v.findViewById(R.id.RevisionFragment_upload);
-        RevisionFragment_upload.setOnClickListener(this);
-        return v;
-    }
-
-    public void onPreServerFile()
-    {
-        //
-    }
-
-    public void StartServerFile()
-    {
-
-        String url = "https://bodhi.shwetaaromatics.co.in/SubjectFetch.php";
-        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
-        {
-            @Override
-            public void processFinish(String output) //onPOstFinish
-            {
-                //this function executes after
-                Toast.makeText(getActivity(),"END",Toast.LENGTH_SHORT).show();
-                try
-                {
-                    ConvertFromJSON(output);
-                    EndServerFile();
-                }
-                catch (Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }).execute();
-    }
-    public void EndServerFile()
-    {
         ArrayAdapter<String> subject_adaptor = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, SubjectName);
         subject_adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_subjects.setAdapter(subject_adaptor);
@@ -139,7 +107,6 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                     ID = SubjectID.get(position);
                     Log.e("idaayi", ID);
                 }
-                // Toast.makeText(getActivity(), "Selected : "+subjects_name[position] ,Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -147,7 +114,16 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
+        pick_file =(Button) v.findViewById(R.id.pick_File);
+        pick_file.setOnClickListener(this);
+        Revision_name = (EditText)v.findViewById(R.id.Revision_name);
+        Revision_description = (EditText)v.findViewById(R.id.Revision_description);
+        RevisionFragment_upload = (Button) v.findViewById(R.id.RevisionFragment_upload);
+        RevisionFragment_upload.setOnClickListener(this);
+        return v;
     }
+
     private void ConvertFromJSON(String json)
     {
         try
@@ -190,6 +166,15 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
             return "error";
         }
+    }
+
+    public void progress()
+    {
+        dialog=new ProgressDialog(getActivity());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -246,23 +231,29 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                             .setDelegate(new UploadStatusDelegate() {
                                 @Override
                                 public void onProgress(Context context, UploadInfo uploadInfo) {
-
+                                progress();
                                 }
 
                                 @Override
                                 public void onError(Context context, UploadInfo uploadInfo, Exception exception) {
                                     Log.e("ERROR", exception + "-----");
                                     //Failed
+                                    Toast.makeText(context, "error occurred", Toast.LENGTH_SHORT).show();
+
                                 }
 
                                 @Override
                                 public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
                                     Revision_description.getText().clear();
                                     Revision_name.getText().clear();
+                                    dialog.cancel();
+                                    dialog.dismiss();
+
                                 }
 
                                 @Override
                                 public void onCancelled(Context context, UploadInfo uploadInfo) {
+                                    Toast.makeText(context, "upload cancelled", Toast.LENGTH_SHORT).show();
 
                                 }
                             }).startUpload();
@@ -325,25 +316,8 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
     {
         if (requestCode == 100 && resultCode == RESULT_OK)
         {
-
-            try {
-
-                uri = data.getData();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    if (data.getClipData() != null) {
-                        int count = data.getClipData().getItemCount(); //evaluate the count before the for loop --- otherwise, the count is evaluated every loop.
-                        for (j = 0; j < count; j++) {
-                            Uri docUri = data.getClipData().getItemAt(j).getUri();
-                            uri = data.getData();
-                        }
-                        //do something with the image (save it to some directory or whatever you need to do with it here)
-                    } else if (data.getData() != null) {
-                        String docPath = data.getData().getPath();
-                        //do something with the image (save it to some directory or whatever you need to do with it here
-                    }
-                }
-
-            }catch(Exception e){}
+            uri = data.getData();
+            check = "yes";
         }
 
     }
@@ -367,7 +341,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         {
             if(Revision_name.getText().toString()!=null && !Revision_name.getText().toString().trim().equals("")
                     && Revision_description.getText().toString()!=null && !Revision_description.getText().toString().trim().equals("")
-            && Cls!=null && ID!=null && !Cls.equals("") && !ID.equals(""))
+            && Cls!=null && ID!=null && !Cls.equals("") && !ID.equals("") && check.equals("yes"))
             {
                 UploadFile(uri);
             }
