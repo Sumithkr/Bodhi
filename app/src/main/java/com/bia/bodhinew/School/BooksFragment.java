@@ -1,5 +1,6 @@
 package com.bia.bodhinew.School;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -55,10 +56,12 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     private static final int PICK_FROM_GALLERY = 101;
     ArrayList<String> SubjectName = new ArrayList();
     ArrayList<String> SubjectID = new ArrayList();
-    Spinner spin_subjects;
+    private Spinner spin_subjects;
     String ID;
     String Cls;
     Uri filePath = null;
+    String check = "no";
+    private ProgressDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -142,6 +145,16 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
             e.printStackTrace();
         }
     }
+
+    public void progress()
+    {
+        dialog=new ProgressDialog(getActivity());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+    }
+
 
     /* Get uri related content real local file path. */
     private String getUriRealPath(Context ctx, Uri uri)
@@ -449,7 +462,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                     .setDelegate(new UploadStatusDelegate() {
                         @Override
                         public void onProgress(Context context, UploadInfo uploadInfo) {
-
+                        progress();
                         }
 
                         @Override
@@ -462,6 +475,8 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                         public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
                             Book_description.getText().clear();
                             Book_name.getText().clear();
+                            dialog.dismiss();
+                            dialog.cancel();
                         }
 
                         @Override
@@ -483,6 +498,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK && data != null && data.getData() != null)
         {
             filePath = data.getData();
+            check = "yes";
             Log.e("heljl", String.valueOf(filePath));
 
         }
@@ -502,7 +518,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         {
             if(Book_name.getText().toString()!=null && !Book_name.getText().toString().trim().equals("")
                     && Book_description.getText().toString()!=null && !Book_description.getText().toString().trim().equals("")
-                    && Cls!=null && ID!=null && !Cls.equals("") && !ID.equals(""))
+                    && Cls!=null && ID!=null && !Cls.equals("") && !ID.equals("") && check.equals("yes"))
             {
                 UploadFile(filePath);
             }

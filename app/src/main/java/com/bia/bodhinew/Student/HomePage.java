@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +42,7 @@ public class HomePage extends Fragment {
     static String[] isPublic= new String[1000];
     static String[] StudentClass= new String[1000];
     ProgressDialog dialog1;
-    Button Previously_watched_button;
+    CardView Previously_watched_button;
     private boolean firstTime = true;
     static int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0, SubjectContain=0;
     static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles;
@@ -118,7 +119,7 @@ public class HomePage extends Fragment {
         TotalBooks = RootView.findViewById(R.id.total_book);
         TotalArticles = RootView.findViewById(R.id.total_articles);
         TotalMediaAttachments= RootView.findViewById(R.id.total_media_attachements);
-        Previously_watched_button = (Button)RootView.findViewById(R.id.Previously_watched_button);
+        Previously_watched_button = (CardView) RootView.findViewById(R.id.Previously_watched_button);
         Previously_watched_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

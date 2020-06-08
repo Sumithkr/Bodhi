@@ -121,7 +121,7 @@ public class StudentsFragment extends Fragment {
     public void StartServerFile()
     {
          onPreServerFile();
-        String url = "http://bodhi.shwetaaromatics.co.in/School/FetchStudents.php?Class="+Cls+"&UserID="+file_retreive();
+        String url = "https://bodhi.shwetaaromatics.co.in/School/FetchStudents.php?Class="+Cls+"&UserID="+file_retreive();
         Log.e("url",url);
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -155,15 +155,10 @@ public class StudentsFragment extends Fragment {
             {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 StudentName[i]=obj.getString("UserName");
-                Log.e("name",StudentName[i]);
                 StudentID[i]=obj.getString("UserID");
-                Log.e("id",StudentID[i]);
                 StudentEmail[i] = obj.getString("Email");
-                Log.e("email",StudentEmail[i]);
                 StudentDateTime[i] = obj.getString("DateTime");
-                Log.e("datetime",StudentDateTime[i]);
                 StudentisEnable[i] = obj.getString("isEnable");
-                Log.e("active",StudentisEnable[i]);
 
             }
         }
@@ -183,11 +178,14 @@ public class StudentsFragment extends Fragment {
             nodata.setVisibility(View.VISIBLE);
             list_students.setVisibility(View.GONE);
         }
+        else {
+            nodata.setVisibility(View.GONE);
+            list_students.setVisibility(View.VISIBLE);
+        }
 
         while (StudentName[k] != null)
         {
-            nodata.setVisibility(View.GONE);
-            list_students.setVisibility(View.VISIBLE);
+
             Modelclass ar1 = new Modelclass();
             hints[k]=  StudentName[k];
             if (StudentisEnable[k].equals("1") && id.equals(StudentID[k]) == false)
@@ -283,15 +281,12 @@ public class StudentsFragment extends Fragment {
 
     public static void regenerate(String id)
     {
-        //StartServerFile();
-
         adaptor = new ViewStudentShowAdaptor(c, GetPublisherResults(id));
         list_students.setAdapter(adaptor);
     }
 
     public static void refresh(String id)
     {
-        //StartServerFile();
         list.clear();
         regenerate(id);
     }
