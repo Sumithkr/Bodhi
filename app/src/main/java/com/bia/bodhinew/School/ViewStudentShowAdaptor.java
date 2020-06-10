@@ -75,7 +75,7 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
     public void Delete_student(final String id)
     {
 
-        String pack = "http://bodhi.shwetaaromatics.co.in/School/DisableStudent.php?UserID="+id;
+        String pack = "https://bodhi.shwetaaromatics.co.in/School/DisableStudent.php?UserID="+id;
 
         Log.e("pack",pack);
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(pack,new FetchFromDB.AsyncResponse()

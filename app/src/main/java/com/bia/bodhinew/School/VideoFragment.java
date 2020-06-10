@@ -52,7 +52,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     ArrayList<String> SubjectID = new ArrayList();
     String ID;
     String Cls;
-    private ProgressDialog dialog;
+    ProgressDialog dialog;
     private static final int PICK_FROM_GALLERY = 101;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -158,7 +158,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     }
 
     private void UploadFile(Uri path)
-    {
+    {   progress();
         String thumbpath = null;
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getActivity());
@@ -195,22 +195,22 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                     .setDelegate(new UploadStatusDelegate() {
                         @Override
                         public void onProgress(Context context, UploadInfo uploadInfo) {
-                        progress();
+
                         }
 
                         @Override
                         public void onError(Context context, UploadInfo uploadInfo, Exception exception) {
                             Log.e("ERROR",exception+"-----");
-                            //Failed
                             Toast.makeText(context, "error occurred", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
                         public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
+                            dialog.dismiss();
+                            dialog.cancel();
                             Video_description.getText().clear();
                             Video_name.getText().clear();
-                            dialog.cancel();
-                            dialog.dismiss();
+
 
                         }
 

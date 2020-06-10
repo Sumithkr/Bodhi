@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bia.bodhinew.FetchFromDB;
@@ -15,6 +16,7 @@ import com.google.android.material.tabs.TabLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,15 +33,19 @@ public class UploadFragment extends Fragment {
     VideoFragment video_fragment = new VideoFragment();
     RevisionFragment revision_fragment = new RevisionFragment();
     ProgressDialog dialog;
+    TextView SchoolName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View v =inflater.inflate(R.layout.fragment_upload, container, false);
         viewPager = (ViewPager)v.findViewById(R.id.viewpager);
+        viewPager.setOffscreenPageLimit(3);
         tabLayout = (TabLayout)v.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         StartServerFile();
+        SchoolName = (TextView)v.findViewById(R.id.SchoolName);
+        SchoolName.setText(file_retreive_school());
     return v;
     }
 
@@ -135,5 +141,26 @@ public class UploadFragment extends Fragment {
             return mFragmentTitleList.get(position);
         }
     }
+    private String file_retreive_school()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = getContext().openFileInput("Bodhi_School");
+            StringBuffer fileContent = new StringBuffer("");
 
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
+    }
 }

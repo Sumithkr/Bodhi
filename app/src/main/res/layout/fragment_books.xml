@@ -17,29 +17,41 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp">
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/BooksFragment_Class"
-            android:layout_width="120dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:background="@drawable/spinner_background"
-            android:elevation="3dp"
-            android:textAlignment="center"
+            android:layout_marginLeft="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            />
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/BooksFragment_Class"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:elevation="3dp"
+                android:textAlignment="center"
+                />
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/BooksFragment_Subject"
-            android:layout_width="120dp"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:background="@drawable/spinner_background"
-            android:elevation="3dp"
-            android:textAlignment="center"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/BooksFragment_Subject"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:elevation="3dp"
+                android:textAlignment="center" />
+
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -15,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -32,7 +33,7 @@ import androidx.fragment.app.Fragment;
 
 
 public class StudentsFragment extends Fragment {
-    String[] Class_list = { "Select Class","1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
+    String[] Class_list = { "Class","1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     String Cls;
     static ImageView nodata;
     static ListView list_students;
@@ -48,12 +49,14 @@ public class StudentsFragment extends Fragment {
     static String[] hints= new String[100];
     static Context c;
     ProgressDialog dialog;
+    TextView SchoolName;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_students, container, false);
-        //StartServerFile();
+        SchoolName = v.findViewById(R.id.SchoolName);
+        SchoolName.setText(file_retreive_school());
         nodata = (ImageView)v.findViewById(R.id.nodata);
         c = getActivity();
         // Class spinner
@@ -188,13 +191,20 @@ public class StudentsFragment extends Fragment {
 
             Modelclass ar1 = new Modelclass();
             hints[k]=  StudentName[k];
-            if (StudentisEnable[k].equals("1") && id.equals(StudentID[k]) == false)
+            if(StudentisEnable[k].equals("1"))
             {
-                ar1.setStudent_name(StudentName[k]);
-                ar1.setID(StudentID[k]);
-                results.add(ar1);
-            }
+                if (id.equals(StudentID[k]) == false && !StudentID[k].equals("null"))
+                {
+                    ar1.setStudent_name(StudentName[k]);
+                    ar1.setID(StudentID[k]);
+                    results.add(ar1);
 
+                }
+                else
+                {
+                    StudentID[k] = "null";
+                }
+            }
             k++;
         }
 
@@ -244,7 +254,6 @@ public class StudentsFragment extends Fragment {
     private void GetSearchedPublisher()
     {
         int k =0;
-
         for ( k = 0; k < list.size(); k++)
         {
 
@@ -289,5 +298,28 @@ public class StudentsFragment extends Fragment {
     {
         list.clear();
         regenerate(id);
+    }
+
+    private String file_retreive_school()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = getContext().openFileInput("Bodhi_School");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
     }
 }

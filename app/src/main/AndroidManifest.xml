@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.STORAGE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"></uses-permission>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Student.Previously_watched"></activity>
+        <activity android:name=".Feedback"></activity>
+        <activity android:name=".Student.Previously_watched" />
         <activity android:name=".Mail_send_otp" />
         <activity android:name=".Student.test" />
         <activity android:name=".School.Notice_post" />
@@ -27,16 +28,15 @@
         <activity android:name=".OTP" />
         <activity android:name=".Forgot_Password" />
         <activity android:name=".choose">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".School.Master_activity"
-            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan"/>
+        <activity
+            android:name=".School.Master_activity"
+            android:windowSoftInputMode="adjustResize|stateHidden|adjustPan" />
         <activity android:name=".Student.MasterStudentActivity" />
         <activity android:name=".Student.HomePage" />
         <activity android:name=".Student.RegisterActivity" />
@@ -47,9 +47,7 @@
         <activity android:name=".Student.SuccessfulLogin" />
         <activity android:name=".Student.AfterGoogleSignIn" />
         <activity android:name=".Student.GoogleSignInActivity" />
-        <activity android:name=".School.UpdateCredentialsSchool">
-
-        </activity>
+        <activity android:name=".School.UpdateCredentialsSchool" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

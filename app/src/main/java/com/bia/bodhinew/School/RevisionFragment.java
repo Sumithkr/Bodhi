@@ -95,9 +95,9 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         });
         // Subject spinner
         spin_subjects = (Spinner)v. findViewById(R.id.RevisionFragment_Subject);
-        ArrayAdapter<String> subject_adaptor = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, SubjectName);
-        subject_adaptor.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spin_subjects.setAdapter(subject_adaptor);
+        ArrayAdapter<String> subject_adaptor_revison = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, SubjectName);
+        subject_adaptor_revison.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spin_subjects.setAdapter(subject_adaptor_revison);
         spin_subjects.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
@@ -123,6 +123,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         RevisionFragment_upload.setOnClickListener(this);
         return v;
     }
+
 
     private void ConvertFromJSON(String json)
     {
@@ -186,6 +187,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
 
     private void UploadFile(Uri path)
     {
+        progress();
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getActivity());
         Log.e("filepath",x);
@@ -231,7 +233,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                             .setDelegate(new UploadStatusDelegate() {
                                 @Override
                                 public void onProgress(Context context, UploadInfo uploadInfo) {
-                                progress();
+
                                 }
 
                                 @Override

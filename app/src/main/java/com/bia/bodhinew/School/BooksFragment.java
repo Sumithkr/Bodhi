@@ -61,7 +61,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     String Cls;
     Uri filePath = null;
     String check = "no";
-    private ProgressDialog dialog;
+    ProgressDialog dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -432,6 +432,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
 
     private void UploadFile(Uri path)
     {
+        progress();
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getActivity());
         /*String file;
@@ -462,7 +463,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                     .setDelegate(new UploadStatusDelegate() {
                         @Override
                         public void onProgress(Context context, UploadInfo uploadInfo) {
-                        progress();
+
                         }
 
                         @Override
