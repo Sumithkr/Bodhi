@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="150dp"
         android:paddingBottom="10dp"
         android:background="@drawable/notice_bg">
 
@@ -28,6 +28,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/spinner_background"
                 android:layout_margin="10dp">
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -35,7 +36,6 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/spinner_background"
                     android:elevation="3dp"
                     android:textAlignment="center" />
 
@@ -45,7 +45,8 @@
                 android:id="@+id/linearLayout8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:background="@drawable/spinner_background"
+                android:layout_marginStart="10dp"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -53,7 +54,6 @@
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/spinner_background"
                     android:elevation="3dp"
                     android:textAlignment="center"
 

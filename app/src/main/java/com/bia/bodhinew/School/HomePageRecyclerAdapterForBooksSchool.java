@@ -104,7 +104,7 @@ public class HomePageRecyclerAdapterForBooksSchool extends RecyclerView.Adapter<
             public void onClick(View v) {
 
                 file_substring = ArrayList.get(position).getURL().substring(ArrayList.get(position).getURL().indexOf("/Media/")+7);
-                File file = new File(Environment.getExternalStorageDirectory().toString() + file_substring);
+                File file = new File(Environment.getExternalStorageDirectory().toString() + "/" + file_substring);
 
                 if(!file.exists()){
 

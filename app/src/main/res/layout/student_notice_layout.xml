@@ -17,9 +17,11 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@drawable/spinner_background"
+            android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,13 +31,8 @@
                 android:id="@+id/StudentNoticePage_Months"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:background="@drawable/spinner_background"
                 android:elevation="3dp"
                 android:textAlignment="center"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-
                 />
         </LinearLayout>
 

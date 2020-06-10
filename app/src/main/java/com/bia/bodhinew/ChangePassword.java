@@ -2,6 +2,7 @@ package com.bia.bodhinew;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,14 +10,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bia.bodhinew.School.HomePageSchool;
+import com.bia.bodhinew.School.LoginActivitySchool;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 public class ChangePassword extends AppCompatActivity implements View.OnClickListener {
     EditText CurrentPassword,ChangePassword,ConfirmPassword;
-    Button ChangePasswordButton;
+    Button ChangePasswordButton,backbutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,8 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
         ConfirmPassword = (EditText)findViewById(R.id.ConfirmPassword);
         ChangePasswordButton = (Button)findViewById(R.id.ChangePasswordButton);
         ChangePasswordButton.setOnClickListener(this);
+        backbutton = findViewById(R.id.BackButton);
+        backbutton.setOnClickListener(this);
     }
 
     private String file_retreive()
@@ -88,9 +95,18 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
                 JSONObject obj = jsonArray.getJSONObject(i);
                 if(obj.getString("result").equals("yes"))
                 {
-                    //Intent main= new Intent(getApplicationContext(), HomePageSchool.class);
-                   // startActivity(main);
-                   // finish();
+                    String error = "error";
+                    FileOutputStream outputStream = null;
+                    try {
+                        outputStream = openFileOutput("Bodhi_Login_School", Context.MODE_PRIVATE);
+                        outputStream.write(error.getBytes());
+                        outputStream.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    Intent in = new Intent(getApplicationContext(), LoginActivitySchool.class);
+                    startActivity(in);
+                    finish();
 
                 }
 
@@ -116,7 +132,12 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
 
 
     }
-
+    @Override
+    public void onBackPressed()
+    {
+        finish();
+        super.onBackPressed();
+    }
 
     @Override
     public void onClick(View view) {
@@ -135,7 +156,7 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
                 ConfirmPassword.setError("This field can not be empty");
             }
             else {
-                if (ChangePassword.getText().toString().trim().length()>7 && ConfirmPassword.getText().toString().trim().length()>7 ){
+                if (ChangePassword.getText().toString().trim().length()>6 && ConfirmPassword.getText().toString().trim().length()>6 ){
                     StartChangePasswordProcess();
                 }
                   else {
@@ -143,6 +164,11 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
                       ConfirmPassword.setError("Short Lenght");
                 }
             }
+        }
+
+        if (view == backbutton)
+        {
+            onBackPressed();
         }
     }
 }

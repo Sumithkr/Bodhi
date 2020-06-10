@@ -29,7 +29,7 @@ public class StudentNoticePage extends Fragment {
     String[] NoticeUrl = new String[1000];
     String[] NoticeClass = new String[1000];
     String[] NoticeDateTime = new String[1000];
-    String[] Days_list = {"Select Days","30", "60", "90", "120"};
+    String[] Days_list = {"Days","30", "60", "90", "120"};
     Spinner spin_days;
     String Day;
     ListView notice_list;
