@@ -39,18 +39,19 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="15dp"
             android:gravity="center_vertical">
 
             <ImageView
 
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:text="Videos"
-                android:paddingStart="20dp" />
+                android:src="@drawable/default_profile_image"
+                android:text="Videos" />
 
             <TextView
 
+                android:id="@+id/StudentName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sumith Kumar"

@@ -43,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     String selectedSchool, selectedClass;
     Spinner SelectClass, SelectSchool;
     TextView OpenLogin;
+    int allotedState= 0, allotedCity= 0;
 
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions gso;
@@ -289,6 +290,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     public void AddpUpAllClass(){
 
         ClassList.clear();
+        ClassList.add(0, "Select Class");
 
         try {
 
@@ -372,6 +374,13 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
         if(parent.getId()  == R.id.SelectSchool){
 
+            if(SchoolList.contains("Select School")) {
+
+                SchoolList.remove(0);
+                SchoolList.add(0, SchoolList.get(SchoolList.size() - 1));
+                SchoolList.remove(SchoolList.size() - 1);
+
+            }
             selectedSchool = SelectSchool.getItemAtPosition(position).toString();
             SelectSchool.setPrompt("Select School");
             MainSchoolID= SchoolID[position];
@@ -380,6 +389,14 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         }
 
         else if(parent.getId()== R.id.SelectClass){
+
+            if(ClassList.contains("Select Class")) {
+
+                ClassList.remove(0);
+                ClassList.add(0, ClassList.get(ClassList.size() - 1));
+                ClassList.remove(ClassList.size() - 1);
+
+            }
 
             selectedClass= SelectClass.getItemAtPosition(position).toString();
             SelectClass.setPrompt("Select Class");
@@ -421,6 +438,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         try
         {
 
+            SchoolList.add(0, "Select School");
             JSONArray jsonArray = new JSONArray(json);
             for (int i = 0; i < jsonArray.length(); i++)
             {

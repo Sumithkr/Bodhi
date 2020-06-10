@@ -286,6 +286,7 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
     public void AddUpAllStates(){
 
         StateList.clear();
+        StateList.add("Select State");
 
         try {
 
@@ -321,6 +322,7 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
     public void AddUpAllCities(){
 
         CityList.clear();
+        CityList.add("Select City");
 
         try {
 
@@ -417,6 +419,12 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
 
         if(parent.getId()  == R.id.SelectState){
 
+            if(StateList.contains("Select State")) {
+
+                StateList.remove(0);
+                StateList.add(0, StateList.get(StateList.size() - 1));
+                StateList.remove(StateList.size() - 1);
+            }
             selectedState = SelectState.getItemAtPosition(position).toString();
             SelectState.setPrompt("Select State");
             //Toast.makeText(getApplicationContext(), selectedState, Toast.LENGTH_LONG).show();
@@ -426,6 +434,12 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
 
         else if(parent.getId()== R.id.SelectCity){
 
+            if(CityList.contains("Select City")) {
+
+                CityList.remove(0);
+                CityList.add(0, CityList.get(CityList.size() - 1));
+                CityList.remove(CityList.size() - 1);
+            }
             selectedCity= SelectCity.getItemAtPosition(position).toString();
             SelectCity.setPrompt("Select City");
             //Toast.makeText(getApplicationContext(), selectedCity, Toast.LENGTH_LONG).show();
