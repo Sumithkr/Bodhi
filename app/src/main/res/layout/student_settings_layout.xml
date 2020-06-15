@@ -15,24 +15,24 @@
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <LinearLayout
 
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="200dp"
                 android:orientation="horizontal"
-                android:gravity="bottom"
-                android:paddingLeft="35dp"
-                android:paddingRight="35dp"
+                android:gravity="center"
                 android:paddingBottom="5dp">
 
                 <androidx.cardview.widget.CardView
 
+                    android:id="@+id/ProfileSchool"
                     android:layout_width="120dp"
                     android:layout_height="140dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:outlineSpotShadowColor="@color/MainTheme"
                     android:outlineAmbientShadowColor="@color/MainTheme"
                     app:cardElevation="50dp"
@@ -64,11 +64,11 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-
+                    android:id="@+id/Card_ChangePassword"
                     android:layout_width="120dp"
                     android:layout_height="140dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginHorizontal="80dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:outlineSpotShadowColor="@color/MainTheme"
                     android:outlineAmbientShadowColor="@color/MainTheme"
                     app:cardElevation="50dp"
@@ -91,7 +91,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingTop="6dp"
                             android:text="Change Password"
                             android:textAlignment="center"
                             android:textSize="17sp" />
@@ -107,16 +106,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingLeft="30dp"
-                android:paddingRight="35dp"
+                android:gravity="center"
                 android:paddingBottom="5dp">
 
                 <androidx.cardview.widget.CardView
-
+                    android:id="@+id/Card_Share"
                     android:layout_width="100dp"
                     android:layout_height="140dp"
-                    android:layout_marginBottom="5dp"
                     android:outlineSpotShadowColor="@color/MainTheme"
                     android:outlineAmbientShadowColor="@color/MainTheme"
                     app:cardElevation="20dp"
@@ -148,10 +144,9 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-
+                    android:id="@+id/Card_Feedback"
                     android:layout_width="100dp"
                     android:layout_height="140dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="15dp"
                     android:outlineSpotShadowColor="@color/MainTheme"
                     android:outlineAmbientShadowColor="@color/MainTheme"
@@ -185,10 +180,9 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-
+                    android:id="@+id/Card_ContactUs"
                     android:layout_width="100dp"
                     android:layout_height="140dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="15dp"
                     android:outlineSpotShadowColor="@color/MainTheme"
                     android:outlineAmbientShadowColor="@color/MainTheme"
@@ -228,17 +222,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingLeft="35dp"
-                android:paddingRight="35dp"
-                android:paddingBottom="5dp">
+                android:gravity="center">
 
                 <androidx.cardview.widget.CardView
-
+                    android:id="@+id/Card_UpgradePlan"
                     android:layout_width="160dp"
                     android:layout_height="100dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:outlineSpotShadowColor="@color/MainTheme"
                     android:outlineAmbientShadowColor="@color/MainTheme"
                     app:cardElevation="20dp"
@@ -270,11 +261,11 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-
+                    android:id="@+id/Card_Logout"
                     android:layout_width="160dp"
                     android:layout_height="100dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:outlineSpotShadowColor="@color/MainTheme"
                     android:outlineAmbientShadowColor="@color/MainTheme"
                     app:cardElevation="20dp"

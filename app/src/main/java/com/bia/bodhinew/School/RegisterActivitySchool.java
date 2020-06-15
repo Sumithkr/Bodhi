@@ -3,6 +3,7 @@ package com.bia.bodhinew.School;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -32,13 +33,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivitySchool extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemSelectedListener {
 
-    EditText password, email, name;
+    EditText password, email, name, ConfirmPassword;
     Button register;
     SignInButton signInButton;
     String selectedState, selectedCity;
@@ -48,6 +50,7 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions gso;
     private static final int RC_SIGN_IN = 1;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     final ArrayList<String> StateList = new ArrayList<String>();
     final ArrayList<String> CityList = new ArrayList<String>();
@@ -79,6 +82,7 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
         email= findViewById(R.id.SchoolEmail);
         password= findViewById(R.id.SchoolPassword);
         name= findViewById(R.id.SchoolName);
+        ConfirmPassword= findViewById(R.id.SchoolConfirmPassword);
         register= findViewById(R.id.register);
 
         signInButton=(SignInButton)findViewById(R.id.sign_in_button);
@@ -179,15 +183,22 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
             @Override
             public void onClick(View v) {
 
-                if(email.getText().toString().trim().equalsIgnoreCase("")){
+                String validation= email.getText().toString().trim();
+
+                if(validation.equalsIgnoreCase("")){
 
                     email.setError("This field can not be empty");
 
                 }
 
+                else if(!validEmail(validation)){
+
+                    email.setError("Enter a Valid Email ID");
+                }
+
                 else if(name.getText().toString().trim().equalsIgnoreCase("")){
 
-                    password.setError("This field can not be empty");
+                    name.setError("This field can not be empty");
 
                 }
 
@@ -197,9 +208,35 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
 
                 }
 
+                else if(password.getText().toString().trim().length()!=7){
+
+                    password.setError("Should be atleast 7 characters long");
+
+                }
+
+                else if(!ConfirmPassword.getText().toString().trim().equals(password.getText().toString().trim())){
+
+                    password.setError("Password doesn't match");
+                    ConfirmPassword.setError("Password doesn't match");
+
+                }
+
+                else if(selectedState.equals("") || selectedState.equals(null) || selectedState.equals("Select State")){
+
+                    Toast.makeText(getApplicationContext(), "Select a state first", Toast.LENGTH_SHORT).show();
+
+                }
+
+                else if(selectedCity.equals("") || selectedCity.equals(null) || selectedCity.equals("Select City")){
+
+                    Toast.makeText(getApplicationContext(), "Select a city first", Toast.LENGTH_SHORT).show();
+
+                }
+
                 else
 
                     StartProcessRegister();
+
 
             }
         });
@@ -248,12 +285,11 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
                 }
                 else if(obj.getString("result").equals("no"))
                 {
-                    Toast.makeText(getApplicationContext(),"Some error occured",Toast.LENGTH_SHORT).show();
+                    name.setError("Try with some other username");
                 }
                 else if(obj.getString("result").equals("registered"))
                 {
-                    Toast.makeText(getApplicationContext(),"Already Registered User !" +
-                            "",Toast.LENGTH_SHORT).show();
+                    email.setError("Already Registered User !");
                 }
 
             }
@@ -451,6 +487,11 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    private boolean validEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 
 }

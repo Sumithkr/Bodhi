@@ -1,7 +1,5 @@
 package com.bia.bodhinew;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bia.bodhinew.School.HomePageSchool;
 import com.bia.bodhinew.School.LoginActivitySchool;
 
 import org.json.JSONArray;
@@ -18,6 +15,8 @@ import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ChangePassword extends AppCompatActivity implements View.OnClickListener {
     EditText CurrentPassword,ChangePassword,ConfirmPassword;
