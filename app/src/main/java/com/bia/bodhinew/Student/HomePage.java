@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.bia.bodhinew.R;
@@ -45,7 +44,7 @@ public class HomePage extends Fragment {
     CardView Previously_watched_button;
     private boolean firstTime = true;
     static int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0, SubjectContain=0;
-    static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles, SchoolName;
+    static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles, SchoolName, StudentName;
     static ArrayList<HomeDetailsGetandSetVideos> resultsVideos = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetBooks> resultsBooks = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetRevisionArticle> resultsRevisionArticle = new ArrayList<>();
@@ -120,6 +119,8 @@ public class HomePage extends Fragment {
         TotalArticles = RootView.findViewById(R.id.total_articles);
         TotalMediaAttachments= RootView.findViewById(R.id.total_media_attachements);
         SchoolName= RootView.findViewById(R.id.SchoolName);
+        StudentName= RootView.findViewById(R.id.StudentName);
+        StudentName.setText(file_retreive_StudentName());
         SchoolName.setText(file_retreive_school());
         Previously_watched_button = (CardView) RootView.findViewById(R.id.Previously_watched_button);
         Previously_watched_button.setOnClickListener(new View.OnClickListener() {
@@ -575,6 +576,29 @@ public class HomePage extends Fragment {
         FileInputStream inputStream = null;
         try {
             inputStream = getContext().openFileInput("Bodhi_School");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
+    private String file_retreive_StudentName()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = getContext().openFileInput("Bodhi_StudentName");
             StringBuffer fileContent = new StringBuffer("");
 
             byte[] buffer = new byte[1024];

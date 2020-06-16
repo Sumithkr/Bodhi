@@ -33,7 +33,7 @@ public class UpdateCredentialsSchool extends AppCompatActivity {
 
     public void StartProcessUpdate(){
 
-        String url= "http://bodhi.shwetaaromatics.co.in/FetchProfileDetails.php?UserID="+file_retreive();
+        String url= "https://bodhi.shwetaaromatics.co.in/FetchProfileDetails.php?UserID="+file_retreive();
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {

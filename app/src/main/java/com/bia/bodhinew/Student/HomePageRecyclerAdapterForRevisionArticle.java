@@ -83,7 +83,49 @@ public class HomePageRecyclerAdapterForRevisionArticle extends RecyclerView.Adap
 
         if(ArrayList.get(position).getThumbnailURL().contains(".pdf")) {
 
-            holder.ArticleIcon.setImageResource(R.drawable.pdf_files_icon);
+            holder.ArticleIcon.setImageResource(R.drawable.file_type_pdf);
+
+        }
+
+        if(ArrayList.get(position).getThumbnailURL().contains(".doc")) {
+
+            holder.ArticleIcon.setImageResource(R.drawable.file_type_doc);
+
+        }
+
+        if(ArrayList.get(position).getThumbnailURL().contains(".docx")) {
+
+            holder.ArticleIcon.setImageResource(R.drawable.file_type_docx);
+
+        }
+
+        if(ArrayList.get(position).getThumbnailURL().contains(".pptx")) {
+
+            holder.ArticleIcon.setImageResource(R.drawable.file_type_pptx);
+
+        }
+
+        if(ArrayList.get(position).getThumbnailURL().contains(".ppt")) {
+
+            holder.ArticleIcon.setImageResource(R.drawable.file_type_ppt);
+
+        }
+
+        if(ArrayList.get(position).getThumbnailURL().contains(".3gp")) {
+
+            holder.ArticleIcon.setImageResource(R.drawable.file_type_3gp);
+
+        }
+
+        if(ArrayList.get(position).getThumbnailURL().contains(".jpg")) {
+
+            holder.ArticleIcon.setImageResource(R.drawable.file_type_jpg);
+
+        }
+
+        if(ArrayList.get(position).getThumbnailURL().contains(".mp3")) {
+
+            holder.ArticleIcon.setImageResource(R.drawable.file_type_mp3);
 
         }
 

@@ -86,28 +86,42 @@
             android:inputType="textPassword"
             app:backgroundTint="@color/MainTheme"/>
 
-        <Spinner
+        <LinearLayout
 
-            android:id="@+id/SelectSchool"
-            android:layout_width="220dp"
-            android:layout_height="35dp"
-            android:spinnerMode="dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@drawable/stroke_background"
-            android:padding="10dp"
-            android:textAlignment="center"/>
+            android:background="@drawable/stroke_background">
+
+            <Spinner
+
+                android:id="@+id/SelectSchool"
+                android:layout_width="220dp"
+                android:layout_height="35dp"
+                android:spinnerMode="dialog"
+                android:paddingLeft="40dp"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
 
 
-        <Spinner
+        <LinearLayout
 
-            android:id="@+id/SelectClass"
-            android:layout_width="220dp"
-            android:layout_height="35dp"
-            android:spinnerMode="dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:background="@drawable/stroke_background"
-            android:padding="10dp"
-            android:textAlignment="center"/>
+            android:background="@drawable/stroke_background">
+
+            <Spinner
+
+                android:id="@+id/SelectClass"
+                android:layout_width="220dp"
+                android:layout_height="35dp"
+                android:spinnerMode="dialog"
+                android:paddingLeft="40dp"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
 
 
     </LinearLayout>

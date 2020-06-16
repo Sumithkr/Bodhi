@@ -61,7 +61,7 @@ public class HomePageRecyclerAdapterForRevisionMediaSchool extends RecyclerView.
 
         ArrayList = homeClass;
         context = mContext;
-
+        setHasStableIds(true);
     }
 
     @NonNull
@@ -159,6 +159,19 @@ public class HomePageRecyclerAdapterForRevisionMediaSchool extends RecyclerView.
 
             return 0;
         }
+    }
+
+    @Override
+    public long getItemId(int position)
+    {
+        //file_size.setText( position+"");
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        return position;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

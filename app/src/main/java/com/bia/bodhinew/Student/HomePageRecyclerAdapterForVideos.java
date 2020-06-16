@@ -40,7 +40,7 @@ public class HomePageRecyclerAdapterForVideos extends RecyclerView.Adapter<HomeP
 
         ArrayList = homeClass;
         context = mContext;
-
+        setHasStableIds(true);
     }
 
     @NonNull
@@ -102,6 +102,19 @@ public class HomePageRecyclerAdapterForVideos extends RecyclerView.Adapter<HomeP
 
             return 0;
         }
+    }
+
+    @Override
+    public long getItemId(int position)
+    {
+        //file_size.setText( position+"");
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        return position;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

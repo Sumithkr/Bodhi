@@ -12,7 +12,6 @@ import com.bia.bodhinew.BuildConfig;
 import com.bia.bodhinew.ChangePassword;
 import com.bia.bodhinew.Feedback;
 import com.bia.bodhinew.R;
-import com.bia.bodhinew.Student.UpdateCredentials;
 
 import java.io.FileOutputStream;
 
