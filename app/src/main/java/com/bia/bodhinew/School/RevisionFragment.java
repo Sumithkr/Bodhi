@@ -3,11 +3,13 @@ package com.bia.bodhinew.School;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,8 +24,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bia.bodhinew.BuildConfig;
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
+import com.bia.bodhinew.realpath;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
@@ -41,10 +45,12 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import in.gauriinfotech.commons.Commons;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
 public class RevisionFragment extends Fragment implements View.OnClickListener {
 
@@ -185,11 +191,31 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         return Uri.parse(path);
     }
 
+    public String getPath(Uri uri) {
+
+        String path = null;
+        String[] projection = { MediaStore.Files.FileColumns.DATA };
+        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+
+        if(cursor == null){
+            path = uri.getPath();
+        }
+        else{
+            cursor.moveToFirst();
+            int column_index = cursor.getColumnIndexOrThrow(projection[0]);
+            path = cursor.getString(column_index);
+            cursor.close();
+        }
+
+        return ((path == null || path.isEmpty()) ? (uri.getPath()) : path);
+    }
+
     private void UploadFile(Uri path)
     {
         progress();
         String uploadId = UUID.randomUUID().toString();
-        String x = Commons.getPath(path, getActivity());
+        //String x = Commons.getPath(path, getActivity());
+        String x =getPath(path);
         Log.e("filepath",x);
         int type = 2;
         if (x.contains(".doc") || x.contains(".docx") || x.contains(".pdf") || x.contains(".ppt") || x.contains(".pptx")
@@ -329,8 +355,12 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
     {
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.setType("*/*");
+        chooseFile.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+        chooseFile.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | FLAG_GRANT_WRITE_URI_PERMISSION);
         chooseFile = Intent.createChooser(chooseFile, "Choose a file");
         startActivityForResult(chooseFile,100);
+
     }
 
 

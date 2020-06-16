@@ -3,6 +3,7 @@ package com.bia.bodhinew.School;
 import androidx.appcompat.app.AppCompatActivity;
 import in.gauriinfotech.commons.Commons;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -43,6 +44,7 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
     Uri uri;
     int l = 1,j = 1;
     String Cls;
+    ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,8 +80,18 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
         BackButton.setOnClickListener(this);
     }
 
+    public void progress()
+    {
+        dialog=new ProgressDialog(getApplicationContext());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+    }
+
     private void UploadFile(Uri path)
     {
+        progress();
         String uploadId = UUID.randomUUID().toString();
         String x = Commons.getPath(path, getApplicationContext());
         Log.e("filepath",x);
@@ -108,6 +120,8 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
                         @Override
                         public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
                             Notice.getText().clear();
+                            dialog.dismiss();
+                            dialog.cancel();
                         }
 
                         @Override
