@@ -21,10 +21,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
+import com.bia.bodhinew.utils;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
@@ -62,6 +64,8 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     Uri filePath = null;
     String check = "no";
     ProgressDialog dialog;
+    TextView filekanaam;
+    File f;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,6 +126,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         pick_book.setOnClickListener(this);
         BooksFragment_upload = (Button)v.findViewById(R.id.BooksFragment_upload);
         BooksFragment_upload.setOnClickListener(this);
+        filekanaam = (TextView)v.findViewById(R.id.filekanaam);
         return v;
     }
 
@@ -183,7 +188,8 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     {
         progress();
         String uploadId = UUID.randomUUID().toString();
-        String x = Commons.getPath(path, getActivity());
+        //String x = Commons.getPath(path, getActivity());
+        String x = utils.getRealPathFromURI_API19(getActivity(), path);
         /*String file;
         if (filename.indexOf(".") > 0) {
             file = filename.substring(0, filename.lastIndexOf("."));
@@ -248,6 +254,10 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
         if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK && data != null && data.getData() != null)
         {
             filePath = data.getData();
+            String y = utils.getRealPathFromURI_API19(getActivity(), filePath);
+            f = new File(y);
+            filekanaam.setText(""+f.getName());
+            Log.e("File name", f.getName());
             check = "yes";
 
         }

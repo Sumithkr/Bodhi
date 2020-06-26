@@ -17,10 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
+import com.bia.bodhinew.utils;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
@@ -31,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -47,11 +50,13 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     Uri filePath ,thumbnailuri;
     String check = "no";
     EditText Video_name,Video_description;
+    TextView filekanaam;
     Button VideoFragmment_upload,pick_video;
     ArrayList<String> SubjectName = new ArrayList();
     ArrayList<String> SubjectID = new ArrayList();
     String ID;
     String Cls;
+    File f;
     ProgressDialog dialog;
     private static final int PICK_FROM_GALLERY = 101;
     @Override
@@ -114,6 +119,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         pick_video.setOnClickListener(this);
         VideoFragmment_upload = (Button)v.findViewById(R.id.VideoFragmment_upload);
         VideoFragmment_upload.setOnClickListener(this);
+        filekanaam = (TextView)v.findViewById(R.id.filekanaam);
         return v;
 
     }
@@ -161,7 +167,9 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
     {   progress();
         String thumbpath = null;
         String uploadId = UUID.randomUUID().toString();
-        String x = Commons.getPath(path, getActivity());
+        //String x = Commons.getPath(path, getActivity());
+        String x = utils.getRealPathFromURI_API19(getActivity(), path);
+
         try
         {
             Bitmap thumb = ThumbnailUtils.createVideoThumbnail(x, MediaStore.Video.Thumbnails.MICRO_KIND);
@@ -257,6 +265,10 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
         {
 
             filePath = data.getData();
+            String y = utils.getRealPathFromURI_API19(getActivity(), filePath);
+            f = new File(y);
+            filekanaam.setText(""+f.getName().trim().substring(0,11));
+            Log.e("File name", f.getName());
             check = "yes";
         }
     }

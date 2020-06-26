@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bia.bodhinew.R;
+import com.bia.bodhinew.utils;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
@@ -93,7 +94,8 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
     {
         progress();
         String uploadId = UUID.randomUUID().toString();
-        String x = Commons.getPath(path, getApplicationContext());
+        //String x = Commons.getPath(path, getApplicationContext());
+        String x = utils.getRealPathFromURI_API19(getApplicationContext(), path);
         Log.e("filepath",x);
         try
         {

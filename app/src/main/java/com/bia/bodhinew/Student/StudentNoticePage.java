@@ -11,11 +11,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import com.bia.bodhinew.R;
@@ -34,9 +41,13 @@ public class StudentNoticePage extends Fragment {
     String Day;
     ListView notice_list;
     ImageView nodata;
-    String[] msg_read = new String[1000];
+    //String[] msg_read = new String[1000];
     String[] NoticeId = new String[1000];
     ProgressDialog dialog;
+    private String filename = "SampleFile.txt";
+    private String filepath = "MyFileStorage";
+    File myExternalFile;
+    String myData = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,6 +106,10 @@ public class StudentNoticePage extends Fragment {
                         || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf") )
                     notice.setBoolImage(true);
             }
+
+            myData = NoticeId[i];
+
+
            /* if(msg_read[i].equals("1"))
             {
                 notice.setBoolMSgRead(true);
@@ -106,8 +121,34 @@ public class StudentNoticePage extends Fragment {
             i++;
             results.add(notice);
         }
-
         return results;
+
+    }
+
+    public void fileread() {
+        try {
+            FileInputStream fis = new FileInputStream(myExternalFile);
+            DataInputStream in = new DataInputStream(fis);
+            BufferedReader br =  new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                myData = myData + strLine;
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void filrwrite(){
+
+        try {
+            FileOutputStream fos = new FileOutputStream(myExternalFile);
+            fos.write(myData.toString().getBytes());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onPreServerFile()
@@ -166,6 +207,7 @@ public class StudentNoticePage extends Fragment {
                 NoticeClass[i] = obj.getString("Class");
                 NoticeDateTime[i] = obj.getString("DateTime");
                 NoticeId[i] = obj.getString("NoticeID");
+                Log.e("notice id", NoticeId[i]);
             }
             final ArrayList<Modelclass> listing_of_notice = GetPublisherResults();
             notice_list.setAdapter(new StudentNoticePageAdaptor(getActivity(), listing_of_notice));

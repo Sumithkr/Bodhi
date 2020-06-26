@@ -22,13 +22,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bia.bodhinew.BuildConfig;
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
-import com.bia.bodhinew.realpath;
+import com.bia.bodhinew.utils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hbisoft.pickit.PickiT;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
@@ -66,6 +68,8 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
     int l = 1,j = 1;
     private Spinner spin_subjects;
     ProgressDialog dialog;
+    File f;
+    TextView filekanaam;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -127,6 +131,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         Revision_description = (EditText)v.findViewById(R.id.Revision_description);
         RevisionFragment_upload = (Button) v.findViewById(R.id.RevisionFragment_upload);
         RevisionFragment_upload.setOnClickListener(this);
+        filekanaam = (TextView)v.findViewById(R.id.filekanaam);
         return v;
     }
 
@@ -191,31 +196,12 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         return Uri.parse(path);
     }
 
-    public String getPath(Uri uri) {
-
-        String path = null;
-        String[] projection = { MediaStore.Files.FileColumns.DATA };
-        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
-
-        if(cursor == null){
-            path = uri.getPath();
-        }
-        else{
-            cursor.moveToFirst();
-            int column_index = cursor.getColumnIndexOrThrow(projection[0]);
-            path = cursor.getString(column_index);
-            cursor.close();
-        }
-
-        return ((path == null || path.isEmpty()) ? (uri.getPath()) : path);
-    }
-
     private void UploadFile(Uri path)
     {
         progress();
         String uploadId = UUID.randomUUID().toString();
         //String x = Commons.getPath(path, getActivity());
-        String x =getPath(path);
+        String x = utils.getRealPathFromURI_API19(getActivity(), path);
         Log.e("filepath",x);
         int type = 2;
         if (x.contains(".doc") || x.contains(".docx") || x.contains(".pdf") || x.contains(".ppt") || x.contains(".pptx")
@@ -322,6 +308,8 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                                 public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
                                     Revision_description.getText().clear();
                                     Revision_name.getText().clear();
+                                    dialog.cancel();
+                                    dialog.dismiss();
                                 }
 
                                 @Override
@@ -345,6 +333,10 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
         if (requestCode == 100 && resultCode == RESULT_OK)
         {
             uri = data.getData();
+            String y = utils.getRealPathFromURI_API19(getActivity(), uri);
+            f = new File(y);
+            filekanaam.setText(""+f.getName().trim().substring(0,11));
+            Log.e("File name", f.getName());
             check = "yes";
         }
 
@@ -353,13 +345,12 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
 
     public void openfile()
     {
-        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseFile.setType("*/*");
-        chooseFile.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-        chooseFile.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | FLAG_GRANT_WRITE_URI_PERMISSION);
-        chooseFile = Intent.createChooser(chooseFile, "Choose a file");
-        startActivityForResult(chooseFile,100);
+            Intent intent = new Intent();
+            intent.setType("*/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.putExtra("return-data", true);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivityForResult(intent, 100);
 
     }
 

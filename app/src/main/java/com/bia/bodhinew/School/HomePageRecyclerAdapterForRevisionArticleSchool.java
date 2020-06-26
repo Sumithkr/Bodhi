@@ -176,7 +176,7 @@ public class HomePageRecyclerAdapterForRevisionArticleSchool extends RecyclerVie
 
         Log.e("Upload ID", ArrayList.get(position).getUploadID());
 
-        String url = "http://bodhi.shwetaaromatics.co.in/School/DisableMedia.php?UserID="+
+        String url = "https://bodhi.shwetaaromatics.co.in/School/DisableMedia.php?UserID="+
                 file_retreive()+"&MediaID="+ArrayList.get(position).getUploadID();
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
