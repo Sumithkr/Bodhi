@@ -231,6 +231,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                         public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
                             Book_description.getText().clear();
                             Book_name.getText().clear();
+                            filekanaam.setText("Select file");
                             dialog.dismiss();
                             dialog.cancel();
                         }
@@ -256,7 +257,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
             filePath = data.getData();
             String y = utils.getRealPathFromURI_API19(getActivity(), filePath);
             f = new File(y);
-            filekanaam.setText(""+f.getName());
+            filekanaam.setText(""+f.getName().trim());
             Log.e("File name", f.getName());
             check = "yes";
 

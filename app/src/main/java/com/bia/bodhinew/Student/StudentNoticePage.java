@@ -1,6 +1,7 @@
 package com.bia.bodhinew.Student;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,10 +45,6 @@ public class StudentNoticePage extends Fragment {
     //String[] msg_read = new String[1000];
     String[] NoticeId = new String[1000];
     ProgressDialog dialog;
-    private String filename = "SampleFile.txt";
-    private String filepath = "MyFileStorage";
-    File myExternalFile;
-    String myData = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,12 +80,19 @@ public class StudentNoticePage extends Fragment {
 
     private ArrayList<Modelclass> GetPublisherResults() {
         ArrayList<Modelclass> results = new ArrayList<>();
-
+        int new_id = 0;
+        String myData = "";
+        int a;
         int i =0;
+
         if(NoticeContent[i] == null)
         {
             nodata.setVisibility(View.VISIBLE);
             notice_list.setVisibility(View.GONE);
+        }
+        else {
+            nodata.setVisibility(View.GONE);
+            notice_list.setVisibility(View.VISIBLE);
         }
         while (NoticeContent[i] != null)
         {
@@ -107,8 +111,20 @@ public class StudentNoticePage extends Fragment {
                     notice.setBoolImage(true);
             }
 
-            myData = NoticeId[i];
+                myData = NoticeId[i];
+                a=Integer.parseInt(myData);
+                if (a > new_id)
+                {
+                    file_write_id(myData);
+                    notice.setBoolMSgRead(true);
+                }
+                else
+                {
+                    notice.setBoolMSgRead(false);
+                }
 
+            new_id = Integer.parseInt(file_id());
+            Log.e("new id", String.valueOf(new_id));
 
            /* if(msg_read[i].equals("1"))
             {
@@ -125,29 +141,38 @@ public class StudentNoticePage extends Fragment {
 
     }
 
-    public void fileread() {
+    private void file_write_id(String ID)
+    {
+        FileOutputStream outputStream = null;
         try {
-            FileInputStream fis = new FileInputStream(myExternalFile);
-            DataInputStream in = new DataInputStream(fis);
-            BufferedReader br =  new BufferedReader(new InputStreamReader(in));
-            String strLine;
-            while ((strLine = br.readLine()) != null) {
-                myData = myData + strLine;
-            }
-            in.close();
-        } catch (IOException e) {
+            outputStream = getActivity().openFileOutput("Latest_id", Context.MODE_PRIVATE);
+            outputStream.write(ID.getBytes());
+            outputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void filrwrite(){
-
+    private String file_id()
+    {
+        FileInputStream inputStream = null;
         try {
-            FileOutputStream fos = new FileOutputStream(myExternalFile);
-            fos.write(myData.toString().getBytes());
-            fos.close();
-        } catch (IOException e) {
+            inputStream = getActivity().openFileInput("Latest_id");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
             e.printStackTrace();
+            return "error";
         }
     }
 

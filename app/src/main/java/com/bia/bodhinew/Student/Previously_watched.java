@@ -133,8 +133,8 @@ public class Previously_watched extends AppCompatActivity {
     public void StartServerFile()
     {
 
-       // String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+file_retreive();
-        String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+38;
+        String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+file_retreive();
+        //String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+38;
         Log.e("url",url);
         com.bia.bodhinew.FetchFromDB asyncTask = (com.bia.bodhinew.FetchFromDB) new com.bia.bodhinew.FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {

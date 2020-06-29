@@ -218,7 +218,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
                             dialog.cancel();
                             Video_description.getText().clear();
                             Video_name.getText().clear();
-
+                            filekanaam.setText("Select file");
 
                         }
 
@@ -267,7 +267,7 @@ public class VideoFragment extends Fragment implements View.OnClickListener {
             filePath = data.getData();
             String y = utils.getRealPathFromURI_API19(getActivity(), filePath);
             f = new File(y);
-            filekanaam.setText(""+f.getName().trim().substring(0,11));
+            filekanaam.setText(""+f.getName().trim());
             Log.e("File name", f.getName());
             check = "yes";
         }

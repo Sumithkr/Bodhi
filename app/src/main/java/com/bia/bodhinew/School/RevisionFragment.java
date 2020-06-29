@@ -93,7 +93,6 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                 if(position != 0)
                 {
                     Cls = Class_list[position];
-                    Log.e("class",Cls);
                 }
                 //Toast.makeText(getActivity(), "Selected : "+Class_list[position] ,Toast.LENGTH_SHORT).show();
             }
@@ -115,7 +114,6 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                 ID="";
                 if(position != 0) {
                     ID = SubjectID.get(position);
-                    Log.e("idaayi", ID);
                 }
             }
 
@@ -260,6 +258,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                                 public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
                                     Revision_description.getText().clear();
                                     Revision_name.getText().clear();
+                                    filekanaam.setText("Select file");
                                     dialog.cancel();
                                     dialog.dismiss();
 
@@ -308,6 +307,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                                 public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
                                     Revision_description.getText().clear();
                                     Revision_name.getText().clear();
+                                    filekanaam.setText("Select file");
                                     dialog.cancel();
                                     dialog.dismiss();
                                 }
@@ -335,7 +335,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
             uri = data.getData();
             String y = utils.getRealPathFromURI_API19(getActivity(), uri);
             f = new File(y);
-            filekanaam.setText(""+f.getName().trim().substring(0,11));
+            filekanaam.setText(""+f.getName().trim());
             Log.e("File name", f.getName());
             check = "yes";
         }
