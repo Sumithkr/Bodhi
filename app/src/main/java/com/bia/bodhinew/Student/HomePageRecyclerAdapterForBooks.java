@@ -94,6 +94,7 @@ public class HomePageRecyclerAdapterForBooks extends RecyclerView.Adapter<HomePa
                     Log.e("File not exist", "yes");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
                         new DownloadFileFromURL().execute(ArrayList.get(position).getURL());
+                        StartServerFile(ArrayList.get(position).getUploadID());
                     }
 
                 }
@@ -166,7 +167,7 @@ public class HomePageRecyclerAdapterForBooks extends RecyclerView.Adapter<HomePa
     {
         FileInputStream inputStream = null;
         try {
-            inputStream = context.openFileInput("Bodhi_Login_School");
+            inputStream = context.openFileInput("Bodhi_Login");
             StringBuffer fileContent = new StringBuffer("");
 
             byte[] buffer = new byte[1024];
@@ -285,6 +286,27 @@ public class HomePageRecyclerAdapterForBooks extends RecyclerView.Adapter<HomePa
 
         }
 
+    }
+
+    public void StartServerFile(String MediaID)
+    {
+        String url = "https://bodhi.shwetaaromatics.co.in/Student/UpdatePreviouslyWatched.php?UserID="+file_retreive()+"&MediaID="+MediaID;
+        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
+        {
+            @Override
+            public void processFinish(String output) //onPOstFinish
+            {
+
+                try
+                {
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).execute();
     }
 
     public void DismissDialog(){

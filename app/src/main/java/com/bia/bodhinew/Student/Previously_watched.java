@@ -133,8 +133,7 @@ public class Previously_watched extends AppCompatActivity {
     public void StartServerFile()
     {
 
-       // String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+file_retreive();
-        String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+38;
+        String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+file_retreive();
         Log.e("url",url);
         com.bia.bodhinew.FetchFromDB asyncTask = (com.bia.bodhinew.FetchFromDB) new com.bia.bodhinew.FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -215,10 +214,10 @@ public class Previously_watched extends AppCompatActivity {
             }
 
 
-
+            Modelclass ar1 = new Modelclass();
             if(FileShow)
             {
-                Modelclass ar1 = new Modelclass();
+
                 ar1.setFile_name(FileName[k]);
                 ar1.setFile_description(FileDescription[k]);
                 ar1.setDatetime_of_notice(FileDateTime[k]);
@@ -227,6 +226,13 @@ public class Previously_watched extends AppCompatActivity {
                 results.add(ar1);
             }
 
+            if (FileThumbnailUrl[k].equals("") || FileThumbnailUrl[k] == null)
+            {
+                ar1.setBoolImage(false);
+            }
+            else {
+              ar1.setBoolImage(true);
+            }
 
 
             k++;
@@ -264,10 +270,9 @@ public class Previously_watched extends AppCompatActivity {
                 }
 
             }
-
+            Modelclass ar1 = new Modelclass();
             if(FileShow)
             {
-                Modelclass ar1 = new Modelclass();
                 ar1.setFile_name(FileName[k]);
                 ar1.setFile_description(FileDescription[k]);
                 ar1.setDatetime_of_notice(FileDateTime[k]);
@@ -276,7 +281,13 @@ public class Previously_watched extends AppCompatActivity {
                 results.add(ar1);
             }
 
-
+            if (FileThumbnailUrl[k].equals("") || FileThumbnailUrl[k] == null)
+            {
+                ar1.setBoolImage(false);
+            }
+            else {
+                ar1.setBoolImage(true);
+            }
 
             k++;
         }
@@ -296,16 +307,23 @@ public class Previously_watched extends AppCompatActivity {
             nodata.setVisibility(View.GONE);
             list_previously_watched.setVisibility(View.VISIBLE);
         }
-
+        Modelclass ar1 = new Modelclass();
         while (FileName[k] != null)
         {
-            Modelclass ar1 = new Modelclass();
             ar1.setFile_name(FileName[k]);
             ar1.setFile_description(FileDescription[k]);
             ar1.setDatetime_of_notice(FileDateTime[k]);
             ar1.setSubject_name(SubjectName[k]);
             ar1.setImg_of_notice(FileThumbnailUrl[k]);
             results.add(ar1);
+
+            if (FileThumbnailUrl[k].equals("") || FileThumbnailUrl[k] == null)
+            {
+                ar1.setBoolImage(false);
+            }
+            else {
+                ar1.setBoolImage(true);
+            }
 
             k++;
         }
@@ -396,7 +414,7 @@ public class Previously_watched extends AppCompatActivity {
             //  showDialog(progress_bar_type);
             //ShowDialog();
             dialog= new ProgressDialog(Previously_watched.this);
-            dialog.setMessage("Fetching Book...");
+            dialog.setMessage("Fetching...");
             dialog.setCancelable(false);
             dialog.setInverseBackgroundForced(false);
             dialog.show();
@@ -469,7 +487,7 @@ public class Previously_watched extends AppCompatActivity {
         protected void onProgressUpdate(String... progress) {
             // setting progress percentage
 
-            dialog.setMessage("Fetching Book..." + progress[0]+ "%");
+            dialog.setMessage("Fetching ..." + progress[0]+ "%");
 
             Log.e("Progress - ", String.valueOf(Integer.parseInt(progress[0])));
         }
@@ -500,7 +518,7 @@ public class Previously_watched extends AppCompatActivity {
     {
         FileInputStream inputStream = null;
         try {
-            inputStream = openFileInput("Bodhi_Login_School");
+            inputStream = openFileInput("Bodhi_Login");
             StringBuffer fileContent = new StringBuffer("");
 
             byte[] buffer = new byte[1024];

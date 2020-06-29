@@ -129,9 +129,12 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/filekanaam"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Select Video : |" />
+                android:hint="Select Video :"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"/>
 
             <Button
                 android:id="@+id/pick_video"

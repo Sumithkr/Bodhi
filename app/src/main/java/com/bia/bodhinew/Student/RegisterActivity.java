@@ -385,6 +385,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             SelectSchool.setPrompt("Select School");
             MainSchoolID= SchoolID[position];
             AddpUpAllClass();
+            Toast.makeText(getApplicationContext(), selectedSchool, Toast.LENGTH_LONG).show();
 
         }
 

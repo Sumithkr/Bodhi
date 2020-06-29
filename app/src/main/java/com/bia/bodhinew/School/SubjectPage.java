@@ -124,6 +124,8 @@ public class SubjectPage extends Fragment {
         NoRevisionArticlePanel= RootView.findViewById(R.id.NoRevisionArticlePanel);
         NoRevisionMediaPanel= RootView.findViewById(R.id.NoRevisionMediaPanel);
 
+        Master_activity.currentFragment= "SubjectPage";
+
         StartServerFile();
 
         return RootView;
@@ -134,7 +136,7 @@ public class SubjectPage extends Fragment {
     {
         loading();
 
-        String url = "https://bodhi.shwetaaromatics.co.in/Student/FetchHomeMedia.php?UserID="+file_retreive();
+        String url = "https://bodhi.shwetaaromatics.co.in/School/FetchHomeMedia.php?UserID="+file_retreive();
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -160,6 +162,8 @@ public class SubjectPage extends Fragment {
     {
 
         while(SubjectName[universal]!= null){
+
+            Log.e("Main Subject Heading", getArguments().getString("ForSubject"));
 
             if(SubjectName[universal].equals(getArguments().getString("ForSubject"))) {
 
@@ -460,7 +464,7 @@ public class SubjectPage extends Fragment {
     {
         FileInputStream inputStream = null;
         try {
-            inputStream = getContext().openFileInput("Bodhi_Login");
+            inputStream = getContext().openFileInput("Bodhi_Login_School");
             StringBuffer fileContent = new StringBuffer("");
 
             byte[] buffer = new byte[1024];

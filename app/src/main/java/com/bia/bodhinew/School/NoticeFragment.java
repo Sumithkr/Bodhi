@@ -124,7 +124,8 @@ public class NoticeFragment extends Fragment {
         int i = 0;
 
         while (NoticeClass[i] != null)
-        {boolean checkdata = true;
+        {
+            boolean checkdata = true;
             Modelclass notice = new Modelclass();
             if(Cls.equals("All"))
             {

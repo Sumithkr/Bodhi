@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 public class MasterStudentActivity extends AppCompatActivity {
 
     HomePage home = new HomePage();
+    public static String currentFragment = null;
 
     BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {

@@ -87,17 +87,25 @@
             tools:ignore="MissingConstraints"></EditText>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_gravity="start"
+            android:background="@drawable/boundryorange"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select File :" />
 
             <Button
                 android:id="@+id/pick_doc"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="35dp"
-                android:background="@drawable/buttonbackwhite"
-                android:drawableLeft="@drawable/attachment" />
-
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="20dp"
+                android:background="#FCE6E1"
+                android:drawableLeft="@drawable/upload_book_button" />
         </LinearLayout>
 
         <LinearLayout

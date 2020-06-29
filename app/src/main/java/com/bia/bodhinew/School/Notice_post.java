@@ -3,6 +3,7 @@ package com.bia.bodhinew.School;
 import androidx.appcompat.app.AppCompatActivity;
 import in.gauriinfotech.commons.Commons;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bia.bodhinew.R;
+import com.bia.bodhinew.utils;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;
@@ -43,6 +45,7 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
     Uri uri;
     int l = 1,j = 1;
     String Cls;
+    ProgressDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,10 +81,21 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
         BackButton.setOnClickListener(this);
     }
 
+    public void progress()
+    {
+        dialog=new ProgressDialog(getApplicationContext());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);
+        dialog.show();
+    }
+
     private void UploadFile(Uri path)
     {
+        progress();
         String uploadId = UUID.randomUUID().toString();
-        String x = Commons.getPath(path, getApplicationContext());
+        //String x = Commons.getPath(path, getApplicationContext());
+        String x = utils.getRealPathFromURI_API19(getApplicationContext(), path);
         Log.e("filepath",x);
         try
         {
@@ -108,6 +122,8 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
                         @Override
                         public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
                             Notice.getText().clear();
+                            dialog.dismiss();
+                            dialog.cancel();
                         }
 
                         @Override

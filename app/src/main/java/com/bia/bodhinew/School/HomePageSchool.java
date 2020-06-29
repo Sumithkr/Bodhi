@@ -46,9 +46,9 @@ public class HomePageSchool extends Fragment {
     static int TotalVideoint= 0;
     static int TotalBooksint =0;
     static int TotalMediaAttachmentsint =0;
-    static int TotalArticlesint =0;
+    static int TotalArticlesint =0, TotalSubjectsint= 0;
     int SubjectContain=0;
-    static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles, SchoolName;
+    static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles, SchoolName, TotalSubjects;
     static ArrayList<HomeDetailsGetandSetVideosSchool> resultsVideos = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetBooksSchool> resultsBooks = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetRevisionArticleSchool> resultsRevisionArticle = new ArrayList<>();
@@ -70,8 +70,10 @@ public class HomePageSchool extends Fragment {
         TotalBooks = RootView.findViewById(R.id.total_book);
         TotalArticles = RootView.findViewById(R.id.total_articles);
         TotalMediaAttachments= RootView.findViewById(R.id.total_media_attachements);
+        TotalSubjects= RootView.findViewById(R.id.total_subject);
         SchoolName= RootView.findViewById(R.id.SchoolName);
         SchoolName.setText(file_retreive_school());
+        Master_activity.currentFragment= "Master_Activity";
         c = getActivity();
         StartServerFile();
 
@@ -206,6 +208,7 @@ public class HomePageSchool extends Fragment {
         TotalBooks.setText(TotalBooksint + " Book");
         TotalArticles.setText(TotalArticlesint + " Article");
         TotalMediaAttachments.setText(TotalMediaAttachmentsint + " Media Attachment");
+        TotalSubjects.setText(TotalSubjectsint + " Subjects");
 
     }
 
@@ -469,6 +472,7 @@ public class HomePageSchool extends Fragment {
             resultSubjectCopy.add(SubjectName[universal]);
             present= true;
             SubjectContain++;
+            TotalSubjectsint++;
 
         }
 
@@ -476,6 +480,7 @@ public class HomePageSchool extends Fragment {
 
             resultsSubjects.add(home);
             resultSubjectCopy.add(SubjectName[universal]);
+            TotalSubjectsint++;
         }
 
         return resultsSubjects;
