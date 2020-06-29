@@ -91,7 +91,6 @@ public class HomePageRecyclerAdapterForBooks extends RecyclerView.Adapter<HomePa
 
                 if(!file.exists()){
 
-                    Log.e("File not exist", "yes");
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
                         new DownloadFileFromURL().execute(ArrayList.get(position).getURL());
                         StartServerFile(ArrayList.get(position).getUploadID());
@@ -101,7 +100,6 @@ public class HomePageRecyclerAdapterForBooks extends RecyclerView.Adapter<HomePa
 
                 else {
 
-                    Log.e("File not exist", "NO");
                     folioReader.openBook(Environment.getExternalStorageDirectory().toString() + "/" + file_substring);
 
                 }

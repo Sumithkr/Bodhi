@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bia.bodhinew.R;
 import com.bumptech.glide.request.RequestOptions;
@@ -20,9 +21,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import tcking.github.com.giraffeplayer2.GiraffePlayer;
 import tcking.github.com.giraffeplayer2.VideoInfo;
 
@@ -31,6 +37,7 @@ public class HomePageRecyclerAdapterForVideos extends RecyclerView.Adapter<HomeP
     private static final String TAG = "RecyclerViewAdapter";
     private static java.util.ArrayList<HomeDetailsGetandSetVideos> ArrayList;
     private Context context;
+    ArrayList<String> FileID= new ArrayList<>();
     //vars
     /*private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
@@ -79,6 +86,7 @@ public class HomePageRecyclerAdapterForVideos extends RecyclerView.Adapter<HomeP
         holder.EntityName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 StartServerFile(ArrayList.get(position).getUploadID());
                 GiraffePlayer.play(context, new VideoInfo(String.valueOf(ArrayList.get(position).getURL())));
