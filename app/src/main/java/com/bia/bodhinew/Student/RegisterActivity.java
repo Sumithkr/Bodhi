@@ -3,6 +3,7 @@ package com.bia.bodhinew.Student;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -319,18 +320,21 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==RC_SIGN_IN){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResultBefore(result);
+            handleSignInResult(result);
+            int statusCode = result.getStatus().getStatusCode();
+            Log.e("Guide", String.valueOf(statusCode));
         }
     }
 
-    private void handleSignInResultBefore(GoogleSignInResult result){
+    private void handleSignInResult(GoogleSignInResult result){
         if(result.isSuccess()){
-            Toast.makeText(getApplicationContext(),"Successful Login",Toast.LENGTH_LONG).show();
-            //Intent intent = new Intent(RegisterActivitySchool.this, RegisterActivitySchool.class);
-            //startActivity(intent);
+            finish();
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
             //gotoProfile();
         }else{
-            Toast.makeText(getApplicationContext(),"Sign in cancel",Toast.LENGTH_LONG).show();
+
+            Toast.makeText(getApplicationContext(), "Sign In Cancel", Toast.LENGTH_LONG).show();
         }
     }
 

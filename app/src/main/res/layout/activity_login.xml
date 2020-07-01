@@ -18,10 +18,10 @@
 
         <ImageView
 
-            android:layout_width="60dp"
+            android:layout_width="80dp"
             android:layout_height="170dp"
             android:paddingTop="100dp"
-            android:src="@drawable/category_video_icon"/>
+            android:src="@drawable/main_student_header_icon"/>
 
 
         <TextView

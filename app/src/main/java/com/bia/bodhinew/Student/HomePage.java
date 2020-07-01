@@ -460,7 +460,7 @@ public class HomePage extends Fragment {
 
         HomeDetailsGetandSetBooks home = new HomeDetailsGetandSetBooks();
         home.setName(Name[universal]);
-        Log.e("Description", UploadID[universal]);
+        //Log.e("Description", UploadID[universal]);
         home.setThumbnailURL(FileURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
@@ -478,7 +478,7 @@ public class HomePage extends Fragment {
         HomeDetailsGetandSetRevisionArticle home = new HomeDetailsGetandSetRevisionArticle();
         home.setName(Name[universal]);
         home.setThumbnailURL(FileURL[universal]);
-        //Log.e("Description", FileURL[universal]);
+        //Log.e("Upload ID", UploadID[universal]);
         home.setDescription(Description[universal]);
         home.setUploadID(UploadID[universal]);
         home.setSubjectName(SubjectName[universal]);

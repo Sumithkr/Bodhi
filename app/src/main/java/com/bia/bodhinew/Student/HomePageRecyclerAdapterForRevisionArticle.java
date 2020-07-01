@@ -385,6 +385,7 @@ public class HomePageRecyclerAdapterForRevisionArticle extends RecyclerView.Adap
     public void StartServerFile(String MediaID)
     {
         String url = "https://bodhi.shwetaaromatics.co.in/Student/UpdatePreviouslyWatched.php?UserID="+file_retreive()+"&MediaID="+MediaID;
+        Log.e("Media ID", url);
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
             @Override
