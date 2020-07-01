@@ -2,6 +2,8 @@ package com.bia.bodhinew.Student;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import tcking.github.com.giraffeplayer2.GiraffePlayer;
+import tcking.github.com.giraffeplayer2.VideoInfo;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -101,10 +103,6 @@ public class Previously_watched extends AppCompatActivity {
                     }
 
                     list_previously_watched.setAdapter(new Previously_watched_adaptor(getApplicationContext(), list));
-                    Log.e("category",catgerory);
-
-                    //Call Check File Function with parameter catgerory
-
                 }
             }
 
@@ -118,7 +116,7 @@ public class Previously_watched extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String fileurl = FileUrl[i];
-                Toast.makeText(Previously_watched.this, "url"+fileurl, Toast.LENGTH_SHORT).show();
+                Log.e("url",fileurl);
                 new DownloadFileFromURL().execute(fileurl);
             }
         });
@@ -134,8 +132,6 @@ public class Previously_watched extends AppCompatActivity {
     {
 
         String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+file_retreive();
-        //String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+38;
-        Log.e("url",url);
         com.bia.bodhinew.FetchFromDB asyncTask = (com.bia.bodhinew.FetchFromDB) new com.bia.bodhinew.FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
             @Override
@@ -166,6 +162,7 @@ public class Previously_watched extends AppCompatActivity {
             {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 FileName[i]=obj.getString("Name");
+                Log.e("filename",FileName[i]);
                 FileID[i]=obj.getString("ID");
                 FileUrl[i] = obj.getString("URL");
                 FileThumbnailUrl[i] = obj.getString("ThumbnailURL");
@@ -183,6 +180,7 @@ public class Previously_watched extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     private static ArrayList<Modelclass> GetPublisherResults(ArrayList<String> extension,int o)
     {
         ArrayList<Modelclass> results = new ArrayList<>();
@@ -214,7 +212,6 @@ public class Previously_watched extends AppCompatActivity {
 
             }
 
-
             Modelclass ar1 = new Modelclass();
             if(FileShow)
             {
@@ -224,7 +221,7 @@ public class Previously_watched extends AppCompatActivity {
                 ar1.setDatetime_of_notice(FileDateTime[k]);
                 ar1.setSubject_name(SubjectName[k]);
                 ar1.setImg_of_notice(FileThumbnailUrl[k]);
-                results.add(ar1);
+
             }
 
             if (FileThumbnailUrl[k].equals("") || FileThumbnailUrl[k] == null)
@@ -234,13 +231,13 @@ public class Previously_watched extends AppCompatActivity {
             else {
               ar1.setBoolImage(true);
             }
-
-
             k++;
+            results.add(ar1);
         }
 
         return results;
     }
+
     private static ArrayList<Modelclass> GetPublisherResults(ArrayList<String> extension)
     {
         ArrayList<Modelclass> results = new ArrayList<>();
@@ -279,7 +276,7 @@ public class Previously_watched extends AppCompatActivity {
                 ar1.setDatetime_of_notice(FileDateTime[k]);
                 ar1.setSubject_name(SubjectName[k]);
                 ar1.setImg_of_notice(FileThumbnailUrl[k]);
-                results.add(ar1);
+
             }
 
             if (FileThumbnailUrl[k].equals("") || FileThumbnailUrl[k] == null)
@@ -291,10 +288,12 @@ public class Previously_watched extends AppCompatActivity {
             }
 
             k++;
+            results.add(ar1);
         }
 
         return results;
     }
+
     private static ArrayList<Modelclass> GetPublisherResults()
     {
         ArrayList<Modelclass> results = new ArrayList<>();
@@ -308,15 +307,14 @@ public class Previously_watched extends AppCompatActivity {
             nodata.setVisibility(View.GONE);
             list_previously_watched.setVisibility(View.VISIBLE);
         }
-        Modelclass ar1 = new Modelclass();
+
         while (FileName[k] != null)
-        {
+        { Modelclass ar1 = new Modelclass();
             ar1.setFile_name(FileName[k]);
             ar1.setFile_description(FileDescription[k]);
             ar1.setDatetime_of_notice(FileDateTime[k]);
             ar1.setSubject_name(SubjectName[k]);
             ar1.setImg_of_notice(FileThumbnailUrl[k]);
-            results.add(ar1);
 
             if (FileThumbnailUrl[k].equals("") || FileThumbnailUrl[k] == null)
             {
@@ -327,6 +325,7 @@ public class Previously_watched extends AppCompatActivity {
             }
 
             k++;
+            results.add(ar1);
         }
 
         return results;
@@ -335,44 +334,46 @@ public class Previously_watched extends AppCompatActivity {
     private void CheckFile( String filePath)
     {
         String url = filePath;
-
-        Log.e("urlincheck",url);
         String dataType="";
 
 
         if (url.toString().contains(".doc") || url.toString().contains(".docx"))
         {
-            // Word document
             dataType = "application/msword";
         }
         else if(url.toString().contains(".pdf"))
         {
-            // PDF file
             dataType = "application/pdf";
         }
         else if(url.toString().contains(".ppt") || url.toString().contains(".pptx"))
         {
-            // Powerpoint file
             dataType =  "application/vnd.ms-powerpoint";
         }
-        else if(url.toString().contains(".xls") || url.toString().contains(".xlsx")) {
-            // Excel file
-            dataType = "application/vnd.ms-excel";
-        } else if(url.toString().contains(".zip") || url.toString().contains(".rar"))
+        else if(url.toString().contains(".xls") || url.toString().contains(".xlsx"))
         {
-            // WAV audio file
+            dataType = "application/vnd.ms-excel";
+        }
+        else if(url.toString().contains(".zip") || url.toString().contains(".rar"))
+        {
             dataType = "application/x-wav";
         }
         else if(url.toString().contains(".jpg"))
         {
-            // WAV audio file
             dataType = "image/jpg";
         }
         else if(url.toString().contains(".png"))
         {
-            // WAV audio file
             dataType = "image/png";
         }
+        else if(url.toString().contains(".mp4") || url.toString().contains(".3gp") )
+        {
+            dataType = "video/*";
+        }
+        else if(url.toString().contains(".epub"))
+        {
+            dataType = "application/epub";
+        }
+
         openDocument(url, dataType);
     }
 
@@ -389,13 +390,11 @@ public class Previously_watched extends AppCompatActivity {
             uri = Uri.fromFile(file);
             Log.e("urihere", String.valueOf(uri));
         }
-
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setDataAndType(uri, dataType);
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         try {
-            Previously_watched.this.startActivity(intent);
+            startActivity(intent);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(Previously_watched.this, "Application not found", Toast.LENGTH_SHORT).show();
         }
@@ -499,15 +498,9 @@ public class Previously_watched extends AppCompatActivity {
         @Override
         protected void onPostExecute(String file_url)
         {
-
-
-
-            // dismiss the dialog after the file was downloaded
-            Log.e("hoighj","yaha dekho");
-            //String x = Commons.getPath(Uri.parse(Environment.getExternalStorageDirectory().toString()+ "/doc.docx"), context);
             String x = Environment
                     .getExternalStorageDirectory().toString()
-                    + "/file"+extension;
+                    + "/watched"+extension;
             CheckFile(x);
             dialog.dismiss();
             dialog.cancel();
@@ -519,7 +512,7 @@ public class Previously_watched extends AppCompatActivity {
     {
         FileInputStream inputStream = null;
         try {
-            inputStream = openFileInput("Bodhi_Login_School");
+            inputStream = openFileInput("Bodhi_Login");
             StringBuffer fileContent = new StringBuffer("");
 
             byte[] buffer = new byte[1024];

@@ -43,7 +43,7 @@ public class HomePageRecyclerAdapterForBooksSchool extends RecyclerView.Adapter<
     private static java.util.ArrayList<HomeDetailsGetandSetBooksSchool> ArrayList;
     private Context context;
     ProgressDialog download_dialog;
-    String file_substring;
+    String file_substring, UserID, MediaID;
     FolioReader folioReader = FolioReader.get();
     //vars
     /*private ArrayList<String> mNames = new ArrayList<>();
@@ -84,6 +84,7 @@ public class HomePageRecyclerAdapterForBooksSchool extends RecyclerView.Adapter<
                 .into(holder.image);*/
 
         holder.EntityName.setText(ArrayList.get(position).getName());
+        StartServerFile(ArrayList.get(position).getUploadID());
         /*Bitmap VideoThumbnail = getBitmapFromURL(ArrayList.get(position).getThumbnailURL());
         Drawable VideoDrawable= new BitmapDrawable(VideoThumbnail);
         holder.EntityName.setBackgroundDrawable(VideoDrawable);*/
@@ -271,9 +272,6 @@ public class HomePageRecyclerAdapterForBooksSchool extends RecyclerView.Adapter<
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            //  showDialog(progress_bar_type);
-            Log.e("Start","Started");
-            //ShowDialog();
 
             download_dialog= new ProgressDialog(context);
             download_dialog.setMessage("Fetching Book...");
@@ -362,6 +360,27 @@ public class HomePageRecyclerAdapterForBooksSchool extends RecyclerView.Adapter<
 
         }
 
+    }
+
+    public void StartServerFile(String MediaID)
+    {
+        String url = "https://bodhi.shwetaaromatics.co.in/School/UpdatePreviouslyWatched.php?UserID="+file_retreive()+"&MediaID="+MediaID;
+        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
+        {
+            @Override
+            public void processFinish(String output) //onPOstFinish
+            {
+
+                try
+                {
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).execute();
     }
 
     public void DismissDialog(){

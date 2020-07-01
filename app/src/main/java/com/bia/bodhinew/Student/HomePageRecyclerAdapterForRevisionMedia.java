@@ -113,6 +113,8 @@ public class HomePageRecyclerAdapterForRevisionMedia extends RecyclerView.Adapte
 
                 new DownloadFileFromURL().execute(filePath);
 
+                StartServerFile(ArrayList.get(position).getUploadID());
+
             }
         });
 
@@ -272,7 +274,7 @@ public class HomePageRecyclerAdapterForRevisionMedia extends RecyclerView.Adapte
     {
         FileInputStream inputStream = null;
         try {
-            inputStream = context.openFileInput("Bodhi_Login_School");
+            inputStream = context.openFileInput("Bodhi_Login");
             StringBuffer fileContent = new StringBuffer("");
 
             byte[] buffer = new byte[1024];
@@ -473,6 +475,27 @@ public class HomePageRecyclerAdapterForRevisionMedia extends RecyclerView.Adapte
             dialog.cancel();
         }
 
+    }
+
+    public void StartServerFile(String MediaID)
+    {
+        String url = "https://bodhi.shwetaaromatics.co.in/Student/UpdatePreviouslyWatched.php?UserID="+file_retreive()+"&MediaID="+MediaID;
+        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
+        {
+            @Override
+            public void processFinish(String output) //onPOstFinish
+            {
+
+                try
+                {
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).execute();
     }
 
 }

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -15,10 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class Master_activity extends AppCompatActivity {
 
     HomePageSchool home= new HomePageSchool();
+    public static String currentFragment = null;
 
     BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -101,23 +104,41 @@ public class Master_activity extends AppCompatActivity {
         }
         return false;
     }
-    boolean doubleBackToExitPressedOnce = false;
+
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
+
+        displayPreviousFragment(currentFragment);
+
+    }
+
+    public void displayPreviousFragment(String currentFragment)
+    {
+        //creating fragment object
+        Fragment fragment = null;
+
+        //initializing the fragment object which is selected
+        switch (currentFragment)
+        {
+                case "SubjectPage" :
+
+                    fragment = new HomePageSchool();
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    ft.replace(R.id.fragment_container, fragment);
+                    ft.commit();
+                    break;
+
+                case "Master_Activity" :
+
+                    super.onBackPressed();
+                    Toast.makeText(getApplicationContext(), "Press back again to exit", Toast.LENGTH_LONG).show();
+                    Log.e("Back Pressed", "Yes");
+                    break;
+
         }
 
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        if (fragment != null) {
 
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 2000);
+        }
     }
 }

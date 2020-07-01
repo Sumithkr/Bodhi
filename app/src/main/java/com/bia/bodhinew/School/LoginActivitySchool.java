@@ -150,6 +150,7 @@ public class LoginActivitySchool extends AppCompatActivity {
 
     }
 
+
     private void file_write_url(String username)
     {
         FileOutputStream outputStream = null;

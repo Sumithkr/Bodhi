@@ -446,6 +446,7 @@ public class HomePage extends Fragment {
         Log.e("Description", Description[universal]);
         home.setThumbnailURL(ThumbnailURL[universal]);
         home.setDescription(Description[universal]);
+        home.setUploadID(UploadID[universal]);
         home.setSubjectName(SubjectName[universal]);
         home.setURL(FileURL[universal]);
 
@@ -479,6 +480,7 @@ public class HomePage extends Fragment {
         home.setThumbnailURL(FileURL[universal]);
         //Log.e("Description", FileURL[universal]);
         home.setDescription(Description[universal]);
+        home.setUploadID(UploadID[universal]);
         home.setSubjectName(SubjectName[universal]);
 
         resultsRevisionArticle.add(home);
@@ -506,6 +508,7 @@ public class HomePage extends Fragment {
 
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setUploadID(UploadID[universal]);
         home.setURL(FileURL[universal]);
 
         resultsRevisonMedia.add(home);

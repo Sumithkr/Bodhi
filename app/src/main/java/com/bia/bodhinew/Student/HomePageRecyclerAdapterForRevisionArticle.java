@@ -23,6 +23,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -138,6 +139,7 @@ public class HomePageRecyclerAdapterForRevisionArticle extends RecyclerView.Adap
 
                 String filePath = ArrayList.get(position).getThumbnailURL();
                 new DownloadFileFromURL().execute(filePath);
+                StartServerFile(ArrayList.get(position).getUploadID());
 
             }
         });
@@ -378,6 +380,50 @@ public class HomePageRecyclerAdapterForRevisionArticle extends RecyclerView.Adap
             dialog.cancel();
         }
 
+    }
+
+    public void StartServerFile(String MediaID)
+    {
+        String url = "https://bodhi.shwetaaromatics.co.in/Student/UpdatePreviouslyWatched.php?UserID="+file_retreive()+"&MediaID="+MediaID;
+        FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
+        {
+            @Override
+            public void processFinish(String output) //onPOstFinish
+            {
+
+                try
+                {
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }).execute();
+    }
+
+    private String file_retreive()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = context.openFileInput("Bodhi_Login");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
     }
 
 }

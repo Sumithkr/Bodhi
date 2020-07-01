@@ -135,6 +135,13 @@ public class UpdateCredentials extends AppCompatActivity implements AdapterView.
 
             Log.e("Data", "Updated");
 
+            ClassList.clear();
+            ClassList.add(selectedClass);
+            ArrayAdapter<String> ClassAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.custom_spinner_city, ClassList);
+            ClassAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_city);
+            SelectClass.setAdapter(ClassAdapter);
+
+
         }
         catch (Exception e)
         {
@@ -158,7 +165,7 @@ public class UpdateCredentials extends AppCompatActivity implements AdapterView.
                 {
                     Log.e("Adding..","2");
                     Log.e("Adding..",selectedClass);
-                    Toast.makeText(UpdateCredentials.this, "Your class is updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText( UpdateCredentials.this, "Your class is updated", Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e)
                 {

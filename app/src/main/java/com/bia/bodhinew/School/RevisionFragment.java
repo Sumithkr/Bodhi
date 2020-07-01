@@ -29,8 +29,6 @@ import com.bia.bodhinew.BuildConfig;
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
 import com.bia.bodhinew.utils;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.hbisoft.pickit.PickiT;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.ServerResponse;

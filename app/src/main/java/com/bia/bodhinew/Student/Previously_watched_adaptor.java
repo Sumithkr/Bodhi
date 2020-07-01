@@ -17,6 +17,7 @@ import com.bia.bodhinew.R;
 import com.bia.bodhinew.School.Modelclass;
 import com.bia.bodhinew.School.StudentsFragment;
 import com.bia.bodhinew.School.ViewStudentShowAdaptor;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -60,7 +61,7 @@ public class Previously_watched_adaptor extends BaseAdapter {
             holder.file_datetime=(TextView)convertView.findViewById(R.id.FileDatetime);
             holder.subjectname=(TextView)convertView.findViewById(R.id.SubjectName);
             //     ArrayList.get(position).setID();
-            imageView = (ImageView) convertView.findViewById(R.id.imageView);
+            holder.file_image = (ImageView) convertView.findViewById(R.id.imageView);
 
             convertView.setTag(holder);
         } else {
@@ -72,20 +73,16 @@ public class Previously_watched_adaptor extends BaseAdapter {
         holder.file_datetime.setText(ArrayList.get(position).getDatetime_of_notice());
         holder.subjectname.setText(ArrayList.get(position).getSubject_name());
         if (ArrayList.get(position).getBoolImage() == true){
-            imageView = (ImageView) convertView.findViewById(R.id.imageView);
-            imageView.setVisibility(View.VISIBLE);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent();
-                    intent.setAction(Intent.ACTION_VIEW);
-                    intent.setDataAndType(Uri.parse(ArrayList.get(position).getImg_of_notice()), "image/*");
-                    context.startActivity(intent);
-                }
-            });
+            holder.file_image.setVisibility(View.VISIBLE);
+            Picasso.with(context)
+                    .load(ArrayList.get(position).getImg_of_notice())
+                    .resize(300, 300)
+                    .centerCrop()
+                    .into(holder.file_image);
+            Picasso.with(context).setLoggingEnabled(true);
         }
         else {
-            imageView.setVisibility(View.GONE);
+            holder.file_image.setVisibility(View.GONE);
         }
 
         return convertView;
@@ -93,6 +90,7 @@ public class Previously_watched_adaptor extends BaseAdapter {
 
     static class ViewHolder {
         TextView file_name,file_description,file_datetime,subjectname;
+        ImageView file_image;
 
     }
 
