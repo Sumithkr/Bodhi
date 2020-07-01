@@ -396,15 +396,15 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==RC_SIGN_IN){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResultBefore(result);
+            handleSignInResult(result);
         }
     }
 
-    private void handleSignInResultBefore(GoogleSignInResult result){
+    private void handleSignInResult(GoogleSignInResult result){
         if(result.isSuccess()){
-            Toast.makeText(getApplicationContext(),"Successful Login",Toast.LENGTH_LONG).show();
-            //Intent intent = new Intent(RegisterActivitySchool.this, RegisterActivitySchool.class);
-            //startActivity(intent);
+            finish();
+            Intent intent = new Intent(this, RegisterActivitySchool.class);
+            startActivity(intent);
             //gotoProfile();
         }else{
             Toast.makeText(getApplicationContext(),"Sign in cancel",Toast.LENGTH_LONG).show();

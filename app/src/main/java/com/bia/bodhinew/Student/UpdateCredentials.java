@@ -24,7 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class UpdateCredentials extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    EditText Email, Name, School, Class;
+    EditText Email, Name, School;
     Button Update;
     ImageButton BackButton;
     Spinner SelectClass;
@@ -59,8 +59,6 @@ public class UpdateCredentials extends AppCompatActivity implements AdapterView.
             public void onClick(View v) {
 
                 if(Update.getText().toString().equals("Save")) {
-
-                    Log.e("Adding..","0");
 
                     UpdateClass();
                     SelectClass.setEnabled(false);
@@ -129,7 +127,6 @@ public class UpdateCredentials extends AppCompatActivity implements AdapterView.
                 Name.setText("Name - "+obj.getString("UserName"));
                 School.setText("School - "+ obj.getString("SchoolName"));
                 selectedClass= obj.getString("Class");
-                Toast.makeText(getApplicationContext(), selectedClass, Toast.LENGTH_LONG).show();
 
             }
 
@@ -163,8 +160,6 @@ public class UpdateCredentials extends AppCompatActivity implements AdapterView.
 
                 try
                 {
-                    Log.e("Adding..","2");
-                    Log.e("Adding..",selectedClass);
                     Toast.makeText( UpdateCredentials.this, "Your class is updated", Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e)
@@ -202,7 +197,7 @@ public class UpdateCredentials extends AppCompatActivity implements AdapterView.
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        if(parent.getId() == R.id.SelectCity ){
+        if(parent.getId() == R.id.SelectClass ){
 
 
                 selectedClass= SelectClass.getItemAtPosition(position).toString();
