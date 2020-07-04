@@ -260,7 +260,6 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
             filekanaam.setText(""+f.getName().trim());
             Log.e("File name", f.getName());
             check = "yes";
-
         }
     }
 

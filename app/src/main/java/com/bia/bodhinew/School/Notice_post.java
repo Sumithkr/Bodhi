@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bia.bodhinew.R;
@@ -43,9 +44,11 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
     Button Doc,Img,Notice_post_post,BackButton;
     private static final int PICK_FROM_GALLERY = 101;
     Uri uri;
-    int l = 1,j = 1;
     String Cls;
+    TextView filekanaam;
     ProgressDialog dialog;
+    String check = "no";
+    File f;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +80,7 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
         Doc.setOnClickListener(this);
         Notice_post_post = (Button)findViewById(R.id.Notice_post_post);
         Notice_post_post.setOnClickListener(this);
+        filekanaam = (TextView)findViewById(R.id.filekanaam);
         BackButton = (Button)findViewById(R.id.BackButton);
         BackButton.setOnClickListener(this);
     }
@@ -165,49 +169,14 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_FROM_GALLERY && resultCode == RESULT_OK) {
-            try {
-                uri = data.getData();
-                Toast.makeText(getApplicationContext(), "-" + l, Toast.LENGTH_LONG).show();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    if (data.getClipData() != null) {
-                        int count = data.getClipData().getItemCount(); //evaluate the count before the for loop --- otherwise, the count is evaluated every loop.
-                        for (l = 0; l < count; l++) {
-                            Uri imageUri = data.getClipData().getItemAt(l).getUri();
-                            uri = data.getData();
-                        }
-                        //do something with the image (save it to some directory or whatever you need to do with it here)
-                    } else if (data.getData() != null) {
-                        String imagePath = data.getData().getPath();
-
-                        //do something with the image (save it to some directory or whatever you need to do with it here)
-                    }
-                }
-            } catch (Exception e) {
-            }
-        }
 
         if (requestCode == 100 && resultCode == RESULT_OK) {
-
-            try {
-
-                uri = data.getData();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    if (data.getClipData() != null) {
-                        int count = data.getClipData().getItemCount(); //evaluate the count before the for loop --- otherwise, the count is evaluated every loop.
-                        for (j = 0; j < count; j++) {
-                            Uri docUri = data.getClipData().getItemAt(j).getUri();
-                            uri = data.getData();
-                        }
-                        //do something with the image (save it to some directory or whatever you need to do with it here)
-                    } else if (data.getData() != null) {
-                        String docPath = data.getData().getPath();
-                        //do something with the image (save it to some directory or whatever you need to do with it here
-                    }
-                }
-
-            } catch (Exception e) {
-            }
+            uri = data.getData();
+            String y = utils.getRealPathFromURI_API19(getApplicationContext(), uri);
+            f = new File(y);
+            filekanaam.setText(""+f.getName().trim());
+            Log.e("File name", f.getName());
+            check = "yes";
         }
 
     }
@@ -252,7 +221,7 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
         if (v == Notice_post_post)
         {
             if(Notice.getText().toString()!=null && !Notice.getText().toString().trim().equals("")
-                    && !Cls.equals("") &&Cls !=null)
+                    && !Cls.equals("") &&Cls !=null && check.equals("yes"))
             {
                 UploadFile(uri);
             }
