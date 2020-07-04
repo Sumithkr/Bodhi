@@ -18,12 +18,19 @@ public class Modelclass {
     private String file_name = "";
     private String file_description = "";
     private String subject_name = "";
+    private String FileURL="";
 
-    public void setContent_of_notice(String content_of_notice) { this.content_of_notice = content_of_notice;
-    }
+
+    public void setContent_of_notice(String content_of_notice) { this.content_of_notice = content_of_notice; }
 
     public String getContent_of_notice() {
         return content_of_notice;
+    }
+
+    public void setFileURL(String FileURL) { this.FileURL = FileURL; }
+
+    public String getFileURL() {
+        return FileURL;
     }
 
 

@@ -132,7 +132,7 @@ public class StudentNoticePageAdaptor extends BaseAdapter {
             holder.msg_notice_image.setVisibility(View.GONE);
         }
 
-        if (ArrayList.get(position).getBoolMsgRead() == true) {
+        if (ArrayList.get(position).getBoolMsgRead()) {
 
             holder.new_message_icon.setImageResource(R.drawable.new_message_green_dot_icon);
         }
