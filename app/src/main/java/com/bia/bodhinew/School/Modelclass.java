@@ -5,6 +5,7 @@ import android.widget.ImageView;
 public class Modelclass {
     //school part
     private String student_name="";
+    private String StudentName="";
     private String student_icon="";
     private String content_of_notice="";
     private String datetime_of_notice="";
@@ -52,8 +53,7 @@ public class Modelclass {
 
     public boolean getBoolImage(){ return b;}
 
-    public void setStudent_name(String student_name) { this.student_name = student_name;
-    }
+    public void setStudent_name(String student_name) { this.student_name = student_name; }
 
     public String getStudent_name() {
         return student_name;
@@ -107,5 +107,10 @@ public class Modelclass {
         return subject_name;
     }
 
+    public void setNext(String StudentName){this.StudentName = StudentName;}
+
+    public String getNext() {
+        return StudentName;
+    }
 
 }

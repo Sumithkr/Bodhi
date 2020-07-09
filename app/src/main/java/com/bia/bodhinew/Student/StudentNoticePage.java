@@ -170,28 +170,6 @@ public class StudentNoticePage extends Fragment {
         }
     }
 
-    private String file_id()
-    {
-        FileInputStream inputStream = null;
-        try {
-            inputStream = getActivity().openFileInput("Latest_id");
-            StringBuffer fileContent = new StringBuffer("");
-
-            byte[] buffer = new byte[1024];
-            int n;
-            while (( n = inputStream.read(buffer)) != -1)
-            {
-                fileContent.append(new String(buffer, 0, n));
-            }
-
-            inputStream.close();
-            return fileContent.toString();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            return "error";
-        }
-    }
 
     public void onPreServerFile()
     {
@@ -218,7 +196,7 @@ public class StudentNoticePage extends Fragment {
                      {
 
                          ConvertFromJSON(output);
-                         file_write_id(NoticeId[NoticeID.size()-1]);
+                         Log.e("Latest ID--------------", NoticeId[NoticeID.size()-1]);
 
                      }
                      catch (Exception e)
@@ -253,6 +231,7 @@ public class StudentNoticePage extends Fragment {
                 NoticeID.add(obj.getString("NoticeID"));
                 //Log.e("notice id", NoticeId[i]);
             }
+            file_write_id(NoticeId[NoticeID.size()-1]);
             final ArrayList<Modelclass> listing_of_notice = GetPublisherResults();
             notice_list.setAdapter(new StudentNoticePageAdaptor(getActivity(), listing_of_notice));
         }

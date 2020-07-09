@@ -52,8 +52,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     final List<String> SchoolList = new ArrayList<String>();
     final List<String> ClassList = new ArrayList<String>();
+    final List<String> SchoolID = new ArrayList<String>();
 
-    String[] SchoolID= new String[1000];
     String MainSchoolID;
 
     @Override
@@ -246,6 +246,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
                 if(obj.getString("result").equals("yes"))
                 {
+                    Toast.makeText(getApplicationContext(),"Successfully Registered",Toast.LENGTH_SHORT).show();
                     Intent main= new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(main);
                     finish();
@@ -382,14 +383,25 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
                 SchoolList.remove(0);
                 SchoolList.add(0, SchoolList.get(SchoolList.size() - 1));
+                SchoolID.add(0, SchoolID.get(SchoolID.size() - 1));
+
+                /*for(int j=0; j<SchoolList.size()-1; j++){
+
+                    int latest= (SchoolList.size() - (j+1));
+                    Log.e("Latest", latest+"---------------------------");
+                    SchoolList.add(j, SchoolList.get(latest - (latest - (j+1))));
+
+                }*/
+
                 SchoolList.remove(SchoolList.size() - 1);
+                SchoolID.remove(SchoolID.size() - 1);
 
             }
             selectedSchool = SelectSchool.getItemAtPosition(position).toString();
             SelectSchool.setPrompt("Select School");
-            MainSchoolID= SchoolID[position];
+            MainSchoolID= SchoolID.get(position);
             AddpUpAllClass();
-            Toast.makeText(getApplicationContext(), selectedSchool, Toast.LENGTH_LONG).show();
+            //Log.e("Selected School", selectedSchool+"---------------------------");
 
         }
 
@@ -449,8 +461,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
             {
                 JSONObject obj = jsonArray.getJSONObject(i);
                 SchoolList.add(obj.getString("UserName"));
-                SchoolID[i] = obj.getString("SchoolID");
-
+                SchoolID.add(obj.getString("SchoolID"));
             }
 
             ArrayAdapter<String> SchoolAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.custom_spinner, SchoolList);
