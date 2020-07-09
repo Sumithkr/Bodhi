@@ -11,7 +11,7 @@ public class Modelclass {
     private String datetime_of_notice="";
     private String img_of_notice="";
     private boolean b;
-    private String id;
+    private String id="";
     //student part
     private boolean msgRead;
     private ImageView new_message_icon;

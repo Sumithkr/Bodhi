@@ -40,12 +40,13 @@ public class StudentsFragment extends Fragment {
     static ListView list_students;
     static String[] StudentName = new String[1000];
     static String[] StudentID = new String[1000];
+    //static String[] SearchedStudentID = new String[1000];
     String[] StudentEmail = new String[1000];
     String[] StudentDateTime = new String[1000];
     static String[] StudentisEnable = new String[1000];
     String data;
     private static ViewStudentShowAdaptor adaptor;
-    AutoCompleteTextView autoCompleteTextView;
+    static AutoCompleteTextView autoCompleteTextView;
     static ArrayList<Modelclass> list;
     static String[] hints= new String[100];
     static Context c;
@@ -53,6 +54,7 @@ public class StudentsFragment extends Fragment {
     TextView SchoolName;
     int ListSize=0;
     static final List<String> AllData = new ArrayList<String>();
+    static final List<String> SearchedStudentID = new ArrayList<String>();
 
 
     @Override
@@ -84,6 +86,11 @@ public class StudentsFragment extends Fragment {
                     Arrays.fill(StudentisEnable, null);
                     StartServerFile();
                 }
+
+                else
+
+                    StartServerFile();
+
             }
 
             @Override
@@ -168,10 +175,12 @@ public class StudentsFragment extends Fragment {
                 StudentDateTime[i] = obj.getString("DateTime");
                 StudentisEnable[i] = obj.getString("isEnable");
 
-                if(StudentisEnable[i].equals("1"))
+                if(StudentisEnable[i].equals("1")) {
 
                     ListSize++;
+                    SearchedStudentID.add(obj.getString("UserID"));
 
+                }
 
             }
         }
@@ -250,6 +259,7 @@ public class StudentsFragment extends Fragment {
                 ar1.setStudent_name(StudentName[k]);
                 ar1.setID(StudentID[k]);
                 AllData.add(StudentName[k]);
+                SearchedStudentID.add(StudentID[k]);
                 results.add(ar1);
             }
 
@@ -279,8 +289,8 @@ public class StudentsFragment extends Fragment {
             if(NameByName.startsWith(data.trim()))
             {
                 Searched.setStudent_name(NameByName);
-                //Log.e("Searched Name", NameByName+"--------------------------------------------------------");
-                Searched.setID(StudentID[k]);
+                Log.e("Searched ID", SearchedStudentID.get(k)+"--------------------------------------------------------");
+                Searched.setID(SearchedStudentID.get(k));
                 SearchedResults.add(Searched);
             }
         }
@@ -340,6 +350,7 @@ public class StudentsFragment extends Fragment {
     public static void refresh(String id)
     {
         list.clear();
+        autoCompleteTextView.setText("");
         regenerate(id);
     }
 
