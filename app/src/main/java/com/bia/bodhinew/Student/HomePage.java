@@ -2,6 +2,7 @@ package com.bia.bodhinew.Student;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 
 public class HomePage extends Fragment {
 
@@ -40,7 +43,7 @@ public class HomePage extends Fragment {
     static String[] Type= new String[1000];
     static String[] isPublic= new String[1000];
     static String[] StudentClass= new String[1000];
-    ProgressDialog dialog1;
+    ACProgressPie dialog;
     CardView Previously_watched_button;
     private boolean firstTime = true;
     static int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0, SubjectContain=0;
@@ -433,8 +436,8 @@ public class HomePage extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         HomePageRecyclerAdapterForSubjects adapter = new HomePageRecyclerAdapterForSubjects(getContext(), homeClassSubjects);
         recyclerView.setAdapter(adapter);
-        dialog1.dismiss();
-        dialog1.cancel();
+        dialog.dismiss();
+        dialog.cancel();
 
     }
 
@@ -544,11 +547,14 @@ public class HomePage extends Fragment {
 
     public void loading()
     {
-        dialog1=new ProgressDialog(getContext());
-        dialog1.setMessage("Please wait..");
-        dialog1.setCancelable(false);
-        dialog1.setInverseBackgroundForced(false);
-        dialog1.show();
+        dialog = new ACProgressPie.Builder(getActivity())
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
+        dialog.show();
     }
 
     private String file_retreive()

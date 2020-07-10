@@ -6,6 +6,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,6 +48,8 @@ import java.util.UUID;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 import in.gauriinfotech.commons.Commons;
 
 import static android.app.Activity.RESULT_OK;
@@ -63,7 +66,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
     String Cls;
     Uri filePath = null;
     String check = "no";
-    ProgressDialog dialog;
+    ACProgressPie dialog;
     TextView filekanaam;
     File f;
 
@@ -153,10 +156,13 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
 
     public void progress()
     {
-        dialog=new ProgressDialog(getActivity());
-        dialog.setMessage("Please wait..");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
+        dialog = new ACProgressPie.Builder(getActivity())
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
         dialog.show();
     }
 

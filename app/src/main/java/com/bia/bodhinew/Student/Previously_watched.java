@@ -2,12 +2,15 @@ package com.bia.bodhinew.Student;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 import tcking.github.com.giraffeplayer2.GiraffePlayer;
 import tcking.github.com.giraffeplayer2.VideoInfo;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -59,7 +62,7 @@ public class Previously_watched extends AppCompatActivity {
     static String[] ispublic = new String[1000];
     static String[] Type = new String[1000];
     static ArrayList<Modelclass> list;
-    ProgressDialog dialog;
+    ACProgressPie dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -123,14 +126,10 @@ public class Previously_watched extends AppCompatActivity {
 
     }
 
-    public void onPreServerFile()
-    {
-        //
-    }
 
     public void StartServerFile()
     {
-
+         progdialog();
         String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+file_retreive();
         com.bia.bodhinew.FetchFromDB asyncTask = (com.bia.bodhinew.FetchFromDB) new com.bia.bodhinew.FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -179,6 +178,8 @@ public class Previously_watched extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+        dialog.dismiss();
+        dialog.cancel();
     }
 
     private static ArrayList<Modelclass> GetPublisherResults(ArrayList<String> extension,int o)
@@ -331,6 +332,18 @@ public class Previously_watched extends AppCompatActivity {
         return results;
     }
 
+    public void progdialog()
+    {
+        dialog = new ACProgressPie.Builder(this)
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
+        dialog.show();
+    }
+
     private void CheckFile( String filePath)
     {
         String url = filePath;
@@ -413,11 +426,7 @@ public class Previously_watched extends AppCompatActivity {
             super.onPreExecute();
             //  showDialog(progress_bar_type);
             //ShowDialog();
-            dialog= new ProgressDialog(Previously_watched.this);
-            dialog.setMessage("Fetching...");
-            dialog.setCancelable(false);
-            dialog.setInverseBackgroundForced(false);
-            dialog.show();
+            progdialog();
 
         }
 
@@ -487,7 +496,7 @@ public class Previously_watched extends AppCompatActivity {
         protected void onProgressUpdate(String... progress) {
             // setting progress percentage
 
-            dialog.setMessage("Fetching ..." + progress[0]+ "%");
+            //dialog.setMessage("Fetching ..." + progress[0]+ "%");
 
             Log.e("Progress - ", String.valueOf(Integer.parseInt(progress[0])));
         }
