@@ -52,7 +52,7 @@ public class StudentsFragment extends Fragment {
     static Context c;
     ProgressDialog dialog;
     TextView SchoolName;
-    int ListSize=0;
+    int ListSize;
     static final List<String> AllData = new ArrayList<String>();
     static final List<String> SearchedStudentID = new ArrayList<String>();
 
@@ -78,6 +78,8 @@ public class StudentsFragment extends Fragment {
                 if(position != 0)
                 {
                     Cls = Class_list[position];
+                    autoCompleteTextView.setText("");
+                    ListSize= 0;
                     Log.e("class",Cls);
                     Arrays.fill(StudentName, null);
                     Arrays.fill(StudentID, null);
@@ -87,9 +89,19 @@ public class StudentsFragment extends Fragment {
                     StartServerFile();
                 }
 
-                else
+                else {
 
+                    Cls="";
+                    autoCompleteTextView.setText("");
+                    ListSize= 0;
+                    Arrays.fill(StudentName, null);
+                    Arrays.fill(StudentID, null);
+                    Arrays.fill(StudentEmail, null);
+                    Arrays.fill(StudentDateTime, null);
+                    Arrays.fill(StudentisEnable, null);
                     StartServerFile();
+
+                }
 
             }
 
@@ -178,6 +190,7 @@ public class StudentsFragment extends Fragment {
                 if(StudentisEnable[i].equals("1")) {
 
                     ListSize++;
+                    Log.e("List Size", ListSize+"--------------------------------------------------------");
                     SearchedStudentID.add(obj.getString("UserID"));
 
                 }
@@ -289,7 +302,7 @@ public class StudentsFragment extends Fragment {
             if(NameByName.startsWith(data.trim()))
             {
                 Searched.setStudent_name(NameByName);
-                Log.e("Searched ID", SearchedStudentID.get(k)+"--------------------------------------------------------");
+                //Log.e("Searched ID", SearchedStudentID.get(k)+"--------------------------------------------------------");
                 Searched.setID(SearchedStudentID.get(k));
                 SearchedResults.add(Searched);
             }

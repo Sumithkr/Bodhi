@@ -43,8 +43,8 @@ public class HomePage extends Fragment {
     ProgressDialog dialog1;
     CardView Previously_watched_button;
     private boolean firstTime = true;
-    static int universal=0, TotalVideoint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0, SubjectContain=0;
-    static TextView TotalVideos, TotalBooks, TotalMediaAttachments, TotalArticles, SchoolName, StudentName;
+    static int universal=0, TotalVideoint= 0, TotalSubjectsint= 0, TotalBooksint =0, TotalMediaAttachmentsint =0 , TotalArticlesint =0, SubjectContain=0;
+    static TextView TotalVideos, TotalBooks, TotalSubjects, TotalMediaAttachments, TotalArticles, SchoolName, StudentName;
     static ArrayList<HomeDetailsGetandSetVideos> resultsVideos = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetBooks> resultsBooks = new ArrayList<>();
     static ArrayList<HomeDetailsGetandSetRevisionArticle> resultsRevisionArticle = new ArrayList<>();
@@ -120,8 +120,10 @@ public class HomePage extends Fragment {
         TotalMediaAttachments= RootView.findViewById(R.id.total_media_attachements);
         SchoolName= RootView.findViewById(R.id.SchoolName);
         StudentName= RootView.findViewById(R.id.StudentName);
+        TotalSubjects= RootView.findViewById(R.id.total_subject);
         StudentName.setText(file_retreive_StudentName());
         SchoolName.setText(file_retreive_school());
+        MasterStudentActivity.currentFragment= "Master_Activity";
         Previously_watched_button = (CardView) RootView.findViewById(R.id.Previously_watched_button);
         Previously_watched_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -265,6 +267,7 @@ public class HomePage extends Fragment {
         TotalBooks.setText(TotalBooksint + " Book");
         TotalArticles.setText(TotalArticlesint + " Article");
         TotalMediaAttachments.setText(TotalMediaAttachmentsint + " Media Attachment");
+        TotalSubjects.setText(TotalSubjectsint + " Subjects");
 
     }
 
@@ -530,6 +533,7 @@ public class HomePage extends Fragment {
             resultSubjectCopy.add(SubjectName[universal]);
             present= true;
             SubjectContain++;
+            TotalSubjectsint++;
 
         }
 
@@ -537,6 +541,7 @@ public class HomePage extends Fragment {
 
             resultsSubjects.add(home);
             resultSubjectCopy.add(SubjectName[universal]);
+            TotalSubjectsint++;
         }
 
         return resultsSubjects;

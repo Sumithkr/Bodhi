@@ -123,6 +123,8 @@ public class SubjectPage extends Fragment {
         NoRevisionArticlePanel= RootView.findViewById(R.id.NoRevisionArticlePanel);
         NoRevisionMediaPanel= RootView.findViewById(R.id.NoRevisionMediaPanel);
 
+        MasterStudentActivity.currentFragment= "SubjectPage";
+
         StartServerFile();
 
         return RootView;
@@ -373,6 +375,7 @@ public class SubjectPage extends Fragment {
         home.setThumbnailURL(ThumbnailURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setURL(FileURL[universal]);
 
         resultsVideos.add(home);
 

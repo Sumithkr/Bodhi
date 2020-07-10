@@ -378,6 +378,7 @@ public class SubjectPage extends Fragment {
         home.setThumbnailURL(ThumbnailURL[universal]);
         home.setDescription(Description[universal]);
         home.setSubjectName(SubjectName[universal]);
+        home.setURL(FileURL[universal]);
 
         resultsVideos.add(home);
 

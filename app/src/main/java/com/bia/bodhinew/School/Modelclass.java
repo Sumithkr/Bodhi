@@ -42,8 +42,7 @@ public class Modelclass {
         return datetime_of_notice;
     }
 
-    public void setImg_of_notice(String img_of_notice) { this.img_of_notice = img_of_notice;
-    }
+    public void setImg_of_notice(String img_of_notice) { this.img_of_notice = img_of_notice; }
 
     public String getImg_of_notice() {
         return img_of_notice;

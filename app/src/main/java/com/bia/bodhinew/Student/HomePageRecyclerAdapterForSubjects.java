@@ -95,7 +95,7 @@ public class HomePageRecyclerAdapterForSubjects extends RecyclerView.Adapter<Hom
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(context, ArrayList.get(position).getSubjectName(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, ArrayList.get(position).getSubjectName(), Toast.LENGTH_LONG).show();
                 Bundle get_Credentials = new Bundle();
                 get_Credentials.putString("ForSubject", ArrayList.get(position).getSubjectName());
                 NextSubject.setArguments(get_Credentials);
