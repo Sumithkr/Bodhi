@@ -13,7 +13,7 @@ public class HomeDetailsGetandSetSubjects {
     private String isPublic="";
     private String StudentClass="";
 
-    public void setUploadID(String total_package_costing) { this.UploadID = UploadID; }
+    public void setUploadID(String UploadID) { this.UploadID = UploadID; }
 
     public String getUploadID() {
         return UploadID;
@@ -37,7 +37,7 @@ public class HomeDetailsGetandSetSubjects {
         return URL;
     }
 
-    public void setThumbnailURL(String video_costing) { this.ThumbnailURL = ThumbnailURL; }
+    public void setThumbnailURL(String ThumbnailURL) { this.ThumbnailURL = ThumbnailURL; }
 
     public String getThumbnailURL() {
         return ThumbnailURL;

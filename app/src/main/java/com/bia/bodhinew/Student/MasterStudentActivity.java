@@ -2,6 +2,7 @@ package com.bia.bodhinew.Student;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -11,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class MasterStudentActivity extends AppCompatActivity {
 
@@ -63,7 +65,7 @@ public class MasterStudentActivity extends AppCompatActivity {
     boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
+        /*if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
         }
@@ -77,6 +79,39 @@ public class MasterStudentActivity extends AppCompatActivity {
             public void run() {
                 doubleBackToExitPressedOnce = false;
             }
-        }, 2000);
+        }, 2000);*/
+
+        displayPreviousFragment(currentFragment);
+
+    }
+
+    public void displayPreviousFragment(String currentFragment)
+    {
+        //creating fragment object
+        Fragment fragment = null;
+
+        //initializing the fragment object which is selected
+        switch (currentFragment)
+        {
+            case "SubjectPage" :
+
+                fragment = new HomePage();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, fragment);
+                ft.commit();
+                break;
+
+            case "Master_Activity" :
+
+                super.onBackPressed();
+                Toast.makeText(getApplicationContext(), "Press back again to exit", Toast.LENGTH_LONG).show();
+                Log.e("Back Pressed", "Yes");
+                break;
+
+        }
+
+        if (fragment != null) {
+
+        }
     }
 }

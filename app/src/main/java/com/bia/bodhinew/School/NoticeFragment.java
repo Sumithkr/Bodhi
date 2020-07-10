@@ -39,8 +39,11 @@ public class NoticeFragment extends Fragment {
     String[] Class_list = {"Class", "1", "2", "3", "4", "5","6","7","8","9","10","11","12" };
     String[] Days_list = {"Days","30", "60", "90", "120"};
     Spinner spin_class,spin_days;
-    String Cls ="All" ,Day;
+    static ArrayList<Modelclass> listing_of_notice;
+    String Cls, Day;
+    int ClassInt;
     ListView notice_list;
+    private static SchoolNoticeShowAdaptor adaptor;
     ImageView nodata;
     Button CreateNotice_Button;
     View v;
@@ -57,23 +60,37 @@ public class NoticeFragment extends Fragment {
         //StartServerFile();
        //Class spinner
         spin_class = (Spinner)v. findViewById(R.id.NoticeFragment_Class);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Class_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Class_list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_class.setAdapter(adapter);
         spin_class.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                 Cls = "";
                 if(position != 0)
                 {
                     Cls = Class_list[position];
+                    Arrays.fill(NoticeContent, null);
+                    Arrays.fill(NoticeDateTime, null);
+                    Arrays.fill(NoticeClass, null);
+                    Arrays.fill(NoticeUrl, null);
+                    StartServerFile();
                 }
                 else {
                     // All data to be shown without any condition
                     Cls = "All";
+
+                    if(ClassInt == 1) {
+
+                        Arrays.fill(NoticeContent, null);
+                        Arrays.fill(NoticeDateTime, null);
+                        Arrays.fill(NoticeClass, null);
+                        Arrays.fill(NoticeUrl, null);
+                        StartServerFile();
+
+                    }
                 }
-                GetPublisherResults(Cls);
+                //GetPublisherResults(Cls);
                 Log.e("class", Cls);
             }
 
@@ -85,21 +102,36 @@ public class NoticeFragment extends Fragment {
 
         //spinner days
         spin_days = (Spinner)v. findViewById(R.id.NoticeFragment_Month);
-        ArrayAdapter<String> adaptor_days = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, Days_list);
+        ArrayAdapter<String> adaptor_days = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, Days_list);
         adaptor_days.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spin_days.setAdapter(adaptor_days);
         spin_days.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                   Day = "";
+
+                Day = "";
+
                 if(position != 0) {
+
                     Day = Days_list[position];
-                    Log.e("day", Day);
                     Arrays.fill(NoticeContent, null);
                     Arrays.fill(NoticeDateTime, null);
+                    Arrays.fill(NoticeClass, null);
                     Arrays.fill(NoticeUrl, null);
                     StartServerFile();
                 }
+
+                else {
+
+                    ClassInt++;
+                    Arrays.fill(NoticeContent, null);
+                    Arrays.fill(NoticeDateTime, null);
+                    Arrays.fill(NoticeClass, null);
+                    Arrays.fill(NoticeUrl, null);
+                    StartServerFile();
+
+                }
+
             }
 
             @Override
@@ -122,43 +154,50 @@ public class NoticeFragment extends Fragment {
 
 
     private ArrayList<Modelclass> GetPublisherResults(String Cls) {
+
         ArrayList<Modelclass> results = new ArrayList<>();
         Log.e("cls",Cls);
         int i = 0;
 
         while (NoticeClass[i] != null)
         {
-            boolean checkdata = true;
+            //boolean checkdata = true;
             Modelclass notice = new Modelclass();
             if(Cls.equals("All"))
             {
-                Log.e("checkone","All");
-                checkdata = false;
+                //Log.e("checkone",NoticeClass[i]);
+                //checkdata = false;
                 nodata.setVisibility(View.GONE);
                 notice_list.setVisibility(View.VISIBLE);
                 notice.setContent_of_notice(NoticeContent[i]);
                 notice.setDatetime_of_notice(NoticeDateTime[i]);
                 notice.setImg_of_notice(NoticeUrl[i]);
 
-                if (NoticeUrl[i].equals("") || NoticeUrl[i] == null) {
+                if (NoticeUrl[i].equals("") || NoticeUrl[i] == null)
+
                     notice.setBoolImage(false);
 
-                } else {
-                    if (NoticeUrl[i].contains(".jpg") || NoticeUrl[i].contains(".png") || NoticeUrl[i].contains(".jpeg")
-                            || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf"))
+                else {
+
+                    if (NoticeUrl[i].contains(".jpg") || NoticeUrl[i].contains(".png") || NoticeUrl[i].contains(".jpeg") || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf"))
+
                         notice.setBoolImage(true);
+
                 }
 
                 results.add(notice);
             }
+
             else {
+
                 if (NoticeClass[i].equals(Cls))
+
                 {
-                    Log.e("checktwo","others");
-                    checkdata = false;
+                    Log.e("checktwo",Cls);
                     nodata.setVisibility(View.GONE);
                     notice_list.setVisibility(View.VISIBLE);
                     notice.setContent_of_notice(NoticeContent[i]);
+                    //Log.e("Notice Content", NoticeContent[i]+"--------------------------------------------------------");
                     notice.setDatetime_of_notice(NoticeDateTime[i]);
                     notice.setImg_of_notice(NoticeUrl[i]);
 
@@ -174,18 +213,25 @@ public class NoticeFragment extends Fragment {
                     results.add(notice);
                 }
             }
-            if (checkdata == true)
+            /*if (checkdata)
             {
                 Log.e("true or false","checkthree");
-                nodata.setVisibility(View.VISIBLE);
-                notice_list.setVisibility(View.GONE);
-            }
+                //nodata.setVisibility(View.VISIBLE);
+                //notice_list.setVisibility(View.GONE);
+            }*/
             i++;
         }
         return results;
     }
+
+
     public void onPreServerFile()
     {
+        /*dialog=new ProgressDialog(getContext());
+        dialog.setMessage("Please wait..");
+        dialog.setCancelable(false);
+        dialog.setInverseBackgroundForced(false);*/
+
         dialog = new ACProgressPie.Builder(getActivity())
                 .ringColor(Color.parseColor("#fa3a0f"))
                 .pieColor(Color.parseColor("#fa3a0f"))
@@ -200,7 +246,8 @@ public class NoticeFragment extends Fragment {
     {
         onPreServerFile();
         String url = "https://bodhi.shwetaaromatics.co.in/School/FetchNotice.php?UserID="+file_retreive()+"&Day="+Day;
-        Log.e("TAG",url);
+        Log.e("Second Step", url+"--------------------------------------------------------");
+
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -211,6 +258,9 @@ public class NoticeFragment extends Fragment {
                 {
 
                     ConvertFromJSON(output);
+                    listing_of_notice = GetPublisherResults(Cls);
+                    adaptor= new SchoolNoticeShowAdaptor(getContext(), listing_of_notice);
+                    notice_list.setAdapter(adaptor);
 
                 }
                 catch (Exception e)
@@ -237,14 +287,12 @@ public class NoticeFragment extends Fragment {
                 }
                 //NoticeContent[i] = obj.getString("NoticeText");
                 NoticeUrl[i] = obj.getString("NoticeURL");
-                Log.e("notice img url", NoticeUrl[i]);
+                Log.e("Forth Step", NoticeUrl[i]+"--------------------------------------------------------");
                 NoticeClass[i] = obj.getString("Class");
-                Cls = NoticeClass[i];
                 Log.e("noticeclass",NoticeClass[i]);
                 NoticeDateTime[i] = obj.getString("DateTime");
             }
-            final ArrayList<Modelclass> listing_of_notice = GetPublisherResults(Cls);
-            notice_list.setAdapter(new SchoolNoticeShowAdaptor(getActivity(), listing_of_notice));
+
         }
         catch (Exception e)
         {

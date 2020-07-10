@@ -91,7 +91,7 @@ public class SchoolNoticeShowAdaptor extends BaseAdapter {
         Log.e("content",ArrayList.get(position).getContent_of_notice());
         holder.datetime_of_notice.setText(ArrayList.get(position).getDatetime_of_notice());
 
-        if (ArrayList.get(position).getBoolImage() == true)
+        if (ArrayList.get(position).getBoolImage())
         {
 
             if ( ArrayList.get(position).getImg_of_notice().contains(".pdf") || ArrayList.get(position).getImg_of_notice().contains(".doc") ||ArrayList.get(position).getImg_of_notice().contains(".docx"))
