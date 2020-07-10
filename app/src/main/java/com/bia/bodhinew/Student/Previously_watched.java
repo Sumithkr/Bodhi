@@ -2,10 +2,18 @@ package com.bia.bodhinew.Student;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 import tcking.github.com.giraffeplayer2.GiraffePlayer;
 import tcking.github.com.giraffeplayer2.VideoInfo;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -25,7 +33,14 @@ import com.folioreader.FolioReader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 
@@ -51,11 +66,11 @@ public class Previously_watched extends AppCompatActivity {
     static ArrayList<Modelclass> OthersList;
     static ArrayList<Modelclass> resultsOthers= new ArrayList<>();
     static ArrayList<Modelclass> list;
+    ACProgressPie dialog;
     FolioReader folioReader = FolioReader.get();
     String file_substring;
     static int universal=0;
-    ProgressDialog download_dialog;
-    ProgressDialog dialog;
+    //ProgressDialog download_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -101,47 +116,12 @@ public class Previously_watched extends AppCompatActivity {
             }
         });
 
-        /*list_previously_watched.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String fileurl = FileUrl[i];
-                Log.e("url",fileurl);
-
-                if(fileurl.contains(".epub")){
-
-                    file_substring = fileurl.substring(fileurl.indexOf("/Media/")+7);
-                    Log.e("file_name",file_substring);
-
-                    File file = new File(Environment.getExternalStorageDirectory().toString() + "/" + file_substring);
-
-                    if(!file.exists()){
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-                            new DownloadBookFromURL().execute(fileurl);
-                        }
-
-                    }
-
-                    else {
-
-                        folioReader.openBook(Environment.getExternalStorageDirectory().toString() + "/" + file_substring);
-
-                    }
-
-                }
-                else {
-
-                    new DownloadFileFromURL().execute(fileurl);
-                }
-            }
-        });*/
-
     }
 
 
     public void StartServerFile()
     {
-        loading();
+         progdialog();
         String url = "https://bodhi.shwetaaromatics.co.in/Student/PreviouslyWatched.php?UserID="+file_retreive();
         com.bia.bodhinew.FetchFromDB asyncTask = (com.bia.bodhinew.FetchFromDB) new com.bia.bodhinew.FetchFromDB(url,new FetchFromDB.AsyncResponse()
         {
@@ -152,7 +132,8 @@ public class Previously_watched extends AppCompatActivity {
                 {
                     ConvertFromJSON(output);
                     PostExecute();
-                    DismissDialog();
+                    dialog.dismiss();
+                    dialog.cancel();
                 }
                 catch (Exception e)
                 {
@@ -189,6 +170,8 @@ public class Previously_watched extends AppCompatActivity {
         {
             e.printStackTrace();
         }
+        dialog.dismiss();
+        dialog.cancel();
     }
 
     public void PostExecute()
@@ -294,119 +277,6 @@ public class Previously_watched extends AppCompatActivity {
         return resultsOthers;
     }
 
-    private static ArrayList<Modelclass> GetPublisherResults(ArrayList<String> extension,int o)
-    {
-        ArrayList<Modelclass> results = new ArrayList<>();
-
-        int k =0;
-        if(FileName[k] == null)
-        {
-            nodata.setVisibility(View.VISIBLE);
-            list_previously_watched.setVisibility(View.GONE);
-        }
-        else
-        {
-            nodata.setVisibility(View.GONE);
-            list_previously_watched.setVisibility(View.VISIBLE);
-        }
-
-        while (FileName[k] != null)
-        {
-            int extensionCount = 0;
-            Boolean FileShow = true;
-
-            for(extensionCount =0;extensionCount<extension.size();extensionCount++)
-            {
-                if(FileUrl[k].contains(extension.get(extensionCount)))
-                {
-                    FileShow = false;
-                    break;
-                }
-
-            }
-
-            Modelclass ar1 = new Modelclass();
-            if(FileShow)
-            {
-
-                ar1.setFile_name(FileName[k]);
-                ar1.setFile_description(FileDescription[k]);
-                ar1.setDatetime_of_notice(FileDateTime[k]);
-                ar1.setSubject_name(SubjectName[k]);
-                ar1.setImg_of_notice(FileThumbnailUrl[k]);
-
-            }
-
-            if (FileThumbnailUrl[k].equals("") || FileThumbnailUrl[k] == null)
-            {
-                ar1.setBoolImage(false);
-            }
-            else {
-              ar1.setBoolImage(true);
-            }
-            k++;
-            results.add(ar1);
-        }
-
-        return results;
-    }
-
-    private static ArrayList<Modelclass> GetPublisherResults(ArrayList<String> extension)
-    {
-        ArrayList<Modelclass> results = new ArrayList<>();
-
-        int k =0;
-        if(FileName[k] == null)
-        {
-            nodata.setVisibility(View.VISIBLE);
-            list_previously_watched.setVisibility(View.GONE);
-        }
-        else
-        {
-            nodata.setVisibility(View.GONE);
-            list_previously_watched.setVisibility(View.VISIBLE);
-        }
-
-        while (FileName[k] != null)
-        {
-            int extensionCount = 0;
-            Boolean FileShow = false;
-
-            for(extensionCount =0;extensionCount<extension.size();extensionCount++)
-            {
-                if(FileUrl[k].contains(extension.get(extensionCount)))
-                {
-                    FileShow = true;
-                    break;
-                }
-
-            }
-            Modelclass ar1 = new Modelclass();
-            if(FileShow)
-            {
-                ar1.setFile_name(FileName[k]);
-                ar1.setFile_description(FileDescription[k]);
-                ar1.setDatetime_of_notice(FileDateTime[k]);
-                ar1.setSubject_name(SubjectName[k]);
-                ar1.setImg_of_notice(FileThumbnailUrl[k]);
-
-            }
-
-            if (FileThumbnailUrl[k].equals("") || FileThumbnailUrl[k] == null)
-            {
-                ar1.setBoolImage(false);
-            }
-            else {
-                ar1.setBoolImage(true);
-            }
-
-            k++;
-            results.add(ar1);
-        }
-
-        return results;
-    }
-
     private static ArrayList<Modelclass> GetPublisherResults()
     {
         ArrayList<Modelclass> results = new ArrayList<>();
@@ -445,6 +315,18 @@ public class Previously_watched extends AppCompatActivity {
         return results;
     }
 
+    public void progdialog()
+    {
+        dialog = new ACProgressPie.Builder(this)
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
+        dialog.show();
+    }
+
 
     private String file_retreive()
     {
@@ -467,23 +349,6 @@ public class Previously_watched extends AppCompatActivity {
             e.printStackTrace();
             return "error";
         }
-    }
-
-
-    public void DismissDialog(){
-
-        download_dialog.dismiss();
-        download_dialog.cancel();
-
-    }
-
-    public void loading()
-    {
-        download_dialog=new ProgressDialog(Previously_watched.this);
-        download_dialog.setMessage("Fetching Data.....");
-        download_dialog.setCancelable(false);
-        download_dialog.setInverseBackgroundForced(false);
-        download_dialog.show();
     }
 
 }

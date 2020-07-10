@@ -2,6 +2,7 @@ package com.bia.bodhinew;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,10 +18,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import androidx.appcompat.app.AppCompatActivity;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 
 public class ChangePassword extends AppCompatActivity implements View.OnClickListener {
     EditText CurrentPassword,ChangePassword,ConfirmPassword;
     Button ChangePasswordButton,backbutton;
+    ACProgressPie dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +62,19 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    public void StartChangePasswordProcess(){
+    public void progdialog(){
+        dialog = new ACProgressPie.Builder(this)
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
+        dialog.show();
+    }
 
+    public void StartChangePasswordProcess(){
+         progdialog();
         String url = "https://bodhi.shwetaaromatics.co.in/ChangePassword.php?UserID="+file_retreive()+"&NewPassword="+ChangePassword.getText()+"&OldPassword="+CurrentPassword.getText();
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
@@ -128,8 +143,8 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
         {
             e.printStackTrace();
         }
-
-
+          dialog.cancel();
+          dialog.dismiss();
     }
     @Override
     public void onBackPressed()

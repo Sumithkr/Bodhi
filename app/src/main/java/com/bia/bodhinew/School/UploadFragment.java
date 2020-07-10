@@ -1,6 +1,7 @@
 package com.bia.bodhinew.School;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 
 public class UploadFragment extends Fragment {
     private TabLayout tabLayout;
@@ -32,7 +35,7 @@ public class UploadFragment extends Fragment {
     BooksFragment books_fragment = new BooksFragment();
     VideoFragment video_fragment = new VideoFragment();
     RevisionFragment revision_fragment = new RevisionFragment();
-    ProgressDialog dialog;
+    ACProgressPie dialog;
     TextView SchoolName;
 
     @Override
@@ -51,10 +54,13 @@ public class UploadFragment extends Fragment {
 
     public void onPreServerFile()
     {
-        dialog=new ProgressDialog(getActivity());
-        dialog.setMessage("Please wait..");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
+        dialog = new ACProgressPie.Builder(getActivity())
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
         dialog.show();
     }
 

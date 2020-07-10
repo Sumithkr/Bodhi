@@ -2,6 +2,7 @@ package com.bia.bodhinew.School;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
+
 public class HomePageSchool extends Fragment {
 
     static ArrayList<HomeDetailsGetandSetVideosSchool> homeClassVideos;
@@ -40,7 +44,7 @@ public class HomePageSchool extends Fragment {
     static String[] Type= new String[1000];
     static String[] isPublic= new String[1000];
     String[] StudentClass= new String[1000];
-    ProgressDialog dialog1;
+    ACProgressPie dialog;
     private boolean firstTime = true;
     static int universal=0;
     static int TotalVideoint= 0;
@@ -376,8 +380,8 @@ public class HomePageSchool extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         HomePageRecyclerAdapterForSubjectsSchool adapter = new HomePageRecyclerAdapterForSubjectsSchool(getContext(), homeClassSubjects);
         recyclerView.setAdapter(adapter);
-        dialog1.dismiss();
-        dialog1.cancel();
+        dialog.dismiss();
+        dialog.cancel();
 
     }
 
@@ -488,11 +492,15 @@ public class HomePageSchool extends Fragment {
 
     public void loading()
     {
-        dialog1=new ProgressDialog(getContext());
-        dialog1.setMessage("Please wait..");
-        dialog1.setCancelable(false);
-        dialog1.setInverseBackgroundForced(false);
-        dialog1.show();
+        dialog = new ACProgressPie.Builder(getActivity())
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
+        dialog.show();
+
     }
 
     private String file_retreive()

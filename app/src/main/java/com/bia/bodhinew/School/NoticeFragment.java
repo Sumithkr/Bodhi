@@ -2,6 +2,7 @@ package com.bia.bodhinew.School;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import androidx.fragment.app.Fragment;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 
 public class NoticeFragment extends Fragment {
 
@@ -44,7 +47,7 @@ public class NoticeFragment extends Fragment {
     ImageView nodata;
     Button CreateNotice_Button;
     View v;
-    ProgressDialog dialog;
+    ACProgressPie dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -224,10 +227,18 @@ public class NoticeFragment extends Fragment {
 
     public void onPreServerFile()
     {
-        dialog=new ProgressDialog(getContext());
+        /*dialog=new ProgressDialog(getContext());
         dialog.setMessage("Please wait..");
         dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
+        dialog.setInverseBackgroundForced(false);*/
+
+        dialog = new ACProgressPie.Builder(getActivity())
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
         dialog.show();
     }
     public void StartServerFile()

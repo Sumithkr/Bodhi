@@ -2,6 +2,7 @@ package com.bia.bodhinew.Student;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,10 +27,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import com.bia.bodhinew.R;
 import com.bia.bodhinew.School.Modelclass;
 
 import androidx.fragment.app.Fragment;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 
 
 public class StudentNoticePage extends Fragment {
@@ -41,11 +46,12 @@ public class StudentNoticePage extends Fragment {
     Spinner spin_days;
     String Day;
     ListView notice_list;
+    ArrayList<Modelclass> listing_of_notice;
     ImageView nodata;
     ArrayList<String> NoticeID= new ArrayList<String>();
     //String[] msg_read = new String[1000];
     String[] NoticeId = new String[1000];
-    ProgressDialog dialog;
+    ACProgressPie dialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,18 +70,29 @@ public class StudentNoticePage extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 Day = "";
-                if(position == 0)
 
-                    Day = "120";
+                if(position == 0) {
+
+                    Arrays.fill(NoticeContent, null);
+                    Arrays.fill(NoticeDateTime, null);
+                    Arrays.fill(NoticeClass, null);
+                    Arrays.fill(NoticeUrl, null);
+                    StartServerFile();
+
+                }
 
                 else {
 
                     NoticeID.clear();
+                    Arrays.fill(NoticeContent, null);
+                    Arrays.fill(NoticeDateTime, null);
+                    Arrays.fill(NoticeClass, null);
+                    Arrays.fill(NoticeUrl, null);
                     Day = Days_list[position];
+                    StartServerFile();
                 }
 
                 Log.e("day", Day);
-                StartServerFile();
 
             }
 
@@ -90,9 +107,6 @@ public class StudentNoticePage extends Fragment {
 
     private ArrayList<Modelclass> GetPublisherResults() {
         ArrayList<Modelclass> results = new ArrayList<>();
-        int new_id = 0;
-        String myData = "";
-        int a;
         int i = NoticeID.size()-1;
         Log.e("Array Size-------------", String.valueOf(i));
 
@@ -105,24 +119,23 @@ public class StudentNoticePage extends Fragment {
             nodata.setVisibility(View.GONE);
             notice_list.setVisibility(View.VISIBLE);
         }
-        while (NoticeContent[i] != null && i > 0)
-        {
 
-            Modelclass notice = new Modelclass();
-            Log.e("Output----------------", NoticeUrl[i]);
-            notice.setContent_of_notice(NoticeContent[i]);
-            notice.setDatetime_of_notice(NoticeDateTime[i]);
-            notice.setImg_of_notice(NoticeUrl[i]);
-            if(NoticeUrl[i].equals("") || NoticeUrl[i] == null)
-            {
-                notice.setBoolImage(false);
-            }
-            else
-            {
-                if(NoticeUrl[i].contains(".jpg") || NoticeUrl[i].contains(".png") || NoticeUrl[i].contains(".jpeg")
-                        || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf") )
-                    notice.setBoolImage(true);
-            }
+        while (NoticeContent[i] != null) {
+
+            if (i == 0) {
+
+                Modelclass notice = new Modelclass();
+                Log.e("Output----------------", NoticeUrl[i]);
+                notice.setContent_of_notice(NoticeContent[i]);
+                notice.setDatetime_of_notice(NoticeDateTime[i]);
+                notice.setImg_of_notice(NoticeUrl[i]);
+                if (NoticeUrl[i].equals("") || NoticeUrl[i] == null) {
+                    notice.setBoolImage(false);
+                } else {
+                    if (NoticeUrl[i].contains(".jpg") || NoticeUrl[i].contains(".png") || NoticeUrl[i].contains(".jpeg")
+                            || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf"))
+                        notice.setBoolImage(true);
+                }
 
                 /*myData = NoticeId[i];
                 a=Integer.parseInt(myData);
@@ -139,20 +152,67 @@ public class StudentNoticePage extends Fragment {
             new_id = Integer.parseInt(file_id());
             Log.e("new id", String.valueOf(new_id));*/
 
-            int NewData= Integer.parseInt(file_retreiveMessage());
+                int NewData = Integer.parseInt(file_retreiveMessage());
 
-            if(Integer.parseInt(NoticeId[i]) > NewData){
+                if (Integer.parseInt(NoticeId[i]) > NewData) {
 
-                file_write_id(NoticeId[i]);
-                notice.setBoolMSgRead(true);
+                    file_write_id(NoticeId[i]);
+                    notice.setBoolMSgRead(true);
+
+                } else
+
+                    notice.setBoolMSgRead(false);
+
+                results.add(notice);
+                break;
+            }
+
+            else {
+
+                Modelclass notice = new Modelclass();
+                Log.e("Output----------------", NoticeUrl[i]);
+                notice.setContent_of_notice(NoticeContent[i]);
+                notice.setDatetime_of_notice(NoticeDateTime[i]);
+                notice.setImg_of_notice(NoticeUrl[i]);
+                if (NoticeUrl[i].equals("") || NoticeUrl[i] == null) {
+                    notice.setBoolImage(false);
+                } else {
+                    if (NoticeUrl[i].contains(".jpg") || NoticeUrl[i].contains(".png") || NoticeUrl[i].contains(".jpeg")
+                            || NoticeUrl[i].contains(".docx") || NoticeUrl[i].contains(".pdf"))
+                        notice.setBoolImage(true);
+                }
+
+                /*myData = NoticeId[i];
+                a=Integer.parseInt(myData);
+                if (a > new_id)
+                {
+                    file_write_id(myData);
+                    notice.setBoolMSgRead(true);
+                }
+                else
+                {
+                    notice.setBoolMSgRead(false);
+                }
+
+            new_id = Integer.parseInt(file_id());
+            Log.e("new id", String.valueOf(new_id));*/
+
+                int NewData = Integer.parseInt(file_retreiveMessage());
+
+                if (Integer.parseInt(NoticeId[i]) > NewData) {
+
+                    file_write_id(NoticeId[i]);
+                    notice.setBoolMSgRead(true);
+
+                } else
+
+                    notice.setBoolMSgRead(false);
+
+                i--;
+                results.add(notice);
 
             }
-            else
 
-                notice.setBoolMSgRead(false);
-
-            i--;
-            results.add(notice);
         }
         return results;
 
@@ -173,10 +233,13 @@ public class StudentNoticePage extends Fragment {
 
     public void onPreServerFile()
     {
-        dialog=new ProgressDialog(getActivity());
-        dialog.setMessage("Please wait..");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
+        dialog = new ACProgressPie.Builder(getActivity())
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
         dialog.show();
     }
 
@@ -190,12 +253,14 @@ public class StudentNoticePage extends Fragment {
             FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
              {
                  @Override
-                 public void processFinish(String output) //onPOstFinish
+                 public void processFinish(String output)
                  {
                      try
                      {
 
                          ConvertFromJSON(output);
+                         listing_of_notice = GetPublisherResults();
+                         notice_list.setAdapter(new StudentNoticePageAdaptor(getContext(), listing_of_notice));
                          Log.e("Latest ID--------------", NoticeId[NoticeID.size()-1]);
 
                      }
@@ -229,11 +294,10 @@ public class StudentNoticePage extends Fragment {
                 NoticeDateTime[i] = obj.getString("DateTime");
                 NoticeId[i] = obj.getString("NoticeID");
                 NoticeID.add(obj.getString("NoticeID"));
-                //Log.e("notice id", NoticeId[i]);
+                Log.e("notice id", NoticeId[i]);
             }
             file_write_id(NoticeId[NoticeID.size()-1]);
-            final ArrayList<Modelclass> listing_of_notice = GetPublisherResults();
-            notice_list.setAdapter(new StudentNoticePageAdaptor(getActivity(), listing_of_notice));
+
         }
         catch (Exception e)
         {

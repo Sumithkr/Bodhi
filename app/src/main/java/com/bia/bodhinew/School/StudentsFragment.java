@@ -2,6 +2,7 @@ package com.bia.bodhinew.School;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +32,8 @@ import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
 
 import androidx.fragment.app.Fragment;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 
 
 public class StudentsFragment extends Fragment {
@@ -50,7 +53,7 @@ public class StudentsFragment extends Fragment {
     static ArrayList<Modelclass> list;
     static String[] hints= new String[100];
     static Context c;
-    ProgressDialog dialog;
+    ACProgressPie dialog;
     TextView SchoolName;
     int ListSize;
     static final List<String> AllData = new ArrayList<String>();
@@ -139,10 +142,13 @@ public class StudentsFragment extends Fragment {
 
     public void onPreServerFile()
     {
-        dialog=new ProgressDialog(getActivity());
-        dialog.setMessage("Please wait..");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
+        dialog = new ACProgressPie.Builder(getActivity())
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
         dialog.show();
     }
 
@@ -294,6 +300,7 @@ public class StudentsFragment extends Fragment {
 
         for (int k = 0; k < ListSize; k++)
         {
+
 
             Modelclass Searched = new Modelclass();
             String NameByName = AllData.get(k);

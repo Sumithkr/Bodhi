@@ -1,6 +1,8 @@
 package com.bia.bodhinew.School;
 
 import androidx.appcompat.app.AppCompatActivity;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 import in.gauriinfotech.commons.Commons;
 
 import android.app.ProgressDialog;
@@ -9,6 +11,7 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -46,7 +49,7 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
     Uri uri;
     String Cls;
     TextView filekanaam;
-    ProgressDialog dialog;
+    ACProgressPie dialog;
     String check = "no";
     File f;
     @Override
@@ -87,11 +90,13 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
 
     public void progress()
     {
-        dialog=new ProgressDialog(Notice_post.this);
-        dialog.setMessage("Please wait..");
-        dialog.setCancelable(false);
-        dialog.setInverseBackgroundForced(false);
-        dialog.show();
+        dialog = new ACProgressPie.Builder(this)
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
     }
 
     private void UploadFile(Uri path)

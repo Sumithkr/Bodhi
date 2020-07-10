@@ -35,6 +35,8 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressPie;
 
 public class RegisterActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, AdapterView.OnItemSelectedListener {
 
@@ -45,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
     Spinner SelectClass, SelectSchool;
     TextView OpenLogin;
     int allotedState= 0, allotedCity= 0;
-
+     ACProgressPie dialog;
     private GoogleApiClient googleApiClient;
     private GoogleSignInOptions gso;
     private static final int RC_SIGN_IN = 1;
@@ -210,8 +212,20 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
 
     }
 
-    public void StartProcessRegister(){
+    public void progdialog()
+    {
+        dialog = new ACProgressPie.Builder(this)
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                .bgAlpha(1)
+                .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
+        dialog.show();
+    }
 
+    public void StartProcessRegister(){
+            progdialog();
         String url = "https://bodhi.shwetaaromatics.co.in/Student/Register.php?SchoolID="+MainSchoolID+"&UserName="+name.getText().toString()+
                 "&Class="+selectedClass+"&Email="+email.getText().toString()+"&Password="+password.getText().toString();
 
@@ -268,8 +282,8 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
         {
             e.printStackTrace();
         }
-
-
+       dialog.dismiss();
+       dialog.cancel();
     }
 
     public String loadJSONFromAsset() {

@@ -2,6 +2,7 @@ package com.bia.bodhinew.School;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,12 +22,17 @@ import java.io.FileOutputStream;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressCustom;
+import cc.cloudist.acplibrary.ACProgressFlower;
+import cc.cloudist.acplibrary.ACProgressPie;
 
 public class LoginActivitySchool extends AppCompatActivity {
 
     EditText email, password;
     Button login;
     TextView OpenRegister;
+    ACProgressPie dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,8 +93,20 @@ public class LoginActivitySchool extends AppCompatActivity {
 
     }
 
-    public void StartProcessLogin(){
+    public void progressdialog()
+    {
+         dialog = new ACProgressPie.Builder(this)
+                .ringColor(Color.parseColor("#fa3a0f"))
+                .pieColor(Color.parseColor("#fa3a0f"))
+                 .bgAlpha(1)
+                 .bgColor(Color.WHITE)
+                .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
+                .build();
+        dialog.show();
+    }
 
+    public void StartProcessLogin(){
+                progressdialog();
         String url = "https://bodhi.shwetaaromatics.co.in/Login.php?Email="+email.getText().toString()+"&Password="+password.getText().toString();
 
         FetchFromDB asyncTask = (FetchFromDB) new FetchFromDB(url,new FetchFromDB.AsyncResponse()
@@ -146,8 +164,8 @@ public class LoginActivitySchool extends AppCompatActivity {
         {
             e.printStackTrace();
         }
-
-
+        dialog.dismiss();
+        dialog.cancel();
     }
 
 
