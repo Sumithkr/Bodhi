@@ -189,6 +189,7 @@ public class RevisionFragment extends Fragment implements View.OnClickListener {
                 .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
                 .build();
         dialog.show();
+        dialog.setCancelable(false);
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {

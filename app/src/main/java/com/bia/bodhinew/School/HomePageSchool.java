@@ -500,6 +500,7 @@ public class HomePageSchool extends Fragment {
                 .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
                 .build();
         dialog.show();
+        dialog.setCancelable(false);
     }
 
     private String file_retreive()

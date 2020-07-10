@@ -222,6 +222,7 @@ public class RegisterActivity extends AppCompatActivity implements GoogleApiClie
                 .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
                 .build();
         dialog.show();
+        dialog.setCancelable(false);
     }
 
     public void StartProcessRegister(){

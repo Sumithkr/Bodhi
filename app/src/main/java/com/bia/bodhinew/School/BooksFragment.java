@@ -164,6 +164,7 @@ public class BooksFragment extends Fragment implements View.OnClickListener {
                 .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
                 .build();
         dialog.show();
+        dialog.setCancelable(false);
     }
 
 

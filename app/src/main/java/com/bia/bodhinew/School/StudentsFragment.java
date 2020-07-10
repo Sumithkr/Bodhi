@@ -138,6 +138,7 @@ public class StudentsFragment extends Fragment {
                 .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
                 .build();
         dialog.show();
+        dialog.setCancelable(false);
     }
 
     public void StartServerFile()

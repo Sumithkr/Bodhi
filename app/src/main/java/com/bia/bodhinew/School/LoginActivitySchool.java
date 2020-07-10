@@ -103,6 +103,7 @@ public class LoginActivitySchool extends AppCompatActivity {
                 .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
                 .build();
         dialog.show();
+        dialog.setCancelable(false);
     }
 
     public void StartProcessLogin(){

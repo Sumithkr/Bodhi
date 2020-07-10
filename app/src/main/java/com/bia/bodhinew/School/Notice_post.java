@@ -97,6 +97,8 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
                 .bgColor(Color.WHITE)
                 .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
                 .build();
+        dialog.show();
+        dialog.setCancelable(false);
     }
 
     private void UploadFile(Uri path)

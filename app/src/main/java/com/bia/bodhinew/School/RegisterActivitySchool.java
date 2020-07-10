@@ -255,6 +255,7 @@ public class RegisterActivitySchool extends AppCompatActivity implements GoogleA
                 .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
                 .build();
         dialog.show();
+        dialog.setCancelable(false);
     }
 
     public void StartProcessRegister(){

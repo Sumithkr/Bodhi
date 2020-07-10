@@ -325,6 +325,7 @@ public class Previously_watched extends AppCompatActivity {
                 .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
                 .build();
         dialog.show();
+        dialog.setCancelable(false);
     }
 
 
