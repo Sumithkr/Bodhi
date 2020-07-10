@@ -45,6 +45,7 @@ public class StudentNoticePage extends Fragment {
     String Day;
     ListView notice_list;
     ImageView nodata;
+    ArrayList<String> NoticeID= new ArrayList<String>();
     //String[] msg_read = new String[1000];
     String[] NoticeId = new String[1000];
     ACProgressPie dialog;
@@ -64,12 +65,21 @@ public class StudentNoticePage extends Fragment {
         spin_days.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 Day = "";
-                if(position != 0) {
+                if(position == 0)
+
+                    Day = "120";
+
+                else {
+
+                    NoticeID.clear();
                     Day = Days_list[position];
-                    Log.e("day", Day);
-                    StartServerFile();
                 }
+
+                Log.e("day", Day);
+                StartServerFile();
+
             }
 
             @Override
@@ -86,7 +96,8 @@ public class StudentNoticePage extends Fragment {
         int new_id = 0;
         String myData = "";
         int a;
-        int i =0;
+        int i = NoticeID.size()-1;
+        Log.e("Array Size-------------", String.valueOf(i));
 
         if(NoticeContent[i] == null)
         {
@@ -97,9 +108,11 @@ public class StudentNoticePage extends Fragment {
             nodata.setVisibility(View.GONE);
             notice_list.setVisibility(View.VISIBLE);
         }
-        while (NoticeContent[i] != null)
+        while (NoticeContent[i] != null && i > 0)
         {
+
             Modelclass notice = new Modelclass();
+            Log.e("Output----------------", NoticeUrl[i]);
             notice.setContent_of_notice(NoticeContent[i]);
             notice.setDatetime_of_notice(NoticeDateTime[i]);
             notice.setImg_of_notice(NoticeUrl[i]);
@@ -114,7 +127,7 @@ public class StudentNoticePage extends Fragment {
                     notice.setBoolImage(true);
             }
 
-                myData = NoticeId[i];
+                /*myData = NoticeId[i];
                 a=Integer.parseInt(myData);
                 if (a > new_id)
                 {
@@ -127,17 +140,21 @@ public class StudentNoticePage extends Fragment {
                 }
 
             new_id = Integer.parseInt(file_id());
-            Log.e("new id", String.valueOf(new_id));
+            Log.e("new id", String.valueOf(new_id));*/
 
-           /* if(msg_read[i].equals("1"))
-            {
+            int NewData= Integer.parseInt(file_retreiveMessage());
+
+            if(Integer.parseInt(NoticeId[i]) > NewData){
+
+                file_write_id(NoticeId[i]);
                 notice.setBoolMSgRead(true);
+
             }
             else
-            {
+
                 notice.setBoolMSgRead(false);
-            }*/
-            i++;
+
+            i--;
             results.add(notice);
         }
         return results;
@@ -148,7 +165,7 @@ public class StudentNoticePage extends Fragment {
     {
         FileOutputStream outputStream = null;
         try {
-            outputStream = getActivity().openFileOutput("Latest_id", Context.MODE_PRIVATE);
+            outputStream = getActivity().openFileOutput("New Message File", Context.MODE_PRIVATE);
             outputStream.write(ID.getBytes());
             outputStream.close();
         } catch (Exception e) {
@@ -156,28 +173,6 @@ public class StudentNoticePage extends Fragment {
         }
     }
 
-    private String file_id()
-    {
-        FileInputStream inputStream = null;
-        try {
-            inputStream = getActivity().openFileInput("Latest_id");
-            StringBuffer fileContent = new StringBuffer("");
-
-            byte[] buffer = new byte[1024];
-            int n;
-            while (( n = inputStream.read(buffer)) != -1)
-            {
-                fileContent.append(new String(buffer, 0, n));
-            }
-
-            inputStream.close();
-            return fileContent.toString();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-            return "error";
-        }
-    }
 
     public void onPreServerFile()
     {
@@ -207,6 +202,7 @@ public class StudentNoticePage extends Fragment {
                      {
 
                          ConvertFromJSON(output);
+                         Log.e("Latest ID--------------", NoticeId[NoticeID.size()-1]);
 
                      }
                      catch (Exception e)
@@ -238,8 +234,10 @@ public class StudentNoticePage extends Fragment {
                 NoticeClass[i] = obj.getString("Class");
                 NoticeDateTime[i] = obj.getString("DateTime");
                 NoticeId[i] = obj.getString("NoticeID");
-                Log.e("notice id", NoticeId[i]);
+                NoticeID.add(obj.getString("NoticeID"));
+                //Log.e("notice id", NoticeId[i]);
             }
+            file_write_id(NoticeId[NoticeID.size()-1]);
             final ArrayList<Modelclass> listing_of_notice = GetPublisherResults();
             notice_list.setAdapter(new StudentNoticePageAdaptor(getActivity(), listing_of_notice));
         }
@@ -272,4 +270,28 @@ public class StudentNoticePage extends Fragment {
             return "error";
         }
     }
+
+    private String file_retreiveMessage()
+    {
+        FileInputStream inputStream = null;
+        try {
+            inputStream = getActivity().openFileInput("New Message File");
+            StringBuffer fileContent = new StringBuffer("");
+
+            byte[] buffer = new byte[1024];
+            int n;
+            while (( n = inputStream.read(buffer)) != -1)
+            {
+                fileContent.append(new String(buffer, 0, n));
+            }
+
+            inputStream.close();
+            return fileContent.toString();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+            return "error";
+        }
+    }
+
 }

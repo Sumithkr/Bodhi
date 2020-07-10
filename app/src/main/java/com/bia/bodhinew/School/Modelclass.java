@@ -5,12 +5,13 @@ import android.widget.ImageView;
 public class Modelclass {
     //school part
     private String student_name="";
+    private String StudentName="";
     private String student_icon="";
     private String content_of_notice="";
     private String datetime_of_notice="";
     private String img_of_notice="";
     private boolean b;
-    private String id;
+    private String id="";
     //student part
     private boolean msgRead;
     private ImageView new_message_icon;
@@ -18,12 +19,19 @@ public class Modelclass {
     private String file_name = "";
     private String file_description = "";
     private String subject_name = "";
+    private String FileURL="";
 
-    public void setContent_of_notice(String content_of_notice) { this.content_of_notice = content_of_notice;
-    }
+
+    public void setContent_of_notice(String content_of_notice) { this.content_of_notice = content_of_notice; }
 
     public String getContent_of_notice() {
         return content_of_notice;
+    }
+
+    public void setFileURL(String FileURL) { this.FileURL = FileURL; }
+
+    public String getFileURL() {
+        return FileURL;
     }
 
 
@@ -45,8 +53,7 @@ public class Modelclass {
 
     public boolean getBoolImage(){ return b;}
 
-    public void setStudent_name(String student_name) { this.student_name = student_name;
-    }
+    public void setStudent_name(String student_name) { this.student_name = student_name; }
 
     public String getStudent_name() {
         return student_name;
@@ -100,5 +107,10 @@ public class Modelclass {
         return subject_name;
     }
 
+    public void setNext(String StudentName){this.StudentName = StudentName;}
+
+    public String getNext() {
+        return StudentName;
+    }
 
 }

@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.bia.bodhinew.FetchFromDB;
 import com.bia.bodhinew.R;
@@ -42,17 +43,23 @@ public class StudentsFragment extends Fragment {
     static ListView list_students;
     static String[] StudentName = new String[1000];
     static String[] StudentID = new String[1000];
+    //static String[] SearchedStudentID = new String[1000];
     String[] StudentEmail = new String[1000];
     String[] StudentDateTime = new String[1000];
     static String[] StudentisEnable = new String[1000];
     String data;
     private static ViewStudentShowAdaptor adaptor;
-    AutoCompleteTextView autoCompleteTextView;
+    static AutoCompleteTextView autoCompleteTextView;
     static ArrayList<Modelclass> list;
     static String[] hints= new String[100];
     static Context c;
     ACProgressPie dialog;
     TextView SchoolName;
+    int ListSize=0;
+    static final List<String> AllData = new ArrayList<String>();
+    static final List<String> SearchedStudentID = new ArrayList<String>();
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,6 +89,11 @@ public class StudentsFragment extends Fragment {
                     Arrays.fill(StudentisEnable, null);
                     StartServerFile();
                 }
+
+                else
+
+                    StartServerFile();
+
             }
 
             @Override
@@ -101,6 +113,7 @@ public class StudentsFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count)
             {
+
                 data = autoCompleteTextView.getText().toString();
                 GetSearchedPublisher();
 
@@ -138,13 +151,12 @@ public class StudentsFragment extends Fragment {
             public void processFinish(String output) //onPOstFinish
             {
                 //this function executes after
-                Toast.makeText(getActivity(),"END",Toast.LENGTH_SHORT).show();
                 try
                 {
                     ConvertFromJSON(output);
                     list = GetPublisherResults();
                     //list_students.setAdapter(new ViewStudentShowAdaptor(getActivity(), list));
-                    adaptor = new ViewStudentShowAdaptor(getActivity(), list);
+                    adaptor = new ViewStudentShowAdaptor(getContext(), list);
                     list_students.setAdapter(adaptor);
                 }
                 catch (Exception e)
@@ -168,6 +180,13 @@ public class StudentsFragment extends Fragment {
                 StudentEmail[i] = obj.getString("Email");
                 StudentDateTime[i] = obj.getString("DateTime");
                 StudentisEnable[i] = obj.getString("isEnable");
+
+                if(StudentisEnable[i].equals("1")) {
+
+                    ListSize++;
+                    SearchedStudentID.add(obj.getString("UserID"));
+
+                }
 
             }
         }
@@ -224,6 +243,7 @@ public class StudentsFragment extends Fragment {
     private static ArrayList<Modelclass> GetPublisherResults()
     {
         ArrayList<Modelclass> results = new ArrayList<>();
+
         int k =0;
         if(StudentName[k] == null )
         {
@@ -241,8 +261,11 @@ public class StudentsFragment extends Fragment {
             hints[k]=  StudentName[k];
             if (StudentisEnable[k].equals("1"))
             {
+
                 ar1.setStudent_name(StudentName[k]);
                 ar1.setID(StudentID[k]);
+                AllData.add(StudentName[k]);
+                SearchedStudentID.add(StudentID[k]);
                 results.add(ar1);
             }
 
@@ -259,16 +282,47 @@ public class StudentsFragment extends Fragment {
 
     private void GetSearchedPublisher()
     {
-        int k =0;
-        for ( k = 0; k < list.size(); k++)
+
+        ArrayList<Modelclass> SearchedResults = new ArrayList<>();
+
+        for (int k = 0; k < ListSize; k++)
         {
-            String x = list.get(k).getStudent_name();
-            Log.e("jfjg",x);
-            if(x.startsWith(data.trim()) == true)
+
+
+            Modelclass Searched = new Modelclass();
+            String NameByName = AllData.get(k);
+            //Log.e("Name", NameByName+"--------------------------------------------------------");
+            //Log.e("Data", data+"--------------------------------------------------------");
+            if(NameByName.startsWith(data.trim()))
             {
-                list_students.setSelection(k);
+                Searched.setStudent_name(NameByName);
+                Log.e("Searched ID", SearchedStudentID.get(k)+"--------------------------------------------------------");
+                Searched.setID(SearchedStudentID.get(k));
+                SearchedResults.add(Searched);
             }
         }
+
+        if(SearchedResults.isEmpty()){
+
+            AllData.clear();
+            SearchedResults.clear();
+            list = GetPublisherResults();
+            //list_students.setAdapter(new ViewStudentShowAdaptor(getActivity(), list));
+            adaptor = new ViewStudentShowAdaptor(getActivity(), list);
+            list_students.setAdapter(adaptor);
+
+        }
+
+        else {
+
+            //Log.e("Results", SearchedResults.size()+"--------------------------------------------------------");
+            //list_students.setAdapter(new ViewStudentShowAdaptor(getActivity(), list));
+            list = SearchedResults;
+            adaptor = new ViewStudentShowAdaptor(getActivity(), list);
+            list_students.setAdapter(adaptor);
+
+        }
+
     }
 
     private String file_retreive()
@@ -303,6 +357,7 @@ public class StudentsFragment extends Fragment {
     public static void refresh(String id)
     {
         list.clear();
+        autoCompleteTextView.setText("");
         regenerate(id);
     }
 

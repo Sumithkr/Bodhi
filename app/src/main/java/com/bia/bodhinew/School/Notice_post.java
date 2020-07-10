@@ -97,54 +97,62 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
                 .bgColor(Color.WHITE)
                 .updateType(ACProgressConstant.PIE_AUTO_UPDATE)
                 .build();
-        dialog.show();
     }
 
     private void UploadFile(Uri path)
     {
-        progress();
         String uploadId = UUID.randomUUID().toString();
         //String x = Commons.getPath(path, getApplicationContext());
-        String x = utils.getRealPathFromURI_API19(getApplicationContext(), path);
+        String x = utils.getRealPathFromURI_API19(Notice_post.this, path);
         Log.e("filepath",x);
-        try
+        if (x.contains(".doc") || x.contains(".docx") || x.contains(".pdf") || x.contains(".ppt") || x.contains(".pptx")
+                || x.contains(".jpg") || x.contains(".png") || x.contains(".jpeg"))
         {
-            String url = "https://bodhi.shwetaaromatics.co.in/School/UploadNotice.php";
-            new MultipartUploadRequest(getApplicationContext(), uploadId, url)
-                    .addFileToUpload(String.valueOf(x), "Media")
-                    .addParameter("NoticeText",Notice.getText().toString())
-                    .addParameter("Class",Cls)
-                    .addParameter("UserID",file_retreive())
-                    //.setNotificationConfig(new UploadNotificationConfig())
-                    .setMaxRetries(2)
-                    .setDelegate(new UploadStatusDelegate() {
-                        @Override
-                        public void onProgress(Context context, UploadInfo uploadInfo) {
+            try
+            {
+                String url = "https://bodhi.shwetaaromatics.co.in/School/UploadNotice.php";
+                Log.e("url",url);
+                progress();
+                new MultipartUploadRequest(Notice_post.this, uploadId, url)
+                        .addFileToUpload(String.valueOf(x), "Media")
+                        .addParameter("NoticeText",Notice.getText().toString())
+                        .addParameter("Class",Cls)
+                        .addParameter("UserID",file_retreive())
+                        //.setNotificationConfig(new UploadNotificationConfig())
+                        .setMaxRetries(2)
+                        .setDelegate(new UploadStatusDelegate() {
+                            @Override
+                            public void onProgress(Context context, UploadInfo uploadInfo) {
 
-                        }
+                            }
 
-                        @Override
-                        public void onError(Context context, UploadInfo uploadInfo, Exception exception) {
-                            Log.e("ERROR",exception+"-----");
-                            //Failed
-                        }
+                            @Override
+                            public void onError(Context context, UploadInfo uploadInfo, Exception exception) {
+                                Log.e("ERROR",exception+"-----");
+                                //Failed
+                            }
 
-                        @Override
-                        public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
-                            Notice.getText().clear();
-                            dialog.dismiss();
-                            dialog.cancel();
-                        }
+                            @Override
+                            public void onCompleted(Context context, UploadInfo uploadInfo, ServerResponse serverResponse) {
+                                Notice.getText().clear();
+                                dialog.dismiss();
+                                dialog.cancel();
+                            }
 
-                        @Override
-                        public void onCancelled(Context context, UploadInfo uploadInfo) {
+                            @Override
+                            public void onCancelled(Context context, UploadInfo uploadInfo) {
 
-                        }
-                    }).startUpload();
+                            }
+                        }).startUpload();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
         }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+        else{
+            Toast.makeText(Notice_post.this, "Please Select Image/Doc/ppt Files", Toast.LENGTH_LONG).show();
         }
 
     }
@@ -175,12 +183,11 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 100 && resultCode == RESULT_OK) {
             uri = data.getData();
-            String y = utils.getRealPathFromURI_API19(getApplicationContext(), uri);
+            String y = utils.getRealPathFromURI_API19(Notice_post.this, uri);
             f = new File(y);
-            filekanaam.setText(""+f.getName().trim());
+            filekanaam.setText("" + f.getName().trim());
             Log.e("File name", f.getName());
             check = "yes";
         }
@@ -189,26 +196,13 @@ public class Notice_post extends AppCompatActivity implements View.OnClickListen
 
     public void opendoc()
     {
-        String[] mimeTypes =
-                {"application/pdf","application/msword",
-                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document","image/*"};
 
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            intent.setType(mimeTypes.length == 1 ? mimeTypes[0] : "*/*");
-            if (mimeTypes.length > 0) {
-                intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-            }
-        } else {
-            String mimeTypesStr = "";
-            for (String mimeType : mimeTypes) {
-                mimeTypesStr += mimeType + "|";
-            }
-            intent.setType(mimeTypesStr.substring(0,mimeTypesStr.length() - 1));
-        }
-        startActivityForResult(Intent.createChooser(intent,"ChooseFile"), 100);
+        Intent intent = new Intent();
+        intent.setType("*/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.putExtra("return-data", true);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, 100);
     }
     @Override
     public void onBackPressed()

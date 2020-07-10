@@ -29,7 +29,13 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
     }
 
     public int getCount() {
-        return ArrayList.size();
+        try {
+            return ArrayList.size();
+
+        }catch(Exception e){
+
+            return 0;
+        }
     }
 
     public Object getItem(int position) {
@@ -48,7 +54,7 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
             convertView = inflater.inflate(R.layout.school_view_students_list_design, null);
             holder = new ViewHolder();
             holder.student_name=(TextView)convertView.findViewById(R.id.student_name);
-            //     ArrayList.get(position).setID();
+            //ArrayList.get(position).setID();
             holder.student_icon= (ImageView) convertView.findViewById(R.id.icon);
 
             convertView.setTag(holder);
@@ -56,8 +62,8 @@ public class ViewStudentShowAdaptor extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.student_name.setText(ArrayList.get(position).getStudent_name());
         Log.e("content",ArrayList.get(position).getStudent_name());
+        holder.student_name.setText(ArrayList.get(position).getStudent_name());
         holder.student_icon.setBackgroundResource(R.drawable.student);
         final ImageButton ok_delete = (ImageButton) convertView.findViewById(R.id.delete);
         ok_delete.setOnClickListener(new View.OnClickListener() {
